@@ -16,7 +16,7 @@
       <small>Very detailed & featured admin.</small>
     </div>
   </section>
-
+  
   <!-- Main content -->
   <section class="content">
     <div class="row">
