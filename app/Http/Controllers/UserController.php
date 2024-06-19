@@ -14,7 +14,7 @@ class UserController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 */
-	public function index() {
+	public function index(Request $request) {
 		$data = [];
 
 		if($request->ajax()){
@@ -26,8 +26,13 @@ class UserController extends Controller
 	/**
 	 * Show the form for creating a new resource.
 	 */
-	public function create() {
-		//
+	public function create(Request $request) {
+		$data = [];
+
+		if($request->ajax()){
+			return $data['html'];
+		}
+		return view("{$this->route_name}.add", compact('data'));
 	}
 
 	/**

@@ -374,8 +374,8 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="add-customer.html">Add User</a></li>
-                  <li><a href="clist.html">View All Users</a></li>
+                  <li><a href="{{url('user/create')}}">Add User</a></li>
+                  <li><a href="{{url('user')}}">View All Users</a></li>
                 </ul>
               </li>
               <li class="treeview">
