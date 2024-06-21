@@ -31,49 +31,105 @@
             </div>
           </div>
           <div class="panel-body">
-            <form class="col-sm-6">
-              <div class="form-group">
+            <form class="col-sm-12">
+              @if (Session::has('message'))
+                <div class="alert alert-success"><b>Success: </b>{{ Session::get('message') }}</div>
+              @endif
+              @if (Session::has('error_message'))
+                <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
+              @endif
+              <div class="form-group col-sm-6">
                 <label>First Name</label>
                 <input type="text" class="form-control" placeholder="Enter First Name" required>
+                @error('image')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label>Last Name</label>
                 <input type="text" class="form-control" placeholder="Enter Last Name" required>
+                @error('image')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
+                <label>User Role</label>
+                <select class="form-control">
+                  <option>Manager</option>
+                  <option>Agent</option>
+                  <option>Customer</option>
+                </select>
+                @error('image')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+              </div>
+              <div class="form-group col-sm-6">
                 <label>Email</label>
                 <input type="email" class="form-control" placeholder="Enter Email" required>
+                @error('image')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
               </div>
-              <div class="form-group">
+
+              <div class="form-group col-sm-6">
+                <label>Emirates ID</label>
+                <input type="text" class="form-control" placeholder="Enter Last Name" required>
+                @error('image')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label>Passport No</label>
+                <input type="text" class="form-control" placeholder="Enter Last Name" required>
+                @error('image')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+              </div>
+
+
+
+              <div class="form-group col-sm-6">
                 <label>Mobile</label>
                 <input type="number" class="form-control" placeholder="Enter Mobile" required>
+                @error('image')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label>Picture upload</label>
                 <input type="file" name="picture">
                 <input type="hidden" name="old_picture">
+                @error('image')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
               </div>
-              <div class="form-group">
-                <label>Bank details</label>
-                <input type="text" class="form-control" placeholder="Enter Bank Details" required>
-              </div>
-              <div class="form-group">
-                <label>Passport</label>
-                <input type="text" class="form-control" placeholder="Enter Passport Details" required>
-              </div>
-              <div class="form-group">
-                <label>Facebook ID</label>
-                <input type="text" class="form-control" placeholder="Enter Facebook Details" required>
-              </div>
-              <div class="form-group">
+              
+              <div class="form-group col-sm-6">
                 <label>Date of Birth</label>
                 <input id="minMaxExample" type="text" class="form-control" placeholder="Enter Date...">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label>Address</label>
                 <textarea class="form-control" rows="3" required></textarea>
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label>Customer Type</label>
                 <select class="form-control">
                   <option>vendor</option>
@@ -81,12 +137,12 @@
                   <option>regular</option>
                 </select>
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label>Sex</label><br>
                 <label class="radio-inline"><input name="sex" value="1" checked="checked" type="radio"> Male</label> 
                 <label class="radio-inline"><input name="sex" value="0" type="radio"> Female</label>
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label>Status</label><br>
                 <label class="radio-inline">
                   <input type="radio" name="status" value="1" checked="checked"> Active
