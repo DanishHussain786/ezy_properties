@@ -39,7 +39,31 @@ class UserController extends Controller
 	 * Store a newly created resource in storage.
 	 */
 	public function store(Request $request) {
-		//
+		$rules = array(
+			'first_name' => 'required|max:4',
+			'last_name' => 'required|max:4',
+			'title' => 'required',
+			'menu' => 'required|exists:menus,id',
+			'permission' => 'required',
+			'url' => 'required',
+		);
+
+		$validator = \Validator::make($request->all(), $rules);
+
+		if ($validator->fails()) {
+			return redirect()->back()->withErrors($validator)->withInput();
+			// ->withInput($request->except('password'));
+		}
+		else {
+			$request_data = $request->all();
+	
+			echo "<pre>";
+			echo " all goood request_data"."<br>";
+			print_r($request_data);
+			echo "</pre>";
+			exit("@@@@");
+		}
+
 	}
 
 	/**
