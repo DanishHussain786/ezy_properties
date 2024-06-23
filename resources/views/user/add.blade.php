@@ -12,8 +12,8 @@
       <i class="fa fa-dashboard"></i>
     </div>
     <div class="header-title">
-      <h1>CRM Admin Dashboard</h1>
-      <small>Very detailed & featured admin.</small>
+      <h1>User Panel</h1>
+      <small>Add User</small>
     </div>
   </section>
   
@@ -26,8 +26,8 @@
           <div class="panel-heading">
             <div class="btn-group" id="buttonlist"> 
               <a class="btn btn-add" href="{{url('user')}}">
-                <i class="fa fa-list"></i> Customer List 
-              </a>  
+                <i class="fa fa-list"></i> User List 
+              </a>
             </div>
           </div>
           <div class="panel-body">
@@ -62,14 +62,22 @@
                 @enderror
               </div>
               <div class="form-group col-sm-6">
-                <label>User Role</label>
-                <select class="form-control @error('user_role') is-invalid @enderror" name="user_role">
+                <label>Gender</label><br>
+                <label class="radio-inline"><input name="gender" value="1" checked="checked" type="radio"> Male</label> 
+                <label class="radio-inline"><input name="gender" value="0" type="radio"> Female</label>
+                @error('gender')
+                  <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+                @enderror
+              </div>
+              <div class="form-group col-sm-6">
+                <label>Role</label>
+                <select class="form-control @error('role') is-invalid @enderror" name="role">
                   <option value=""> ---- Choose an option ---- </option>
                   <option>Manager</option>
                   <option>Agent</option>
                   <option>Customer</option>
                 </select>
-                @error('user_role')
+                @error('role')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @enderror
               </div>
@@ -80,7 +88,6 @@
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @enderror
               </div>
-
               <div class="form-group col-sm-6">
                 <label>Emirates ID</label>
                 <input type="text" name="eid" class="form-control @error('eid') is-invalid @enderror" placeholder="Enter emirates id">
@@ -96,9 +103,9 @@
                 @enderror
               </div>
               <div class="form-group col-sm-6">
-                <label>Mobile</label>
-                <input type="number" name="mobile_no" class="form-control @error('mobile_no') is-invalid @enderror" placeholder="Enter mobile number">
-                @error('mobile_no')
+                <label>Contact Number</label>
+                <input type="number" name="contact_no" class="form-control @error('contact_no') is-invalid @enderror" placeholder="Enter mobile number">
+                @error('contact_no')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @enderror
               </div>
@@ -110,7 +117,6 @@
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @enderror
               </div>
-              
               <div class="form-group col-sm-6">
                 <label>Date of Birth</label>
                 <input id="minMaxExample" type="text" name="dob" class="form-control @error('dob') is-invalid @enderror" placeholder="Enter date of birth">
@@ -125,14 +131,7 @@
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @enderror
               </div>
-              <div class="form-group col-sm-6">
-                <label>Sex</label><br>
-                <label class="radio-inline"><input name="sex" value="1" checked="checked" type="radio"> Male</label> 
-                <label class="radio-inline"><input name="sex" value="0" type="radio"> Female</label>
-                @error('sex')
-                  <span class="invalid-feedback" role="alert"> {{ $message }} </span>
-                @enderror
-              </div>
+              
               <div class="form-group col-sm-6">
                 <label>Status</label><br>
                 <label class="radio-inline">

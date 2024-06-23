@@ -6,27 +6,38 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
-    }
+  /**
+   * Run the migrations.
+   */
+  public function up(): void
+  {
+    Schema::create('users', function (Blueprint $table) {
+      $table->id();
+      $table->string('first_name', 100);
+      $table->string('last_name', 100);
+      $table->enum('gender', ['Male','Female']);
+      $table->enum('status', ['Active','Block']);
+      $table->enum('role', ['Super-Master','Manager','Employee','Customer']);
+      $table->string('contact_no', 100)->nullable();
+      $table->string('whatsapp_no', 100)->nullable();
+      $table->string('email', 150)->unique();
+      $table->string('emirates_id', 100)->nullable();
+      $table->string('emirates_photo');
+      $table->string('passport_id', 100)->nullable();
+      $table->string('passport_photo');
+      $table->string('password');
+      $table->rememberToken();
+      $table->timestamp('email_verified_at')->nullable();
+      $table->softDeletes('deleted_at');
+      $table->timestamps();
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('users');
-    }
+  /**
+   * Reverse the migrations.
+   */
+  public function down(): void
+  {
+    Schema::dropIfExists('users');
+  }
 };

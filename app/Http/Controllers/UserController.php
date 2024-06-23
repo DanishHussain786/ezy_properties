@@ -39,13 +39,17 @@ class UserController extends Controller
 	 * Store a newly created resource in storage.
 	 */
 	public function store(Request $request) {
+		// \Config::get('constants.statusDraftPublished');
+
 		$rules = array(
-			'first_name' => 'required|max:4',
-			'last_name' => 'required|max:4',
-			'title' => 'required',
-			'menu' => 'required|exists:menus,id',
-			'permission' => 'required',
-			'url' => 'required',
+			'first_name' => 'required',
+			'last_name' => 'required',
+			'email' => 'required',
+			'contact_no' => 'required',
+			// 'title' => 'required',
+			// 'menu' => 'required|exists:menus,id',
+			// 'permission' => 'required',
+			// 'url' => 'required',
 		);
 
 		$validator = \Validator::make($request->all(), $rules);
@@ -56,14 +60,22 @@ class UserController extends Controller
 		}
 		else {
 			$request_data = $request->all();
-	
-			echo "<pre>";
-			echo " all goood request_data"."<br>";
-			print_r($request_data);
-			echo "</pre>";
-			exit("@@@@");
-		}
 
+			$this->UserObj->saveUpdateUser($request_data);
+
+			// $request_data['create_or_skip'] = true;
+			// $data = $this->TaskObj->saveUpdateTask($request_data);
+			
+			// if ($data == 'already_exist') {
+				// if (isset($request_data['image_url'])) delete_files_from_storage($request_data['image_url']);
+				// $flash_data = ['error_message', $this->controller_name_single.' is already exist.'];
+			// }
+			// else if ($data->id)
+				$flash_data = ['message', $this->controller_name_single.' is created successfully.'];
+		
+			\Session::flash($flash_data[0], $flash_data[1]);
+			return redirect("/{$this->route_name}");
+		}
 	}
 
 	/**

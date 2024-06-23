@@ -355,18 +355,23 @@
         <!-- =============================================== -->
         <!-- Left side column. contains the sidebar -->
 
+        @php $str_slug = Request::path(); @endphp
         <aside class="main-sidebar">
           <!-- sidebar -->
           <div class="sidebar">
             <!-- sidebar menu -->
             <ul class="sidebar-menu">
-              <li class="active">
+              @php
+                $class = (strpos($str_slug, "dashboard") !== false) ? 'active' : '';
+              @endphp
+              <li class="menu-item {{$class}}">
                 <a href="index-2.html">
                   <i class="fa fa-tachometer"></i><span>Dashboard</span>
                   <span class="pull-right-container"></span>
                 </a>
               </li>
-              <li class="treeview">
+              @php $class = (strpos($str_slug, "user") !== false) ? 'active' : ''; @endphp
+              <li class="treeview menu-item {{$class}}">
                 <a href="#">
                   <i class="fa fa-users"></i><span>Users</span>
                   <span class="pull-right-container">
@@ -377,6 +382,12 @@
                   <li><a href="{{url('user/create')}}">Add User</a></li>
                   <li><a href="{{url('user')}}">View All Users</a></li>
                 </ul>
+              </li>
+              <li class="menu-item">
+                <a href="index-2.html">
+                  <i class="fa fa-tachometer"></i><span> ============== </span>
+                  <span class="pull-right-container"></span>
+                </a>
               </li>
               <li class="treeview">
                 <a href="#">
