@@ -1266,7 +1266,7 @@ a.sidebar-toggle .pe-7s-angle-left-circle {
 .sidebar-menu>li:hover>a,
 .sidebar-menu>li.active>a {
   color: #fff;
-  background: #010a0f;
+  /* background: #010a0f; */
 }
 
 .sidebar-menu>li>a>.fa,
