@@ -62,14 +62,6 @@
                 @enderror
               </div>
               <div class="form-group col-sm-6">
-                <label>Gender</label><br>
-                <label class="radio-inline"><input name="gender" value="1" checked="checked" type="radio"> Male</label> 
-                <label class="radio-inline"><input name="gender" value="0" type="radio"> Female</label>
-                @error('gender')
-                  <span class="invalid-feedback" role="alert"> {{ $message }} </span>
-                @enderror
-              </div>
-              <div class="form-group col-sm-6">
                 <label>Role</label>
                 <select class="form-control @error('role') is-invalid @enderror" name="role">
                   <option value=""> ---- Choose an option ---- </option>
@@ -89,9 +81,32 @@
                 @enderror
               </div>
               <div class="form-group col-sm-6">
+                <label>Gender</label><br>
+                <label class="radio-inline"><input name="gender" value="1" checked="checked" type="radio"> Male</label> 
+                <label class="radio-inline"><input name="gender" value="0" type="radio"> Female</label>
+                @error('gender')
+                  <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+                @enderror
+              </div>
+              <div class="form-group col-sm-6">
+                <label>Contact Number</label>
+                <input type="number" name="contact_no" class="form-control @error('contact_no') is-invalid @enderror" placeholder="Enter mobile number">
+                @error('contact_no')
+                  <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+                @enderror
+              </div>
+              <div class="form-group col-sm-6">
                 <label>Emirates ID</label>
                 <input type="text" name="eid" class="form-control @error('eid') is-invalid @enderror" placeholder="Enter emirates id">
                 @error('eid')
+                  <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+                @enderror
+              </div>
+              <div class="form-group col-sm-6">
+                <label>Emirates ID Photo</label>
+                <input type="file" name="eid_photo">
+                <input type="hidden" name="old_picture">
+                @error('eid_photo')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @enderror
               </div>
@@ -103,9 +118,10 @@
                 @enderror
               </div>
               <div class="form-group col-sm-6">
-                <label>Contact Number</label>
-                <input type="number" name="contact_no" class="form-control @error('contact_no') is-invalid @enderror" placeholder="Enter mobile number">
-                @error('contact_no')
+                <label>Passport Photo</label>
+                <input type="file" name="passport_photo">
+                <input type="hidden" name="old_picture">
+                @error('passport_photo')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @enderror
               </div>
