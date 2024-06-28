@@ -80,6 +80,38 @@
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @enderror
               </div>
+              @php $image_display = ""; @endphp
+              <div class="form-group col-sm-6 image_div mb-1" style="display: {{ $image_display }};">
+                <label for="image">Temo 01</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text basic-addon">
+                      <div class="display_images">
+                        @if (isset($data->asset_value) && !empty($data->asset_value && $image_display != 'none' ))
+                          <a data-fancybox="demo" data-src="{{ is_image_exist($data->asset_value) }}"><img title="{{ $data->name }}" src="{{ is_image_exist($data->asset_value) }}" height="100"></a>
+                        @endif
+                      </div>
+                    </span>
+                  </div>
+                  <input type="file" id="image" data-img-val="" class="form-control @error('asset_value') is-invalid @enderror" placeholder="Profile Image" name="asset_value">
+                  @error('asset_value')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+                </div>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label for="profile_image">Okaa Temp 02</label>
+                <div class="input-group" style="width: 95%; display: inline-flex;">
+                  <div class="display_images">
+                    <a data-fancybox="demo" data-src="http://localhost:9000/app-assets/images/default-assets/default-image.png"><img title="" src="http://localhost:9000/app-assets/images/default-assets/default-image.png" height="100" onclick="showModal(this.src)"></a>
+                  </div>
+                  <input type="file" id="profile_image" data-img-val="preview_profile_image" class="form-control" placeholder="Profile Image" name="profile_image">
+                </div>
+              </div>
+
               <div class="form-group col-sm-6">
                 <label>Gender</label><br>
                 <label class="radio-inline"><input name="gender" value="1" checked="checked" type="radio"> Male</label> 
@@ -171,3 +203,32 @@
     </div>
   </section>
 @endsection
+
+<script>
+  function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function() {
+        const output = document.getElementById('previewImage');
+        output.src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+  }
+
+  function showModal(src) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('imageModalContent');
+    modal.style.display = 'block';
+    modalImg.src = src;
+
+    const closeModal = document.getElementById('closeModal');
+    closeModal.onclick = function() {
+      modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    }
+  }
+</script>

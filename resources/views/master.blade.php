@@ -40,6 +40,8 @@
     =====================================================================-->
     <!-- Theme style -->
     <link href="{{ asset('app-assets/dist/css/stylecrm.css') }}" rel="stylesheet" type="text/css">
+    <!-- Fancy Box CSS Stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
     <!-- Theme style rtl -->
     <!--<link href="assets/dist/css/stylecrm-rtl.css" rel="stylesheet" type="text/css"/>-->
     <!-- End Theme Layout Style
@@ -392,6 +394,12 @@
         <!-- Content Wrapper. Contains page content -->
         
         <div class="content-wrapper">
+
+          <div id="imageModal">
+            <span id="closeModal">&times;</span>
+            <img class="modal-content" id="imageModalContent">
+          </div>
+
           @yield('content-view')
         </div>
         <!-- /.content-wrapper -->
