@@ -14,6 +14,7 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,13 +45,14 @@ Route::get('/', function () {
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 
 // Route::post('booking/payments', [BookingController::class, 'payments']);
-// Route::get('account/payments', [AccountController::class, 'payments_dealing']);
+Route::get('booking/services', [BookingController::class, 'manage_services']);
 
 Route::resource('user', UserController::class);
 Route::resource('property', PropertyController::class);
 Route::resource('booking', BookingController::class);
 Route::resource('info', InformationController::class);
 Route::resource('account', AccountController::class);
+Route::resource('service', ServiceController::class);
 // Route::get('/booking_listings', [BookingController::class, 'manage']);
 
 Route::get('/storage-link', function() {
