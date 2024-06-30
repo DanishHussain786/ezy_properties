@@ -3953,6 +3953,7 @@ pre .arg {
   color: white;
   background-color: #50ab20;
   border-color: #50ab20;
+  line-height: 0px;
 }
 
 .alert-success .close {
