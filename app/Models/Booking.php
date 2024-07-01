@@ -28,6 +28,14 @@ class Booking extends Model
     return $this->belongsTo(Property::class, 'property_id');
   }
 
+  public function transaction_data()
+  {
+    return $this->hasOne(Transaction::class, 'booking_id');
+      // ->where([
+      //   ['status', '=', 'Reservation']
+      // ]);
+  }
+
   // public function skills() {
   //   return $this->hasMany(BookingInformation::class, 'user_id', 'id')->with('skill_data')
   //     ->where([
@@ -44,7 +52,8 @@ class Booking extends Model
     if (isset($posted_data['relations']) && $posted_data['relations']) {
       $query = $query->with('booked_by_user')
         ->with('booked_for_user')
-        ->with('property_data');
+        ->with('property_data')
+        ->with('transaction_data');
     }
 
     if (isset($posted_data['id'])) {
@@ -125,6 +134,9 @@ class Booking extends Model
       }
     }
 
+    if (isset($posted_data['booked_id'])) {
+      $data->booked_id = $posted_data['booked_id'];
+    }
     if (isset($posted_data['booked_by'])) {
       $data->booked_by = $posted_data['booked_by'];
     }
@@ -152,8 +164,8 @@ class Booking extends Model
     if (isset($posted_data['adjust_rent'])) {
       $data->adjust_rent = $posted_data['adjust_rent'];
     }
-    if (isset($posted_data['grace_rent'])) {
-      $data->grace_rent = $posted_data['grace_rent'];
+    if (isset($posted_data['markup_rent'])) {
+      $data->markup_rent = $posted_data['markup_rent'];
     }
     if (isset($posted_data['other_charges'])) {
       $data->other_charges = $posted_data['other_charges'];
