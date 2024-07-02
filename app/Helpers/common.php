@@ -222,11 +222,30 @@ if (!function_exists('default_value')) {
   }
 }
 
-if (!function_exists('generate_unique_id')) {
-  function generate_unique_id()
+if (!function_exists('generate_unique_numeric_id')) {
+  function generate_unique_numeric_id()
   {
     // It will always return a 9 digit unique string
     return floor(time()-999999999);
+  }
+}
+
+if (!function_exists('generate_random_key')) {
+  function generate_random_key($keyLength = 5)
+  {
+    // Characters to be used in the key
+    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    
+    // Set a blank variable to store the key
+    $key = '';
+    
+    for ($x = 0; $x < $keyLength; $x++) {
+      // Append a random character from the character set
+      $key .= $characters[random_int(0, $charactersLength - 1)];
+    }
+    
+    return $key;
   }
 }
 
