@@ -165,9 +165,15 @@ class Booking extends Model
     if (isset($posted_data['rent'])) {
       $data->rent = $posted_data['rent'];
     }
+    if (isset($posted_data['disc_rent'])) {
+      $data->disc_rent = $posted_data['disc_rent'];
+    }
+    if (isset($posted_data['charge_rent'])) {
+      $data->charge_rent = $posted_data['charge_rent'];
+    }
     if (isset($posted_data['markup_rent'])) {
       $data->markup_rent = $posted_data['markup_rent'];
-    }
+    }    
     if (isset($posted_data['exempt_rent'])) {
       $data->exempt_rent = $posted_data['exempt_rent'];
     }    
