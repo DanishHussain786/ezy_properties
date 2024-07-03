@@ -41,8 +41,8 @@
 </div>
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
-  <label class="control-label">Grace Rent (AED)</label>
-  <input type="number" value="{{$data['grace_rent']}}" id="grace_rent" name="grace_rent" placeholder="Enter grace rent" class="form-control full_width">
+  <label class="control-label">Markup Rent (AED)</label>
+  <input type="number" value="{{$data['markup_rent']}}" id="markup_rent" name="markup_rent" placeholder="Enter markup rent" class="form-control full_width">
 </div>
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
