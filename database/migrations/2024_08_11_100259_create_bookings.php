@@ -27,6 +27,8 @@ return new class extends Migration
       $table->integer('for_days')->nullable();
       $table->integer('for_months')->nullable();
       $table->double('rent')->nullable();
+      $table->double('disc_rent')->nullable();
+      $table->double('charge_rent')->nullable();
       $table->double('markup_rent')->nullable();
       $table->double('exempt_rent')->nullable();
       $table->enum('other_charges', ['Yes','No'])->default('No');
