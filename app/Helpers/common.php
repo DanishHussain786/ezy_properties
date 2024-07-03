@@ -261,3 +261,27 @@ if (!function_exists('get_label_class')) {
     else return $label_class = "label-success";
   }
 }
+
+if (!function_exists('get_comma_seperated_strings')) {
+  function get_comma_seperated_strings($array = array(), $get_keys = false)
+  {
+    $array_str = "";
+
+    if (count($array) > 0) {
+      foreach ($array as $key => $value) {
+        // Check if user wants to use keys instead of values
+        if ($get_keys) {
+          $array_str .= $key . ",";
+        } else {
+          if ($value != "") {
+            $array_str .= $value . ",";
+          }
+        }
+      }
+      // Remove the trailing comma
+      $array_str = rtrim($array_str, ",");
+    }
+
+    return $array_str;
+  }
+}
