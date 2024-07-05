@@ -43,8 +43,8 @@
   </div>
 
   <div class="form-group col-md-4 col-sm-6 col-xs-12">
-    <label class="control-label">Grace Rent (AED)</label>
-    <input type="text" value="{{isset($data['grace_rent'])? $data['grace_rent'] : ''}}" id="grace_rent" name="grace_rent" placeholder="Enter grace rent" class="form-control full_width only_numbers">
+    <label class="control-label">Markup Rent (AED)</label>
+    <input type="text" value="{{isset($data['markup_rent'])? $data['markup_rent'] : ''}}" id="markup_rent" name="markup_rent" placeholder="Enter markup rent" class="form-control full_width only_numbers">
   </div>
 </fieldset>
 
@@ -120,7 +120,7 @@
   </div>
 </fieldset>
 <fieldset>
-  <legend class="legend-padds">Charges</legend>
+  <legend class="legend-padds">Total Charges</legend>
   <div class="form-group col-md-12 col-sm-12 col-xs-12">
     <label class="control-label" for="net_total">Net. Total</label>
     <input type="text" class="form-control full_width only_numbers" placeholder="0" id="net_total" name="net_total" readonly>
