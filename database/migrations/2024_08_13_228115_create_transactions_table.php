@@ -25,9 +25,13 @@ return new class extends Migration
       $table->string('dep_name', 180)->nullable();
       $table->string('dep_email', 180)->nullable();
       $table->string('dep_contact', 180)->nullable();
-      $table->enum('dep_method', ['Cash','Credit-Card','Online','Bank-Transfer','Bank-Cheque'])->default('Cash');
-      $table->double('amount')->nullable();
-      $table->double('balance')->nullable();
+      $table->enum('dep_method', ['Cash','Credit-Card','Online','Bank-Transfer','Bank-Cheque'])->default('Cash');      
+      $table->double('sub_tot')->nullable();
+      $table->double('vat_amt')->nullable();
+      $table->double('discount')->nullable();
+      $table->double('paid_amount');
+      $table->double('balance');
+      $table->double('grand_tot');
       $table->enum('paid_for', ['Property','Service'])->default('Property');
       $table->enum('type', ['Rent','Initial-Deposit'])->default('Rent');
       $table->softDeletes('deleted_at');
