@@ -18,7 +18,7 @@ return new class extends Migration
       $table->string('prop_floor', 30)->nullable();
       $table->double('prop_rent');
       $table->longText('prop_address')->nullable();
-      $table->enum('status', ['Available','Pre-Reserve','Reserved','Checked-In','Checked-Out','Maintenance','Over-Stay'])->default('Available');
+      $table->enum('prop_status', ['Available','Pre-Reserve','Reserved','Checked-In','Checked-Out','Maintenance','Over-Stay'])->default('Available');
       $table->softDeletes('deleted_at');
       $table->timestamps();
     });
