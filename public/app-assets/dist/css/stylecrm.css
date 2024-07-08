@@ -409,7 +409,7 @@ hr {
 }
 
 .pt-0 {
-  padding-top: 0;
+  padding-top: 0 !important;
 }
 
 .p-l-15 {
