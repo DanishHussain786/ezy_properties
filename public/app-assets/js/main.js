@@ -185,10 +185,11 @@ $(document).on("change", "#deposit_by", function(event) {
 //   calculateTotal();
 // });
 
-// $(document).on("input", "input[name='wifi_ch']", function(event) { 
-//   $("input[name='wifi_ch']").val($(this).val());
-//   calculateTotal();
-// });
+$(document).on("input", "input[name='disc_rent']", function(event) { 
+  $("input[name='disc_rent']").val($(this).val());
+  $("input[name='markup_rent']").val(0);
+  calculateTotal();
+});
 
 $(document).on("input", "input[name='admin_ch']", function(event) { 
   $("input[name='admin_ch']").val($(this).val());
@@ -202,6 +203,7 @@ $(document).on("input", "input[name='sec_ch']", function(event) {
 
 $(document).on("input", "input[name='markup_rent']", function(event) { 
   $("input[name='markup_rent']").val($(this).val());
+  $("input[name='disc_rent']").val(0);
   calculateTotal();
 });
 
@@ -210,17 +212,22 @@ function calculateTotal() {
   var rent = parseFloat($('input[name="prop_rent"]').val()) || 0;
   var markup_rent = parseFloat($('input[name="markup_rent"]').val()) || 0;
   // var dewa = parseFloat($('input[name="dewa_ch"]').val()) || 0;
-  // var wifi = parseFloat($('input[name="wifi_ch"]').val()) || 0;
+  var discount = parseFloat($('input[name="disc_rent"]').val()) || 0;
   var admin = parseFloat($('input[name="admin_ch"]').val()) || 0;
   var security = parseFloat($('input[name="sec_ch"]').val()) || 0;
   var advance_rent = 0;
+  var disc = discount;
 
-  if (stay > 1)
-    advance_rent = ((rent * stay) + (markup_rent * stay)) - rent;
-  else 
-    advance_rent = (rent * stay) + markup_rent - rent;
+  if (stay > 1) {
+    disc = (discount * stay);
+    advance_rent = ((rent * stay) + (markup_rent * stay)) - disc - rent;
+  }
+  else {
+    advance_rent = (rent * stay) + markup_rent - rent - discount;
+  }
 
   var total = rent + advance_rent + admin + security;
+  $('input[name="net_disc"]').val(disc);
   $('input[name="net_total"]').val(total);
 }
 
