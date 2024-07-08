@@ -15,7 +15,7 @@ class Property extends Model
 
   public function reservations_data()
   {
-    return $this->hasOne(Booking::class, 'property_id');
+    // return $this->hasOne(Booking::class, 'property_id');
       // ->where([
       //   ['status', '=', 'Reservation']
       // ]);
@@ -28,7 +28,7 @@ class Property extends Model
     $query = Property::latest();
 
     if (isset($posted_data['relations']) && $posted_data['relations']) {
-      $query = $query->with('reservations_data');
+      // $query = $query->with('reservations_data');
     }
 
     if (isset($posted_data['id'])) {
@@ -51,8 +51,8 @@ class Property extends Model
         }
       );
     }
-    if (isset($posted_data['status'])) {
-      $query = $query->where('properties.status', $posted_data['status']);
+    if (isset($posted_data['prop_status'])) {
+      $query = $query->where('properties.prop_status', $posted_data['prop_status']);
     }
 
     $query->getQuery()->orders = null;
@@ -124,6 +124,9 @@ class Property extends Model
     }
     if (isset($posted_data['prop_address'])) {
       $data->prop_address = $posted_data['prop_address'];
+    }
+    if (isset($posted_data['prop_status'])) {
+      $data->prop_status = $posted_data['prop_status'];
     }
     if (isset($posted_data['deleted_at'])) {
       $data->deleted_at = $posted_data['deleted_at'];
