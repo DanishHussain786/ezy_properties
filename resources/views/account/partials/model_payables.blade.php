@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  @php $monthly_rent = $data['rent'] + $data['markup_rent'] @endphp
+  @php $monthly_rent = $data['charge_rent'] @endphp
   @php $months = $data['for_months'] @endphp
 
   <table class="table table-bordered table-styles">
@@ -37,25 +37,33 @@
     </thead>
     <tbody>
       <tr>
-        <td>Monthly Rent ({{$monthly_rent}}) </td>
+        <td>Monthly Rent ({{$monthly_rent}} AED) </td>
         <td>{{$months}}</td>
-        <td>{{$monthly_rent * $months}} AED</td>
+        <td>+ {{$monthly_rent * $months}} AED</td>
         @php $net_total += $monthly_rent * $months @endphp
       </tr>
       @if ($data['admin_charges'] > 0)
       <tr>
-        <td>Admin Charges ({{$data['admin_charges']}}) </td>
+        <td>Admin Charges ({{$data['admin_charges']}} AED) </td>
         <td>1</td>
-        <td>{{$data['admin_charges']}} AED</td>
+        <td>+ {{$data['admin_charges']}} AED</td>
         @php $net_total += $data['admin_charges'] @endphp
       </tr>
       @endif  
       @if ($data['security_charges'] > 0)
       <tr>
-        <td>Security Charges ({{$data['security_charges']}}) </td>
+        <td>Security Charges ({{$data['security_charges']}} AED) </td>
         <td>1</td>
-        <td>{{$data['security_charges']}} AED</td>
+        <td>+ {{$data['security_charges']}} AED</td>
         @php $net_total += $data['security_charges'] @endphp
+      </tr>
+      @endif
+      @if ($data['disc_rent'] > 0)
+      <tr>
+        <td>Monthly Rent Discount ({{$data['disc_rent'] / $months}} AED) </td>
+        <td>{{$months}}</td>
+        <td>- {{$data['disc_rent']}} AED</td>
+        @php $net_total -= $data['disc_rent'] @endphp
       </tr>
       @endif
       <tr>
