@@ -14,12 +14,16 @@ class UserController extends Controller
 
 	public function test_function(Request $request)
 	{
+		// $data = $this->BookingLogObj::where(['booking_id' => 1])->pluck('booking_id', 'id')->all();
+		
+		$ids_arr = $this->BookingLogObj::where(['booking_id' => 1])->pluck('booking_id', 'id')->all();	
+		$ids_str = get_comma_seperated_strings($ids_arr, true);
+		// $this->BookingLogObj->deleteBookingLog(0, [], ['id' => $ids_str], true);
 
-		$dee = add_to_datetime('2024-08-04', ['months' => 2, 'hours' => '19']);
 
 		echo "<pre>";
-		echo " dee"."<br>";
-		print_r($dee);
+		echo " ids_str"."<br>";
+		print_r($ids_str);
 		echo "</pre>";
 		exit("@@@@");
 
