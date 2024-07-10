@@ -23,6 +23,12 @@ class BookingController extends Controller
 		$data['records'] = $this->BookingObj->getBooking($request_data);
 		$data['route_name'] = $this->route_name;
 
+		// echo "<pre>";
+		// echo " data"."<br>";
+		// print_r($data);
+		// echo "</pre>";
+		// exit("@@@@");
+
 		$data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
 
 		if ($request->ajax()) {
@@ -116,57 +122,9 @@ class BookingController extends Controller
 		$bookings_object->status = 'Check-In';
 		$bookings_object->save();
 		
-		// $data = $this->BookingObj->saveUpdateBooking($booking_data);
 		$data['redirect_url'] = url("{$this->route_name}");
 		
 		return $this->sendResponse($data, 'User is checked-in successfully.');
-		/*
-			request_data
-			Array
-			(
-					[_token] => vDJGNmYykWxvpPEvfFlCycre1SkTzD5SOEbdRNP6
-					[booking_id] => 9
-					[tot_payable] => 11850
-					[vat_apply] => Exclusive
-					[discount] => 657.5
-					[pay_with] => Cash
-					[amt_pay] => 6785
-					[comments] => paid some amount.
-					[sub_total] => 11850
-					[vat_amt] => 592.5
-					[grand_tot] => 11785
-					[total_paid] => 6785
-					[balance] => 5000
-			)
-			cals
-
-
-			Array
-			(
-					[cals_sub_total] => 11850
-					[cals_vat_amt] => 592.5
-					[cals_grand_total] => 11785
-					[cals_tot_paid] => 6785
-					[cals_balance] => 5000
-					[cals_discount] => 657.5
-			)
-			@@@@
-		*/
-
-		// echo "<pre>";
-		// echo " request_data"."<br>";
-		// print_r($request_data);
-		// echo " cals"."<br><br><br>";
-		// print_r($cals);
-		// echo "</pre>";
-		// exit("@@@@");
-
-		// $trans_data['property_id'] = $request_data['Dee'];
-		// $trans_data['booking_id'] = $request_data['booking_id'];
-		// $trans_data['service_id'] = $request_data['Dee'];
-		// $trans_data['paid_by'] = $request_data['Dee'];
-		// $trans_data['amount'] = $request_data['grand_tot'];
-		// $trans_data['type'] = 'Property';
 	}
 
 	/**
@@ -180,7 +138,7 @@ class BookingController extends Controller
 			'checkin_date' 	=> ['required', 'date_format:Y-m-d'],
 			'stay_months' 	=> ['required', 'numeric', 'min:1', 'max:12'],
 			'prop_rent'     => ['required'],
-			'grace_rent'    => ['nullable'],
+			'markup_rent'   => ['nullable'],
 			'other_charges' => ['required', 'in:Yes,No'],
 		);
 
@@ -211,9 +169,15 @@ class BookingController extends Controller
 			}
 		}
 
+		echo "<pre>";
+		echo " request_data"."<br>";
+		print_r($request_data);
+		echo "</pre>";
+		exit("@@@@");
+
 		$rent = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
 		$stay = isset($request_data['stay_months']) ? $request_data['stay_months'] : 0;
-		$grace = isset($request_data['grace_rent']) ? $request_data['grace_rent'] : 0;
+		$markup = isset($request_data['markup_rent']) ? $request_data['markup_rent'] : 0;
 		$dewa = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : 0;
 		$wifi = isset($request_data['wifi_ch']) ? $request_data['wifi_ch'] : 0;
 		$admin = isset($request_data['admin_ch']) ? $request_data['admin_ch'] : 0;
@@ -224,12 +188,20 @@ class BookingController extends Controller
 		
 		$adv_rent = 0;
 		if ($stay > 1)
-			$adv_rent = (($rent * $stay) + ($grace * $stay)) - $rent;
+			$adv_rent = (($rent * $stay) + ($markup * $stay)) - $rent;
 		else 
-			$adv_rent = ($rent * $stay) + $grace - $rent;
+			$adv_rent = ($rent * $stay) + $markup - $rent;
 
 		$tot_rent = $rent + $adv_rent + $dewa + $wifi + $admin + $sec;
 
+		$last_id = 0;
+		$last_data = $this->BookingObj->latest('id')->first();
+		if (isset($last_data->id))
+			$last_id = $last_data->id + 1;
+		else 
+			$last_id = 1;
+
+		$booking_data['booked_id'] = generate_random_key().$last_id;
 		// $booking_data['booked_by'] = \Auth::user()->id;
 		$booking_data['booked_for'] = $request_data['user_id'];
 		$booking_data['property_id'] = $request_data['property_id'];
@@ -238,7 +210,7 @@ class BookingController extends Controller
 		$booking_data['for_days'] = datetime_difference($booking_data['checkin_date'], $booking_data['checkout_date'])['days'];
 		$booking_data['for_months'] = $stay;
 		$booking_data['rent'] = $rent;
-		$booking_data['grace_rent'] = $grace;
+		$booking_data['markup_rent'] = $markup;
 		$booking_data['other_charges'] = $request_data['other_charges'];
 		$booking_data['dewa_charges'] = $dewa;
 		$booking_data['wifi_charges'] = $wifi;
@@ -358,9 +330,9 @@ class BookingController extends Controller
 
 		$bookings_data = $this->BookingObj->getBooking(['id' => $request_data['update_id'], 'detail' => true]);
 
-		$grace = $request->input('grace_rent');
-		if ($request->has('grace_rent') && ($grace == '' || $grace == 0) )
-			$bookings_data->grace_rent = null;
+		$markup = $request->input('markup_rent');
+		if ($request->has('markup_rent') && ($markup == '' || $markup == 0) )
+			$bookings_data->markup_rent = null;
 
 		$dewa = $request->input('dewa_ch');
 		if ($request->has('dewa_ch') && ($dewa == '' || $dewa == 0) )
@@ -393,7 +365,7 @@ class BookingController extends Controller
 		$bookings['for_days'] = datetime_difference($bookings['checkin_date'], $bookings['checkout_date'])['days'];
 		$bookings['for_months'] = $request_data['stay_months'];
 		$bookings['rent'] = $request_data['prop_rent'];
-		$bookings['grace_rent'] = $request_data['grace_rent'];
+		$bookings['markup_rent'] = $request_data['markup_rent'];
 		$bookings['other_charges'] = $request_data['other_charges'];
 		$bookings['dewa_charges'] = $request_data['dewa_ch'];
 		$bookings['wifi_charges'] = $request_data['wifi_ch'];
