@@ -5,6 +5,7 @@
         <th>Sr #</th>
         <th>Booking Id</th>
         <th>Guest Name</th>
+        <th>Discount</th>
         <th>Balance</th>
         <th>Total<br>Payable</th>
         <th>Action</th>
@@ -35,6 +36,7 @@
           <td>{{ $sr_no }}</td>
           <td>{{ $item['booked_id'] }}</td>
           <td>{{ $item->booked_for_user->first_name }} {{ $item->booked_for_user->last_name }}</td>
+          <td>{{ $item['disc_rent'] }}</td>
           <td>{{ $item['balance'] }}</td>
           <td>{{ $item['total_payable'] }}</td>
           <td>
