@@ -46,6 +46,11 @@
 </div>
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
+  <label class="control-label">Discount Rent (AED)</label>
+  <input type="text" value="{{$data['disc_rent']}}" id="disc_rent" name="disc_rent" placeholder="Enter discount rent" class="form-control full_width only_numbers">
+</div>
+
+<div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Adittional Charges</label>
   <select class="form-control full_width" id="other_charges" name="other_charges">
     <option value="No" {{$data['other_charges'] == "No" ? "selected" : ''}} > No </option>
