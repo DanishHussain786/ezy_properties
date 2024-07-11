@@ -174,12 +174,6 @@ class Booking extends Model
     if (isset($posted_data['other_charges'])) {
       $data->other_charges = $posted_data['other_charges'];
     }
-    if (isset($posted_data['dewa_charges'])) {
-      $data->dewa_charges = $posted_data['dewa_charges'];
-    }
-    if (isset($posted_data['wifi_charges'])) {
-      $data->wifi_charges = $posted_data['wifi_charges'];
-    }
     if (isset($posted_data['admin_charges'])) {
       $data->admin_charges = $posted_data['admin_charges'];
     }
