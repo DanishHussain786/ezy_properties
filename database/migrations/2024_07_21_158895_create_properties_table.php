@@ -21,6 +21,7 @@ return new class extends Migration
       $table->double('dewa_charges')->nullable();
       $table->double('wifi_charges')->nullable();
       $table->double('misc_charges')->nullable();
+      $table->double('prop_net_rent')->nullable();
       $table->longText('prop_address')->nullable();
       $table->enum('prop_status', ['Available','Pre-Reserve','Reserved','Checked-In','Checked-Out','Maintenance','Over-Stay'])->default('Available');
       $table->softDeletes('deleted_at');
