@@ -94,10 +94,10 @@ return [
   'paymentModes' => [
     'data' => [
       'Cash' => 'Cash',
-      'Credit-Card' => 'Credit-Card',
+      'Credit-Card' => 'Credit Card',
       'Online' => 'Online',
-      'Bank-Transfer' => 'Bank-Transfer',
-      'Bank-Cheque' => 'Bank-Cheque',
+      'Bank-Transfer' => 'Bank Transfer',
+      'Bank-Cheque' => 'Bank Cheque',
     ],
     'all_keys_str' => 'Cash,Credit-Card,Online,Bank-Transfer,Bank-Cheque',
     'all_keys_arr' => ['Cash','Credit-Card','Online','Bank-Transfer','Bank-Cheque'],
