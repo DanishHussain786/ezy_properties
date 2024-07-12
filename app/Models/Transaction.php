@@ -142,11 +142,26 @@ class Transaction extends Model
     if (isset($posted_data['dep_contact'])) {
       $data->dep_contact = $posted_data['dep_contact'];
     }
-    if (isset($posted_data['amount'])) {
-      $data->amount = $posted_data['amount'];
+    if (isset($posted_data['dep_method'])) {
+      $data->dep_method = $posted_data['dep_method'];
+    }
+    if (isset($posted_data['sub_tot'])) {
+      $data->sub_tot = $posted_data['sub_tot'];
+    }
+    if (isset($posted_data['vat_amt'])) {
+      $data->vat_amt = $posted_data['vat_amt'];
+    }
+    if (isset($posted_data['discount'])) {
+      $data->discount = $posted_data['discount'];
+    }
+    if (isset($posted_data['paid_amount'])) {
+      $data->paid_amount = $posted_data['paid_amount'];
     }
     if (isset($posted_data['balance'])) {
       $data->balance = $posted_data['balance'];
+    }
+    if (isset($posted_data['grand_tot'])) {
+      $data->grand_tot = $posted_data['grand_tot'];
     }
     if (isset($posted_data['paid_for'])) {
       $data->paid_for = $posted_data['paid_for'];
