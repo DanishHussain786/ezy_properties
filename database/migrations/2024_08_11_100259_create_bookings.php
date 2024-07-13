@@ -28,7 +28,7 @@ return new class extends Migration
       $table->integer('for_months')->nullable();
       $table->double('rent')->nullable();
       $table->double('markup_rent')->nullable();
-      $table->double('waveoff_rent')->nullable();
+      $table->double('exempt_rent')->nullable();
       $table->enum('other_charges', ['No','Yes'])->default('No');
       $table->double('dewa_charges')->nullable();
       $table->double('wifi_charges')->nullable();
