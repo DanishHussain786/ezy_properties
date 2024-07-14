@@ -11,6 +11,7 @@ use App\Models\Booking;
 use App\Models\Service;
 use App\Models\Transaction;
 use App\Models\Information;
+use App\Models\BookingLog;
 
 class Controller extends BaseController
 {
@@ -22,6 +23,7 @@ class Controller extends BaseController
   public $ServiceObj;
   public $TransactionObj;
   public $InformationObj;
+  public $BookingLogObj;
 
   public function __construct()
   {
@@ -31,6 +33,7 @@ class Controller extends BaseController
     $this->ServiceObj = new Service();
     $this->TransactionObj = new Transaction();
     $this->InformationObj = new Information();
+    $this->BookingLogObj = new BookingLog();
   }
 
   /**
