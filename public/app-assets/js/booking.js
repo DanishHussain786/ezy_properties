@@ -67,17 +67,6 @@ $(document).on("click", ".checkin_btn", function(event) {
   $("#checkin_popup").modal("show");
 });
 
-$(document).on("click", ".initial_deposit_btn", function(event) {
-  event.preventDefault();
-  $(".tot_payable").val($(this).data("total"));
-  // var data_object = extract_key_and_values($(this).data("metadata"));
-  // $("#book_id").val($(this).data("item_id"));
-  // $("#prop_id").val(data_object.porp);
-  // $("#user_id").val(data_object.resu);
-  // $("#tot_payable").val(data_object.latot);
-  $("#payment_popup").modal("show");
-});
-
 $(document).on("click", "#add_payment_btn", function(event) {
   $('#add_payment_form').submit();
 });
@@ -99,7 +88,6 @@ $(document).on("click", "#do_checkin_btn", function(event) {
   dynamicAjaxGetRequest('/booking/create', data, function(response) {
     try {
       toastr.success(response.message);
-      // $('#add_res_btn').prop('disabled', true);
       if (response.records.redirect_url) {
         setTimeout(function() {
           window.location.href = response.records.redirect_url; // Replace with your desired route
