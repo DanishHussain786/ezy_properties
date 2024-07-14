@@ -141,13 +141,6 @@ class BookingController extends Controller
 			'markup_rent'   => ['nullable'],
 			'other_charges' => ['required', 'in:Yes,No'],
 		);
-
-		// if (isset($request->deposit_by) && $request->deposit_by == 'Other') {
-		// 	$rules['dep_name'] = ['required', 'max:100'];
-		// 	$rules['dep_email'] = ['required', 'max:100'];
-		// 	$rules['dep_contact'] = ['required', 'max:50'];
-		// 	$rules['dep_method'] = ['required'];
-		// }
 		
 		$messages = array(
 			'user_id.required' => 'Please select guest from list.',
@@ -170,23 +163,24 @@ class BookingController extends Controller
 		// }
 
 		$rent = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
-		$stay = isset($request_data['stay_months']) ? $request_data['stay_months'] : 0;
+		$stay = isset($request_data['stay_months']) ? $request_data['stay_months'] : 1;
 		$markup = isset($request_data['markup_rent']) ? $request_data['markup_rent'] : 0;
 		// $dewa = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : 0;
-		// $wifi = isset($request_data['wifi_ch']) ? $request_data['wifi_ch'] : 0;
+		$disc = isset($request_data['disc_rent']) ? $request_data['disc_rent'] : 0;
 		$admin = isset($request_data['admin_ch']) ? $request_data['admin_ch'] : 0;
 		$sec = isset($request_data['sec_ch']) ? $request_data['sec_ch'] : 0;
 		// $deposit = isset($request_data['init_deposit']) ? $request_data['init_deposit'] : 0;
 
 		$tot_rent = $stay * $rent;
+		$discount = $stay * $disc;
 		
-		$adv_rent = 0;
+		$adv_rent = 0; $charge_rent = 0;
 		if ($stay > 1)
-			$adv_rent = (($rent * $stay) + ($markup * $stay)) - $rent;
+			$adv_rent = (($rent * $stay) + ($markup * $stay) - $discount) - $rent;
 		else 
-			$adv_rent = ($rent * $stay) + $markup - $rent;
+			$adv_rent = ($rent * $stay) + $markup - $discount - $rent;
 
-		$tot_rent = $rent + $adv_rent + $admin + $sec;
+		$tot_payable = $rent + $adv_rent + $admin + $sec;
 
 		$last_id = 0;
 		$last_data = $this->BookingObj->latest('id')->first();
@@ -203,15 +197,19 @@ class BookingController extends Controller
 		$booking_data['checkout_date'] = add_to_datetime($request_data['checkin_date'], ['months' => $stay]);
 		$booking_data['for_days'] = datetime_difference($booking_data['checkin_date'], $booking_data['checkout_date'])['days'];
 		$booking_data['for_months'] = $stay;
+		if ($discount > 0)
+			$charge_rent = $rent - $request_data['disc_rent'];
+		if ($markup > 0)
+			$charge_rent = $rent + $request_data['markup_rent'];
 		$booking_data['rent'] = $rent;
+		$booking_data['disc_rent'] = $disc;
+		$booking_data['charge_rent'] = $charge_rent;
 		$booking_data['markup_rent'] = $markup;
 		$booking_data['other_charges'] = $request_data['other_charges'];
-		// $booking_data['dewa_charges'] = $dewa;
-		// $booking_data['wifi_charges'] = $wifi;
 		$booking_data['admin_charges'] = $admin;
 		$booking_data['security_charges'] = $sec;
-		$booking_data['balance'] = $tot_rent;
-		$booking_data['total_payable'] = $tot_rent;
+		$booking_data['balance'] = $tot_payable;
+		$booking_data['total_payable'] = $tot_payable;
 
 		$data = $this->BookingObj->saveUpdateBooking($booking_data);
 		$data['redirect_url'] = url('property');
@@ -219,6 +217,26 @@ class BookingController extends Controller
 		$property = $this->PropertyObj->getProperty(['id' => $request_data['property_id'], 'detail' => true]);
 		$property->prop_status = 'Pre-Reserve';
 		$property->save();
+
+		$book_log['booking_id'] = $data->id;
+		$book_log['amount'] = $charge_rent * $stay;
+		$book_log['purpose'] = 'Rent Charges';
+		$book_log['status'] = 'Unpaid';
+		$this->BookingLogObj->saveUpdateBookingLog($book_log);
+		
+		if ($admin > 0) {
+			$book_log['amount'] = $admin;
+			$book_log['purpose'] = 'Admin Fee';
+			$book_log['status'] = 'Unpaid';
+			$this->BookingLogObj->saveUpdateBookingLog($book_log);
+		}
+		
+		if ($sec > 0) {
+			$book_log['amount'] = $sec;
+			$book_log['purpose'] = 'Security Deposit';
+			$book_log['status'] = 'Unpaid';
+			$this->BookingLogObj->saveUpdateBookingLog($book_log);
+		}
 
 		// if ($deposit > 0) {
 		// 	$deposit_data['property_id'] = $request_data['property_id'];
@@ -320,17 +338,13 @@ class BookingController extends Controller
 
 		$bookings_data = $this->BookingObj->getBooking(['id' => $request_data['update_id'], 'detail' => true]);
 
+		$disc_rent = $request->input('disc_rent');
+		if ($request->has('disc_rent') && ($disc_rent == '' || $disc_rent == 0) )
+			$bookings_data->disc_rent = null;
+
 		$markup = $request->input('markup_rent');
 		if ($request->has('markup_rent') && ($markup == '' || $markup == 0) )
 			$bookings_data->markup_rent = null;
-
-		// $dewa = $request->input('dewa_ch');
-		// if ($request->has('dewa_ch') && ($dewa == '' || $dewa == 0) )
-		// 	$bookings_data->dewa_charges = null;
-
-		// $wifi = $request->input('wifi_ch');
-		// if ($request->has('wifi_ch') && ($wifi == '' || $wifi == 0) )
-		// 	$bookings_data->wifi_charges = null;
 
 		$admin = $request->input('admin_ch');
 		if ($request->has('admin_ch') && ($admin == '' || $admin == 0) )
@@ -346,6 +360,15 @@ class BookingController extends Controller
 
 		$bookings_data->save();
 
+		$stay = isset($request_data['stay_months']) ? $request_data['stay_months'] : 1;
+		$disc_rent = isset($request_data['disc_rent']) ? $request_data['disc_rent'] : 0;
+		$markup_rent = isset($request_data['markup_rent']) ? $request_data['markup_rent'] : 0;
+
+		if ($disc_rent > 0)
+			$charge_rent = $request_data['prop_rent'] - $request_data['disc_rent'];
+		if ($markup_rent > 0)
+			$charge_rent = $request_data['prop_rent'] + $request_data['markup_rent'];
+
 		$bookings['update_id'] = $request_data['update_id'];
 		$bookings['booked_for'] = $request_data['booked_for'];
 		$bookings['property_id'] = $request_data['property_id'];
@@ -355,10 +378,10 @@ class BookingController extends Controller
 		$bookings['for_days'] = datetime_difference($bookings['checkin_date'], $bookings['checkout_date'])['days'];
 		$bookings['for_months'] = $request_data['stay_months'];
 		$bookings['rent'] = $request_data['prop_rent'];
-		$bookings['markup_rent'] = $request_data['markup_rent'];
+		$bookings['disc_rent'] = $disc_rent;
+		$bookings['charge_rent'] = $charge_rent;
+		$bookings['markup_rent'] = $markup_rent;
 		$bookings['other_charges'] = $request_data['other_charges'];
-		// $bookings['dewa_charges'] = $request_data['dewa_ch'];
-		// $bookings['wifi_charges'] = $request_data['wifi_ch'];
 		$bookings['admin_charges'] = $request_data['admin_ch'];
 		$bookings['security_charges'] = $request_data['sec_ch'];
 		$bookings['balance'] = $request_data['net_total'];
@@ -366,7 +389,33 @@ class BookingController extends Controller
 
 		$data = $this->BookingObj->saveUpdateBooking($bookings);
 		$data['redirect_url'] = url("{$this->route_name}");
-		
+
+		if (isset($data->id)) {
+			$ids_arr = $this->BookingLogObj::where(['booking_id' => $data->id])->pluck('booking_id', 'id')->all();
+			$ids_str = get_comma_seperated_strings($ids_arr, true);
+			$this->BookingLogObj->deleteBookingLog(0, [], ['column' => 'id', 'ids_str' => $ids_str], true);
+
+			$book_log['booking_id'] = $data->id;
+			$book_log['amount'] = $charge_rent * $stay;
+			$book_log['purpose'] = 'Rent Charges';
+			$book_log['status'] = 'Unpaid';
+			$this->BookingLogObj->saveUpdateBookingLog($book_log);
+			
+			if ($request_data['admin_ch'] > 0) {
+				$book_log['amount'] = $request_data['admin_ch'];
+				$book_log['purpose'] = 'Admin Fee';
+				$book_log['status'] = 'Unpaid';
+				$this->BookingLogObj->saveUpdateBookingLog($book_log);
+			}
+			
+			if ($request_data['sec_ch'] > 0) {
+				$book_log['amount'] = $request_data['sec_ch'];
+				$book_log['purpose'] = 'Security Deposit';
+				$book_log['status'] = 'Unpaid';
+				$this->BookingLogObj->saveUpdateBookingLog($book_log);
+			}
+		}
+
 		return $this->sendResponse($data, $this->controller_name_single.' is updated successfully.');
 	}
 
