@@ -46,6 +46,11 @@
     <label class="control-label">Markup Rent (AED)</label>
     <input type="text" value="{{isset($data['markup_rent'])? $data['markup_rent'] : ''}}" id="markup_rent" name="markup_rent" placeholder="Enter markup rent" class="form-control full_width only_numbers">
   </div>
+
+  <div class="form-group col-md-4 col-sm-6 col-xs-12">
+    <label class="control-label">Discount Rent (AED)</label>
+    <input type="text" value="{{isset($data['disc_rent'])? $data['disc_rent'] : ''}}" id="disc_rent" name="disc_rent" placeholder="Enter discount rent" class="form-control full_width only_numbers">
+  </div>
 </fieldset>
 
 {{--
@@ -125,8 +130,12 @@
 </fieldset>
 <fieldset>
   <legend class="legend-padds">Total Charges</legend>
-  <div class="form-group col-md-12 col-sm-12 col-xs-12">
-    <label class="control-label" for="net_total">Net. Total</label>
+  <div class="form-group col-md-4 col-sm-6 col-xs-12">
+    <label class="control-label" for="net_total">Net. Discount</label>
+    <input type="text" class="form-control full_width only_numbers" placeholder="0" id="net_disc" name="net_disc" readonly>
+  </div>
+  <div class="form-group col-md-4 col-sm-6 col-xs-12">
+    <label class="control-label" for="net_total">Net. Charges</label>
     <input type="text" class="form-control full_width only_numbers" placeholder="0" id="net_total" name="net_total" readonly>
   </div>
 </fieldset>
