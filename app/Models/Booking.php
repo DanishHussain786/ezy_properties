@@ -146,6 +146,9 @@ class Booking extends Model
     if (isset($posted_data['property_id'])) {
       $data->property_id = $posted_data['property_id'];
     }
+    if (isset($posted_data['service_id'])) {
+      $data->service_id = $posted_data['service_id'];
+    }
     if (isset($posted_data['checkin_date'])) {
       $data->checkin_date = $posted_data['checkin_date'];
     }
@@ -161,12 +164,12 @@ class Booking extends Model
     if (isset($posted_data['rent'])) {
       $data->rent = $posted_data['rent'];
     }
-    if (isset($posted_data['adjust_rent'])) {
-      $data->adjust_rent = $posted_data['adjust_rent'];
-    }
     if (isset($posted_data['markup_rent'])) {
       $data->markup_rent = $posted_data['markup_rent'];
     }
+    if (isset($posted_data['exempt_rent'])) {
+      $data->exempt_rent = $posted_data['exempt_rent'];
+    }    
     if (isset($posted_data['other_charges'])) {
       $data->other_charges = $posted_data['other_charges'];
     }
@@ -182,8 +185,11 @@ class Booking extends Model
     if (isset($posted_data['security_charges'])) {
       $data->security_charges = $posted_data['security_charges'];
     }
-    if (isset($posted_data['net_total'])) {
-      $data->net_total = $posted_data['net_total'];
+    if (isset($posted_data['balance'])) {
+      $data->balance = $posted_data['balance'];
+    }
+    if (isset($posted_data['total_payable'])) {
+      $data->total_payable = $posted_data['total_payable'];
     }
     if (isset($posted_data['deleted_at'])) {
       $data->deleted_at = $posted_data['deleted_at'];
