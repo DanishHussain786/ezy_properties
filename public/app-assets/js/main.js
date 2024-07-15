@@ -92,185 +92,40 @@ function showModal(src) {
   }
 }
 
-//   setTimeout(function() {
-//     $(".alert-success").hide();
-//   }, 4000);
-
-//   $("#theme_layout").click(function(event) {
-//     $.ajax({
-//       headers: {
-//         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-//       },
-//       method: "post",
-//       url: base_url + "/theme_mode",
-//       success: function(data) {
-//         if (data.record.theme_mode == "Light") {
-//           $("html").removeClass("dark-layout");
-//           $("html").addClass("light-layout");
-//           $("i").removeClass("sun");
-//           $("i").addClass("moon");
-//           $("div").removeClass("menu-dark");
-//           $("div").addClass("menu-light");
-//           $("nav").removeClass("navbar-dark");
-//           $("nav").addClass("navbar-light");
-//         } else {
-//           $("html").addClass("dark-layout");
-//           $("html").removeClass("light-layout");
-//           $("i").addClass("sun");
-//           $("i").removeClass("moon");
-//           $("div").addClass("menu-dark");
-//           $("div").removeClass("menu-light");
-//           $("nav").addClass("navbar-dark");
-//           $("nav").removeClass("navbar-light");
-//         }
-//       },
-//       error: function(e) {},
-//     });
-//   });
-
-/*
-  $(document).on(
-    "click",
-    "#delButton, #block_user, #payment_trigger",
-    function(event) {
-      var btn_txt = $(this).text().trim();
-      var form = $(this).closest("form");
-      var name = $(this).data("name");
-      event.preventDefault();
-
-      // swal({
-      //     title: `Are you sure you want to delete this record?`,
-      //     icon: "warning",
-      //     buttons: ["No", "Yes"],
-      //     dangerMode: true,
-      // })
-      //     .then((willDelete) => {
-      //         if (willDelete) {
-      //             form.submit();
-      //         }
-      //     });
-
-      if (btn_txt === "Block" || btn_txt === "Unblock") {
-        swal({
-          title: `Are you sure you want to update this record?`,
-          icon: "warning",
-          buttons: ["No", "Yes"],
-          dangerMode: true,
-        }).then((willDelete) => {
-          if (willDelete) {
-            form.submit();
-          }
-        });
-      }
-
-      if (btn_txt === "Payment Status") {
-        swal({
-          title: `Are you sure you want to update payment status?`,
-          icon: "warning",
-          buttons: ["Reject", "Approve"],
-          dangerMode: true,
-        }).then((approve) => {
-          if (approve) {
-            form.append(
-              '<input type="hidden" name="manual_payment" value="1" /> '
-            );
-            form.submit();
-          }
-        });
-      }
-    }
-  );
-  */
-
-  $(document).on("click", ".pagination_links .pagination a",
-    function(event) {
-      event.preventDefault();
-      var page = $(this).attr("href").split("page=")[1];
-      $("#filterPage").val(page);
-      getAjaxData();
-    }
-  );
-
-  $(document).on("change", ".formFilter", throttle(function(event) {
-      event.preventDefault();
-      $("#filterPage").val(1);
-      getAjaxData();
-    }, 200)
-  );
-
-  $(document).on("keyup", ".formFilter", throttle(function(event) {
-      event.preventDefault();
-      $("#filterPage").val(1);
-      getAjaxData();
-    }, 800)
-  );
-
-  $(document).on("click", ".formReset", function(event) {
+$(document).on("click", ".pagination_links .pagination a",
+  function(event) {
     event.preventDefault();
-    clearFormFields();
+    var page = $(this).attr("href").split("page=")[1];
+    $("#filterPage").val(page);
+    getAjaxData();
+  }
+);
+
+$(document).on("change", ".formFilter", throttle(function(event) {
+    event.preventDefault();
     $("#filterPage").val(1);
     getAjaxData();
-  });
+  }, 200)
+);
 
-  $(document).on("click", ".delete_btn", function(event) {
-    var url = $(this).data("delete_url");
-    $('.delete_popup').attr("action", url);
-  });
+$(document).on("keyup", ".formFilter", throttle(function(event) {
+    event.preventDefault();
+    $("#filterPage").val(1);
+    getAjaxData();
+  }, 800)
+);
 
-  /*
-  $(document).on("click", "#viewButton", function(event) {
-    let href = $(this).attr("data-url");
-    let model_type = $(this).attr("data-model");
-    // console.log('href:'+href);
-    // console.log('model_type:'+model_type);
-
-    // $('.rate_limiter_btn').html(' UnBlock Ip Address <i class="fa fa-spinner fa-pulse"></i>');
-
-    $.ajax({
-      url: href,
-      contentType: "application/json",
-      dataType: "json",
-      beforeSend: function() {},
-      success: function(result) {
-        if (result.html) {
-          // console.log('  ========>> result.html <<========  ');
-          // console.log(result.html);
-          // return true;
-
-          if (model_type === "task_details") {
-            //
-          }
-
-          $("#viewModalLabel").html(result.event_title);
-          $("#viewBody").html(result.html);
-
-          $("#viewChatBody").html(result.chat_history);
-
-          $("#view_quiz_detail").html(result.view_quiz_detail);
-          $("#view_quiz_detail_body").html(
-            result.view_quiz_detail_body
-          );
-
-          $("#view_quiz_attempt").html(result.view_quiz_attempt);
-          $("#view_quiz_attempt_body").html(
-            result.view_quiz_attempt_body
-          );
-
-          $("#viewQuizAttempt").html(result.chat_history);
-        } else {
-          $("#viewBody").html(result);
-        }
-
-        $("#viewModalEditBtn").attr("href", href + "/edit");
-        $("#viewModal").modal("show");
-      },
-      complete: function() {},
-      error: function(jqXHR, testStatus, error) {},
-      timeout: 8000,
-    });
-  });
+$(document).on("click", ".formReset", function(event) {
+  event.preventDefault();
+  clearFormFields();
+  $("#filterPage").val(1);
+  getAjaxData();
 });
-*/
+
+$(document).on("click", ".delete_btn", function(event) {
+  var url = $(this).data("delete_url");
+  $('.delete_popup').attr("action", url);
+});
 
 var prevKey, prevControl;
 $(document).on('keydown', '.only_numbers', function(event) {
@@ -306,8 +161,8 @@ $(document).on("change", "#other_charges", function(event) {
     $('.hidden_charges').removeClass('d-none');
   } else {
     $('.hidden_charges').addClass('d-none');
-    $("input[name='dewa_ch']").val('');
-    $("input[name='wifi_ch']").val('');
+    // $("input[name='dewa_ch']").val('');
+    // $("input[name='wifi_ch']").val('');
     $("input[name='admin_ch']").val('');
     $("input[name='sec_ch']").val('');
     calculateTotal();
@@ -325,15 +180,15 @@ $(document).on("change", "#deposit_by", function(event) {
   }
 });
 
-$(document).on("input", "input[name='dewa_ch']", function(event) { 
-  $("input[name='dewa_ch']").val($(this).val());
-  calculateTotal();
-});
+// $(document).on("input", "input[name='dewa_ch']", function(event) { 
+//   $("input[name='dewa_ch']").val($(this).val());
+//   calculateTotal();
+// });
 
-$(document).on("input", "input[name='wifi_ch']", function(event) { 
-  $("input[name='wifi_ch']").val($(this).val());
-  calculateTotal();
-});
+// $(document).on("input", "input[name='wifi_ch']", function(event) { 
+//   $("input[name='wifi_ch']").val($(this).val());
+//   calculateTotal();
+// });
 
 $(document).on("input", "input[name='admin_ch']", function(event) { 
   $("input[name='admin_ch']").val($(this).val());
@@ -354,8 +209,8 @@ function calculateTotal() {
   var stay = $('#stay_months').val();
   var rent = parseFloat($('input[name="prop_rent"]').val()) || 0;
   var markup_rent = parseFloat($('input[name="markup_rent"]').val()) || 0;
-  var dewa = parseFloat($('input[name="dewa_ch"]').val()) || 0;
-  var wifi = parseFloat($('input[name="wifi_ch"]').val()) || 0;
+  // var dewa = parseFloat($('input[name="dewa_ch"]').val()) || 0;
+  // var wifi = parseFloat($('input[name="wifi_ch"]').val()) || 0;
   var admin = parseFloat($('input[name="admin_ch"]').val()) || 0;
   var security = parseFloat($('input[name="sec_ch"]').val()) || 0;
   var advance_rent = 0;
@@ -365,7 +220,7 @@ function calculateTotal() {
   else 
     advance_rent = (rent * stay) + markup_rent - rent;
 
-  var total = rent + advance_rent + dewa + wifi + admin + security;
+  var total = rent + advance_rent + admin + security;
   $('input[name="net_total"]').val(total);
 }
 
