@@ -21,8 +21,23 @@ use App\Http\Controllers\UserController;
 |
 */
 
+Route::get('/clear-cache', function() {
+    // Artisan::call('optimize');
+    Artisan::call('cache:clear');
+    Artisan::call('view:clear');
+    Artisan::call('route:cache');
+    Artisan::call('route:clear');
+    Artisan::call('config:cache');
+    return '<h1>Cache facade value cleared</h1>';
+})->name('clear-cache');
+
 Route::get('/', function () {
     return view('dashboards.dashboard');
 });
 
 Route::resource('user', UserController::class);
+
+Route::get('/storage-link', function() {
+    Artisan::call("storage:link");
+    return '<h1>storage link activated</h1>';
+});

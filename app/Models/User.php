@@ -206,11 +206,17 @@ class User extends Authenticatable
     if (isset($posted_data['role'])) {
       $data->role = $posted_data['role'];
     }
+    if (isset($posted_data['dob'])) {
+      $data->dob = $posted_data['dob'];
+    }
     if (isset($posted_data['contact_no'])) {
       $data->contact_no = $posted_data['contact_no'];
     }
     if (isset($posted_data['whatsapp_no'])) {
       $data->whatsapp_no = $posted_data['whatsapp_no'];
+    }
+    if (isset($posted_data['home_address'])) {
+      $data->home_address = $posted_data['home_address'];
     }
     if (isset($posted_data['email'])) {
       $data->email = $posted_data['email'];

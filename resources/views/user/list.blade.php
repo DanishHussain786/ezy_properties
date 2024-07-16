@@ -12,66 +12,200 @@
       <i class="fa fa-dashboard"></i>
     </div>
     <div class="header-title">
-      <h1>CRM Admin Dashboard</h1>
-      <small>Very detailed & featured admin.</small>
+      <h1>User Panel</h1>
+      <small>Add User</small>
     </div>
   </section>
-  
-  <!-- Main content -->
+
   <section class="content">
     <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-        <div id="cardbox1">
-          <div class="statistic-box">
-              <i class="fa fa-user-plus fa-3x"></i>
-              <div class="counter-number pull-right">
-                <span class="count-number">11</span>
-                <span class="slight"><i class="fa fa-play fa-rotate-270"> </i>
-                </span>
-              </div>
-              <h3> Active Client</h3>
+      <div class="col-sm-12">
+        <div class="panel panel-bd lobidrag">
+          <div class="panel-heading">
+            <div class="btn-group" id="buttonexport">
+              <a href="#">
+                <h4>Add customer</h4>
+              </a>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-        <div id="cardbox2">
-          <div class="statistic-box">
-              <i class="fa fa-user-secret fa-3x"></i>
-              <div class="counter-number pull-right">
-                <span class="count-number">4</span>
-                <span class="slight"><i class="fa fa-play fa-rotate-270"> </i>
-                </span>
+          <div class="panel-body">
+            <!-- Plugin content:powerpoint,txt,pdf,png,word,xl -->
+            <div class="btn-group">
+              <div class="buttonexport" id="buttonlist"> 
+                <a class="btn btn-add" href="add-customer.html"> <i class="fa fa-plus"></i> Add Customer
+                </a>  
               </div>
-              <h3>  Active Admin</h3>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-        <div id="cardbox3">
-          <div class="statistic-box">
-              <i class="fa fa-money fa-3x"></i>
-              <div class="counter-number pull-right">
-                <i class="ti ti-money"></i><span class="count-number">965</span>
-                <span class="slight"><i class="fa fa-play fa-rotate-270"> </i>
-                </span>
-              </div>
-              <h3>  Total Expenses</h3>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-        <div id="cardbox4">
-          <div class="statistic-box">
-              <i class="fa fa-files-o fa-3x"></i>
-              <div class="counter-number pull-right">
-                <span class="count-number">11</span>
-                <span class="slight"><i class="fa fa-play fa-rotate-270"> </i>
-                </span>
-              </div>
-              <h3> Running Projects</h3>
+            </div>
+            <!-- Plugin content:powerpoint,txt,pdf,png,word,xl -->
+            <div class="table-responsive">
+              <table id="dataTableExample1" class="table table-bordered table-striped table-hover">
+                <thead>
+                  <tr class="info">
+                    <th>Photo</th>
+                    <th>Customer Name</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>type</th>
+                    <th>Join</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><img src="assets/dist/img/w1.png" class="img-circle" alt="User Image" width="50" height="50"> </td>
+                    <td>MD. Alimul Alrazy</td>
+                    <td>+8801674688663</td>
+                    <td><a href="http://thememinister.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d2b3bea0b3a8ab92a6bab7bfb7bfbbbcbba1a6b7a0fcb1bdbf">[email&#160;protected]</a></td>
+                    <td>98 Green Rd, Dhaka 1215, Bangladesh</td>
+                    <td>V.I.P</td>
+                    <td>27th April,2017</td>
+                    <td><span class="label-custom label label-default">Active</span></td>
+                    <td>
+                      <button type="button" class="btn btn-add btn-sm" data-toggle="modal" data-target="#customer1"><i class="fa fa-pencil"></i></button>
+                      <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#customer2"><i class="fa fa-trash-o"></i> </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><img src="assets/dist/img/w2.png" class="img-circle" alt="User Image" width="50" height="50"> </td>
+                    <td>MD. Alrazy</td>
+                    <td>+8801674688663</td>
+                    <td><a href="http://thememinister.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7f1e130d1e05063f0b171a121a121611160c0b1a0d511c1012">[email&#160;protected]</a></td>
+                    <td>98 Green Rd, Dhaka 1215, Bangladesh</td>
+                    <td>V.I.P</td>
+                    <td>27th April,2017</td>
+                    <td><span class="label-danger label label-default">Inctive</span></td>
+                    <td>
+                      <button type="button" class="btn btn-add btn-sm" data-toggle="modal" data-target="#customer1"><i class="fa fa-pencil"></i></button>
+                      <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#customer2"><i class="fa fa-trash-o"></i> </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><img src="assets/dist/img/w3.png" class="img-circle" alt="User Image" width="50" height="50"> </td>
+                    <td>Mrs. Jorina Begum</td>
+                    <td>+8801674688663</td>
+                    <td><a href="http://thememinister.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="afcec3ddced5d6efdbc7cac2cac2c6c1c6dcdbcadd81ccc0c2">[email&#160;protected]</a></td>
+                    <td>98 Green Rd, Dhaka 1215, Bangladesh</td>
+                    <td>V.I.P</td>
+                    <td>27th April,2017</td>
+                    <td><span class="label-danger label label-default">Inctive</span></td>
+                    <td>
+                      <button type="button" class="btn btn-add btn-sm" data-toggle="modal" data-target="#customer1"><i class="fa fa-pencil"></i></button>
+                      <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#customer2"><i class="fa fa-trash-o"></i> </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><img src="assets/dist/img/w4.png" class="img-circle" alt="User Image" width="50" height="50"> </td>
+                    <td>Mrs. Rabeya Begum</td>
+                    <td>+8801674688663</td>
+                    <td><a href="http://thememinister.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3b5a57495a41427b4f535e565e56525552484f5e4915585456">[email&#160;protected]</a></td>
+                    <td>98 Green Rd, Dhaka 1215, Bangladesh</td>
+                    <td>V.I.P</td>
+                    <td>27th April,2017</td>
+                    <td><span class="label-custom label label-default">Active</span></td>
+                    <td>
+                      <button type="button" class="btn btn-add btn-sm" data-toggle="modal" data-target="#customer1"><i class="fa fa-pencil"></i></button>
+                      <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#customer2"><i class="fa fa-trash-o"></i> </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- customer Modal1 -->
+    <div class="modal fade" id="customer1" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header modal-header-primary">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3><i class="fa fa-user m-r-5"></i> Update Customer</h3>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <form class="form-horizontal">
+                  <fieldset>
+                    <!-- Text input-->
+                    <div class="col-md-4 form-group">
+                      <label class="control-label">Customer Name:</label>
+                      <input type="text" placeholder="Customer Name" class="form-control">
+                    </div>
+                    <!-- Text input-->
+                    <div class="col-md-4 form-group">
+                      <label class="control-label">Email:</label>
+                      <input type="email" placeholder="Email" class="form-control">
+                    </div>
+                    <!-- Text input-->
+                    <div class="col-md-4 form-group">
+                      <label class="control-label">Mobile</label>
+                      <input type="number" placeholder="Mobile" class="form-control">
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label class="control-label">Address</label><br>
+                      <textarea name="address" rows="3"></textarea>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label class="control-label">type</label>
+                      <input type="text" placeholder="type" class="form-control">
+                    </div>
+                    <div class="col-md-12 form-group user-form-group">
+                      <div class="pull-right">
+                        <button type="button" class="btn btn-danger btn-sm">Cancel</button>
+                        <button type="submit" class="btn btn-add btn-sm">Save</button>
+                      </div>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <!-- Modal -->    
+    <!-- Customer Modal2 -->
+    <div class="modal fade" id="customer2" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header modal-header-primary">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3><i class="fa fa-user m-r-5"></i> Delete Customer</h3>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <form class="form-horizontal">
+                  <fieldset>
+                    <div class="col-md-12 form-group user-form-group">
+                      <label class="control-label">Delete Customer</label>
+                      <div class="pull-right">
+                        <button type="button" class="btn btn-danger btn-sm">NO</button>
+                        <button type="submit" class="btn btn-add btn-sm">YES</button>
+                      </div>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
   </section>
 @endsection

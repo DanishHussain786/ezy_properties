@@ -41,11 +41,11 @@
     <!-- Theme style -->
     <link href="{{ asset('app-assets/dist/css/stylecrm.css') }}" rel="stylesheet" type="text/css">
     <!-- Fancy Box CSS Stylesheet -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
-    <!-- Theme style rtl -->
-    <!--<link href="assets/dist/css/stylecrm-rtl.css" rel="stylesheet" type="text/css"/>-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="{{ asset('app-assets/plugins/icheck/skins/all.css') }}" rel="stylesheet" type="text/css">
     <!-- End Theme Layout Style
-      =====================================================================-->
+    =====================================================================-->
   </head>
   <body class="hold-transition sidebar-mini">
       <!--preloader-->
@@ -54,7 +54,7 @@
       </div>
       <!-- Site wrapper -->
       <div class="wrapper">
-        <header class="main-header">
+        <header class="main-header" id="header_div">
           <a href="index-2.html" class="logo">
             <!-- Logo -->
             <span class="logo-mini">
@@ -382,7 +382,7 @@
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="{{url('user/create')}}">Add User</a></li>
-                  <li><a href="{{url('user')}}">View All Users</a></li>
+                  <li><a href="{{url('user')}}">All Users</a></li>
                 </ul>
               </li>
             </ul>
@@ -439,17 +439,20 @@
       <script src="{{ asset('app-assets/plugins/counterup/jquery.counterup.min.js') }}" type="text/javascript"></script>
       <!-- Monthly js -->
       <script src="{{ asset('app-assets/plugins/monthly/monthly.js') }}" type="text/javascript"></script>
-      <!-- End Page Lavel Plugins
-         =====================================================================-->
-      <!-- Start Theme label Script
-         =====================================================================-->
+      <!-- iCheck js -->
+      <script src="{{ asset('app-assets/plugins/icheck/icheck.min.js') }}" type="text/javascript"></script>
       <!-- Dashboard js -->
       <script src="{{ asset('app-assets/dist/js/dashboard.js') }}" type="text/javascript"></script>
+      <!-- END: Page JS-->
+      <script src="{{ asset('app-assets/js/main.js') }}"></script>
       <!-- End Theme label Script
          =====================================================================-->
-      <script>
-        
-      </script>
+      
+      @if (preg_match('/\buser\b/', Request::path() ))
+        <script src="{{ asset('app-assets/js/user.js') }}"></script> <!-- Category User -->
+      @elseif (preg_match('/\bsub_category\b/', Request::path() ))
+        <script src="{{ asset('app-assets/js/sub_category.js') }}"></script> <!-- Category User -->
+      @endif
    </body>
 </html>
 

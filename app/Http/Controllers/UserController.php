@@ -40,10 +40,10 @@ class UserController extends Controller
 	 */
 	public function store(Request $request) {
 		// \Config::get('constants.statusDraftPublished');
-
 		$rules = array(
 			'first_name' => 'required',
 			'last_name' => 'required',
+			'role' => 'required',
 			'email' => 'required',
 			'contact_no' => 'required',
 			// 'title' => 'required',
@@ -60,6 +60,9 @@ class UserController extends Controller
 		}
 		else {
 			$request_data = $request->all();
+
+			if ( !isset($request_data['password']) )
+				$request_data['password'] = '12345678@9';
 
 			$this->UserObj->saveUpdateUser($request_data);
 
