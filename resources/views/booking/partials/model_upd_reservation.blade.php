@@ -53,6 +53,7 @@
   </select>
 </div>
 
+{{--
 <div class="form-group {{$data['other_charges'] == 'No' ? 'd-none' : ''}} hidden_charges col-md-4 col-sm-6 col-xs-12">
   <label class="control-label" for="dewa_ch">DEWA Charges</label>
   <input type="number" class="form-control full_width" placeholder="0" value="{{$data['dewa_charges']}}" id="dewa_ch" name="dewa_ch">
@@ -61,6 +62,8 @@
   <label class="control-label" for="wifi_ch">Wifi Charges</label>
   <input type="number" class="form-control full_width" placeholder="0" value="{{$data['wifi_charges']}}" id="wifi_ch" name="wifi_ch">
 </div>
+--}}
+
 <div class="form-group {{$data['other_charges'] == 'No' ? 'd-none' : ''}} hidden_charges col-md-4 col-sm-6 col-xs-12">
   <label class="control-label" for="admin_ch">Admin Fee</label>
   <input type="number" class="form-control full_width" placeholder="0" value="{{$data['admin_charges']}}" id="admin_ch" name="admin_ch">
