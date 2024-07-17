@@ -50,8 +50,6 @@
           </td>
           <td>
             <strong class="font-sm">Markup Rent: </strong>{{ default_value($item['markup_rent'], "num") }}<br>
-            <strong class="font-sm">Dewa Charges: </strong>{{ default_value($item['dewa_charges'], "num") }}<br>
-            <strong class="font-sm">Wifi Charges: </strong>{{ default_value($item['wifi_charges'], "num") }}<br>
             <strong class="font-sm">Admin Charges: </strong>{{ default_value($item['admin_charges'], "num") }}<br>
             <strong class="font-sm">Security Charges: </strong>{{ default_value($item['security_charges'], "num") }}
           </td>
