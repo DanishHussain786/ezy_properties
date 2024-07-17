@@ -37,47 +37,31 @@
     </thead>
     <tbody>
       <tr>
-        <td>Monthly Rent (${{$monthly_rent}}) </td>
+        <td>Monthly Rent ({{$monthly_rent}}) </td>
         <td>{{$months}}</td>
-        <td>${{$monthly_rent * $months}}</td>
+        <td>{{$monthly_rent * $months}} AED</td>
         @php $net_total += $monthly_rent * $months @endphp
       </tr>
-      @if ($data['dewa_charges'] > 0)
-      <tr>
-        <td>Dewa Charges ({{$data['dewa_charges']}}) </td>
-        <td>{{$months}}</td>
-        <td>${{$data['dewa_charges'] * $months}}</td>
-        @php $net_total += $data['dewa_charges'] * $months @endphp
-      </tr>
-      @endif
-      @if ($data['wifi_charges'] > 0)
-      <tr>
-        <td>WiFi Charges ({{$data['wifi_charges']}}) </td>
-        <td>{{$months}}</td>
-        <td>${{$data['wifi_charges'] * $months}}</td>
-        @php $net_total += $data['wifi_charges'] * $months @endphp
-      </tr>
-      @endif
       @if ($data['admin_charges'] > 0)
       <tr>
         <td>Admin Charges ({{$data['admin_charges']}}) </td>
-        <td>{{$months}}</td>
-        <td>${{$data['admin_charges'] * $months}}</td>
-        @php $net_total += $data['admin_charges'] * $months @endphp
+        <td>1</td>
+        <td>{{$data['admin_charges']}} AED</td>
+        @php $net_total += $data['admin_charges'] @endphp
       </tr>
-      @endif
+      @endif  
       @if ($data['security_charges'] > 0)
       <tr>
         <td>Security Charges ({{$data['security_charges']}}) </td>
-        <td>{{$months}}</td>
-        <td>${{$data['security_charges'] * $months}}</td>
-        @php $net_total += $data['security_charges'] * $months @endphp
+        <td>1</td>
+        <td>{{$data['security_charges']}} AED</td>
+        @php $net_total += $data['security_charges'] @endphp
       </tr>
       @endif
       <tr>
         <td><strong>Total</strong></td>
-        <td><strong>Hehehe</strong></td>
-        <td><strong>$385.00</strong></td>
+        <td><strong></strong></td>
+        <td><strong>{{$net_total}} AED</strong></td>
       </tr>
     </tbody>
   </table>
