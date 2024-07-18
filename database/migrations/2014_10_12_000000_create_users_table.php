@@ -21,6 +21,7 @@ return new class extends Migration
       $table->string('dob', 100)->nullable();
       $table->string('contact_no', 100)->nullable();
       $table->string('whatsapp_no', 100)->nullable();
+      $table->string('profile_photo')->nullable();
       $table->string('home_address')->nullable();
       $table->string('email', 150)->unique();
       $table->string('emirates_id', 100)->nullable();

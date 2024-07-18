@@ -347,7 +347,11 @@ hr {
 /* margins & paddings */
 
 .m-0 {
-  margin: 0;
+  margin: 0px;
+}
+
+.m-1 {
+  margin: 1px;
 }
 
 .m-t-0 {
@@ -368,6 +372,10 @@ hr {
 
 .m-r-15 {
   margin-right: 15px;
+}
+
+.m-r-rem {
+  margin-right: 1rem;
 }
 
 .m-b {
@@ -5503,7 +5511,7 @@ table.text-center th {
 
 .card-content-summary {
   background-color: #fff;
-  padding: 15px;
+  padding: 5px;
 }
 
 .card-content-summary p {
@@ -6157,4 +6165,30 @@ table.text-center th {
 
 .radio-boxes{
   display: inline-flex;
+}
+
+.full_width {
+  width: 100%;
+}
+
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.left-align {
+  display: flex;
+  width: 50%;
+  margin-right: 1%;
+}
+
+.right-align {
+  width: 20%;
+}
+
+@media (max-width: 768px) {
+  .filter-form>* {
+    flex: 1 1 100%;
+  }
 }

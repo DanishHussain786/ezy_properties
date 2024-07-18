@@ -130,36 +130,26 @@ jQuery(document).ready(function() {
       }
     }
   );
+  */
 
-  $(document).on(
-    "click",
-    ".pagination_links .pagination a",
+  $(document).on("click", ".pagination_links .pagination a",
     function(event) {
       event.preventDefault();
-
       var page = $(this).attr("href").split("page=")[1];
       $("#filterPage").val(page);
       getAjaxData();
     }
   );
 
-  $(document).on(
-    "change",
-    ".formFilter",
-    throttle(function(event) {
+  $(document).on("change", ".formFilter", throttle(function(event) {
       event.preventDefault();
-
       $("#filterPage").val(1);
       getAjaxData();
     }, 200)
   );
 
-  $(document).on(
-    "keyup",
-    ".formFilter",
-    throttle(function(event) {
+  $(document).on("keyup", ".formFilter", throttle(function(event) {
       event.preventDefault();
-
       $("#filterPage").val(1);
       getAjaxData();
     }, 800)
@@ -167,12 +157,12 @@ jQuery(document).ready(function() {
 
   $(document).on("click", ".formReset", function(event) {
     event.preventDefault();
-
     clearFormFields();
     $("#filterPage").val(1);
     getAjaxData();
   });
 
+  /*
   $(document).on("click", "#viewButton", function(event) {
     let href = $(this).attr("data-url");
     let model_type = $(this).attr("data-model");
@@ -225,6 +215,7 @@ jQuery(document).ready(function() {
     });
   });
 });
+*/
 
 // delay ajax request call on keypress, keyup, keydown, change event etc.
 function throttle(f, delay) {
@@ -240,15 +231,18 @@ function throttle(f, delay) {
 }
 
 function clearFormFields() {
-  var route = $("#route_name").val();
-  if (route === "service") {
-    $("#select2-category").select2("val", "");
-    $("#select2-category").val("").trigger("change");
-    $("#title").val("");
-    $("#select2-orderBy_name").select2("val", "");
-    $("#select2-orderBy_name").val("").trigger("change");
-    $("#select2-orderBy_value").select2("val", "");
-    $("#select2-orderBy_value").val("").trigger("change");
+  var route = $(".route_name").val();
+  if (route === "user") {
+    $("#search_user").val("");
+    $("#user_status").val("").trigger("change");
+
+    // $("#select2-category").select2("val", "");
+    // $("#select2-category").val("").trigger("change");
+    // $("#title").val("");
+    // $("#select2-orderBy_name").select2("val", "");
+    // $("#select2-orderBy_name").val("").trigger("change");
+    // $("#select2-orderBy_value").select2("val", "");
+    // $("#select2-orderBy_value").val("").trigger("change");
   }
   // else if (route === 'other') {
   // other routes here
@@ -266,13 +260,12 @@ function getAjaxData(data) {
       $(".loaderOverlay").fadeOut();
       $("#table_data").html(response);
 
-      if (feather) {
-        feather.replace({
-          width: 14,
-          height: 14,
-        });
-      }
-    },
+      // if (feather) {
+      //   feather.replace({
+      //     width: 14,
+      //     height: 14,
+      //   });
+      // }
+    }
   });
 }
-*/

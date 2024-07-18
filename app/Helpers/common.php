@@ -42,3 +42,52 @@ if (!function_exists('is_image_exist')) {
     }
   }
 }
+
+if (!function_exists('upload_assets')) {
+  function upload_assets($imageData, $original = false, $optimized = false, $thumbnail = false, $inStorage = true) {
+    if (isset($imageData['fileName']) && isset($imageData['uploadfileObj']) && isset($imageData['fileObj']) && isset($imageData['folderName'])) {
+      $fileName = $imageData['fileName'];
+      $uploadfileObj = $imageData['uploadfileObj'];
+      $fileObj = $imageData['fileObj'];
+      $folderName = $imageData['folderName'];
+      $storagePath = '';
+      if ($inStorage) {
+        $storagePath = 'storage/';
+      }
+
+      if ($original) {
+        $destinationPath = public_path('/' . $storagePath . '' . $folderName);
+        if (!file_exists($destinationPath)) {
+          mkdir($destinationPath, 0777, true);
+        }
+        $uploadfileObj->move($destinationPath, $fileName);
+        $imagePath = $folderName . '/' . $fileName;
+      }
+
+      if ($optimized) {
+        $destinationPath = public_path('/' . $storagePath . '' . $folderName . '/optimized');
+        if (!file_exists($destinationPath)) {
+          mkdir($destinationPath, 0777, true);
+        }
+        $fileObj->save($destinationPath . '/' . $fileName, 25);
+        $imagePath = $folderName . '/optimized/' . $fileName;
+      }
+
+      if ($thumbnail) {
+        $destinationPath = public_path('/' . $storagePath . '' . $folderName . '/thumbnail');
+        if (!file_exists($destinationPath)) {
+          mkdir($destinationPath, 0777, true);
+        }
+        $fileObj->resize(200, 200, function ($constraint) {
+          $constraint->aspectRatio();
+        })->save($destinationPath . '/' . $fileName);
+      }
+    }
+
+    if (isset($imagePath)) {
+      return $imagePath;
+    } else {
+      return false;
+    }
+  }
+}

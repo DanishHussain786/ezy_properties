@@ -82,15 +82,38 @@ class User extends Authenticatable
     // if (isset($posted_data['email'])) {
     //   $query = $query->where('users.email', $posted_data['email']);
     // }
-    // if (isset($posted_data['first_name'])) {
-    //   $query = $query->where('users.first_name', 'like', '%' . $posted_data['first_name'] . '%');
-    // }
-    // if (isset($posted_data['last_name'])) {
-    //   $query = $query->where('users.last_name', 'like', '%' . $posted_data['last_name'] . '%');
-    // }
-    // if (isset($posted_data['full_name'])) {
-    //   $query = $query->where('users.full_name', 'like', '%' . $posted_data['full_name'] . '%');
-    // }
+    if (isset($posted_data['first_name'])) {
+      $query = $query->where('users.first_name', 'like', '%' . $posted_data['first_name'] . '%');
+    }
+    if (isset($posted_data['last_name'])) {
+      $query = $query->where('users.last_name', 'like', '%' . $posted_data['last_name'] . '%');
+    }
+    if (isset($posted_data['search_user'])) {
+      $str = $posted_data['search_user'];
+      if ($str == trim($str) && strpos($str, ' ') !== false) {
+        $query = $query->where(
+          function ($query) use ($str) {
+            $str_ary = explode(' ', $str);
+            return $query
+              ->where('users.first_name', 'like', '%' . $str_ary[0] . '%')
+              ->orwhere('users.last_name', 'like', '%' . $str_ary[1] . '%');
+          }
+        );
+      }
+      else {
+        $query = $query->where(
+          function ($query) use ($str) {
+            return $query
+              ->where('users.first_name', 'like', '%' . $str . '%')
+              ->orwhere('users.last_name', 'like', '%' . $str . '%');
+          }
+        );
+      }
+    }
+    if (isset($posted_data['status'])) {
+      $query = $query->where('users.status', $posted_data['status']);
+    }
+
     // if (isset($posted_data['email_verification_code'])) {
     //   $query = $query->where('users.email_verification_code', $posted_data['email_verification_code']);
     // }
@@ -101,27 +124,6 @@ class User extends Authenticatable
     // }
     // if (isset($posted_data['stripe_customer_id'])) {
     //   $query = $query->whereNull('users.stripe_customer_id', $posted_data['stripe_customer_id']);
-    // }
-    // if (isset($posted_data['phone_number'])) {
-    //   $query = $query->where('users.phone_number', $posted_data['phone_number']);
-    // }
-    // if (isset($posted_data['user_status'])) {
-    //   $query = $query->where('users.user_status', $posted_data['user_status']);
-    // }
-    // if (isset($posted_data['user_type'])) {
-    //   $query = $query->where('users.user_type', $posted_data['user_type']);
-    // }
-    // if (isset($posted_data['last_seen'])) {
-    //   $query = $query->where('users.last_seen', $posted_data['last_seen']);
-    // }
-    // if (isset($posted_data['time_spent'])) {
-    //   $query = $query->where('users.time_spent', $posted_data['time_spent']);
-    // }
-    // if (isset($posted_data['overall_ratings'])) {
-    //   $query = $query->where('users.overall_ratings', $posted_data['overall_ratings']);
-    // }
-    // if (isset($posted_data['theme_mode'])) {
-    //   $query = $query->where('users.theme_mode', $posted_data['theme_mode']);
     // }
     // if (isset($posted_data['login_having_thirty_minutes'])) {
     //   $query = $query->where('users.last_seen', '<=', $posted_data['login_having_thirty_minutes']);
