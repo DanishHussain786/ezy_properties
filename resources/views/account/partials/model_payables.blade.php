@@ -24,8 +24,12 @@
     </div>
   </div>
 
-  @php $monthly_rent = $data['charge_rent'] @endphp
+  @php $monthly_rent = $data['rent'] @endphp
   @php $months = $data['for_months'] @endphp
+
+  @if ($data['markup_rent'] > 0)
+    @php $monthly_rent += $data['markup_rent']; @endphp
+  @endif
 
   <table class="table table-bordered table-styles">
     <thead>
@@ -60,10 +64,10 @@
       @endif
       @if ($data['disc_rent'] > 0)
       <tr>
-        <td>Monthly Rent Discount ({{$data['disc_rent'] / $months}} AED) </td>
+        <td>Monthly Rent Discount ({{$data['disc_rent']}} AED) </td>
         <td>{{$months}}</td>
         <td>- {{$data['disc_rent']}} AED</td>
-        @php $net_total -= $data['disc_rent'] @endphp
+        @php $net_total -= ($data['disc_rent'] * $months) @endphp
       </tr>
       @endif
       <tr>
