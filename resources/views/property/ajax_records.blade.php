@@ -6,7 +6,8 @@
         <th>Type</th>
         <th>Property No.</th>
         <th>Floor</th>
-        <th>Rent</th>
+        <th>Other<br>Charges</th>
+        <th>Gross Rent</th>
         <th>Status</th>
         <th>Action</th>
       </tr>
@@ -35,7 +36,13 @@
           <td>{{ $item['prop_type'] }}</td>
           <td>{{ isset($item['prop_number']) ? $item['prop_number'] : "N/A" }}</td>
           <td>{{ $item['prop_floor'] }}</td>
-          <td>{{ $item['prop_rent'] }}</td>
+          <td>
+            <strong class="font-sm">Basic Rent: </strong>{{ default_value($item['prop_rent'], "num") }}<br>
+            <strong class="font-sm">Dewa Charges: </strong>{{ default_value($item['dewa_charges'], "num") }}<br>
+            <strong class="font-sm">Wifi Charges: </strong>{{ default_value($item['wifi_charges'], "num") }}<br>
+            <strong class="font-sm">Misc Charges: </strong>{{ default_value($item['misc_charges'], "num") }}<br>
+          </td>
+          <td>{{ $item['prop_net_rent'] }}</td>
           <td><span class="{{$label_class}} label label-pill">{{$item['prop_status']}}</span></td>
           <td>
             <button type="button" class="btn btn-add btn-sm update_property_btn mb-3" title="Update Property" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
