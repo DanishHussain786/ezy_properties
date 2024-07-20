@@ -8,9 +8,8 @@
         <th>Check In/Out</th>
         <th>Property</th>
         <th>Others</th>
-        <th>Charges</th>
-        <th>Initial<br>Deposit</th>
-        <th>Last<br>Paid On</th>
+        <th>Balance</th>
+        <th>Total<br>Payable</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -21,14 +20,14 @@
       
         @php
           $sr_no = $key + 1;
-          $init_dep = 0;
-          $last_paid = 'N/A';
-          if ($item->transaction_data()->exists()) {
-            if ($item->transaction_data->type == 'Initial-Deposit') {
-              $init_dep = $item->transaction_data->amount;
-              $last_paid = $item->transaction_data->created_at;
-            }
-          }
+          //$init_dep = 0;
+          //$last_paid = 'N/A';
+          //if ($item->transaction_data()->exists()) {
+          //  if ($item->transaction_data->type == 'Initial-Deposit') {
+          //    $init_dep = $item->transaction_data->amount;
+          //    $last_paid = $item->transaction_data->created_at;
+          //  }
+          //}
           
           if ($data['records']->currentPage()>1) {
             $sr_no = ($data['records']->currentPage()-1)*$data['records']->perPage();
@@ -56,21 +55,20 @@
             <strong class="font-sm">Admin Charges: </strong>{{ default_value($item['admin_charges'], "num") }}<br>
             <strong class="font-sm">Security Charges: </strong>{{ default_value($item['security_charges'], "num") }}
           </td>
-          <td>{{ $item['net_total'] }}</td>
-          <td>{{ $init_dep }}</td>
-          <td>{{ $last_paid }}</td>
+          <td>{{ $item['balance'] }}</td>
+          <td>{{ $item['total_payable'] }}</td>
           <td>
-            @if ($init_dep == 0)
+            {{-- @if ($init_dep == 0) --}}
             <button type="button" class="btn btn-add btn-sm update_reservation_btn mb-3" title="Update Reservation" data-item_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
-            @endif
+            {{-- @endif --}}
 
-            @if ($init_dep == 0)
+            {{-- @if ($init_dep == 0) --}}
             <button type="button" class="btn btn-danger btn-sm delete_btn mb-3" title="Delete Reservation" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_reservation_popup"><i class="fa fa-trash-o"></i> </button>
-            @endif
+            {{-- @endif --}}
 
-            <button type="button" class="btn btn-purple btn-sm checkin_btn mb-3" title="Check In" data-item_id="{{$item['id']}}" data-metadata="porp={{$item->property_data->id}},resu={{$item->booked_for_user->id}},latot={{$item['net_total']}}"  data-toggle="modal" data-target="#"><i class="fa fa-calendar-plus-o"></i> </button>
+            <button type="button" class="btn btn-purple btn-sm checkin_btn mb-3" title="Check In" data-item_id="{{$item['id']}}" data-metadata="porp={{$item->property_data->id}},resu={{$item->booked_for_user->id}},latot={{$item['total_payable']}}"  data-toggle="modal" data-target="#"><i class="fa fa-calendar-plus-o"></i> </button>
 
-            <button type="button" class="btn btn-success btn-sm initial_deposit_btn mb-3" title="Add Payment" data-total="{{$item['net_total']}}" data-item_id="{{$item['id']}}" data-metadata="porp={{$item->property_data->id}},resu={{$item->booked_for_user->id}}"  data-toggle="modal" data-target="#"><i class="fa fa-money"></i> </button>
+            <button type="button" class="btn btn-success btn-sm initial_deposit_btn mb-3" title="Add Payment" data-total="{{$item['total_payable']}}" data-item_id="{{$item['id']}}" data-metadata="porp={{$item->property_data->id}},resu={{$item->booked_for_user->id}}"  data-toggle="modal" data-target="#"><i class="fa fa-money"></i> </button>
           </td>
         </tr>
       @endforeach
