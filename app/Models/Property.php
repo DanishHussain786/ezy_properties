@@ -89,11 +89,11 @@ class Property extends Model
 
   public function saveUpdateProperty($posted_data = array(), $where_posted_data = array())
   {
-    $posted_data = array_filter($posted_data);
     if (isset($posted_data['update_id'])) {
       $data = Property::find($posted_data['update_id']);
     } else {
       $data = new Property;
+      $posted_data = array_filter($posted_data);
     }
 
     if (isset($where_posted_data) && count($where_posted_data) > 0) {
@@ -126,13 +126,19 @@ class Property extends Model
       $data->other_charges = $posted_data['other_charges'];
     }
     if (isset($posted_data['dewa_charges'])) {
-      $data->dewa_charges = $posted_data['dewa_charges'];
+      if ($posted_data['dewa_charges'] == 'set_null') $data->dewa_charges = NULL;
+      else $data->dewa_charges = $posted_data['dewa_charges'];
     }
     if (isset($posted_data['wifi_charges'])) {
-      $data->wifi_charges = $posted_data['wifi_charges'];
+      if ($posted_data['wifi_charges'] == 'set_null') $data->wifi_charges = NULL;
+      else $data->wifi_charges = $posted_data['wifi_charges'];
     }
     if (isset($posted_data['misc_charges'])) {
-      $data->misc_charges = $posted_data['misc_charges'];
+      if ($posted_data['misc_charges'] == 'set_null') $data->misc_charges = NULL;
+      else $data->misc_charges = $posted_data['misc_charges'];
+    }
+    if (isset($posted_data['prop_net_rent'])) {
+      $data->prop_net_rent = $posted_data['prop_net_rent'];
     }
     if (isset($posted_data['prop_address'])) {
       $data->prop_address = $posted_data['prop_address'];
