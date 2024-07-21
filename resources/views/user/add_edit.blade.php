@@ -1,11 +1,11 @@
 @if (isset($data->id))
-  @section('title', 'Update Chapter')
+  @php $title = 'Update User' @endphp
 @else
-  @section('title', 'Add Chapter')
+  @php $title = 'Add User' @endphp
 @endif
 
+@section('title', $title)
 @extends('master')
-
 @section('content-view')
   <section class="content-header">
     <div class="header-icon">
@@ -13,7 +13,7 @@
     </div>
     <div class="header-title">
       <h1>User Panel</h1>
-      <small>Add User</small>
+      <small>{{ $title }}</small>
     </div>
   </section>
   
@@ -24,28 +24,29 @@
         <div class="panel panel-bd lobidrag">
           <div class="panel-heading">
             <div class="btn-group"> 
-              <a class="btn btn-add" href="{{url('user')}}">
+              <a class="btn btn-add" href="{{url($data['route_name'])}}">
                 <i class="fa fa-list"></i> User List 
               </a>
             </div>
           </div>
           <div class="panel-body">
+            @if (Session::has('message'))
+              <div class="alert alert-success"><b>Success: </b>{{ Session::get('message') }}</div>
+            @endif
+            @if (Session::has('error_message'))
+              <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
+            @endif
+
             @if (isset($data->id))
-            <form class="form" action="{{ route('user.update', $data->id) }}" method="post" enctype="multipart/form-data">
+            <form class="form" action="{{ route($data['route_name'].'.update', $data->id) }}" method="post" enctype="multipart/form-data">
             @method('PUT')
             <input type="hidden" name="update_id" value="{{$data->id}}">
             @else
-            <form class="form col-sm-12" action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="form col-sm-12" action="{{ route($data['route_name'].'.store') }}" method="POST" enctype="multipart/form-data">
             @endif
             @csrf
 
-              @if (Session::has('message'))
-              <div class="alert alert-success"><b>Success: </b>{{ Session::get('message') }}</div>
-              @endif
-              @if (Session::has('error_message'))
-              <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
-              @endif
-              <div class="form-group col-sm-6">
+              <div class="form-group col-md-4 col-sm-6">
                 <label>First Name</label>
                 <input type="text" name="first_name" value="{{old('first_name', isset($data->first_name)? $data->first_name: '')}}" class="form-control @error('first_name') is-invalid @enderror" placeholder="Enter first name">
                 @error('first_name')
@@ -54,7 +55,7 @@
                   <span class="invalid-feedback" role="alert"></span>
                 @enderror
               </div>
-              <div class="form-group col-sm-6">
+              <div class="form-group col-md-4 col-sm-6">
                 <label>Last Name</label>
                 <input type="text" name="last_name" value="{{old('last_name', isset($data->last_name)? $data->last_name: '')}}" class="form-control @error('last_name') is-invalid @enderror" placeholder="Enter last name">
                 @error('last_name')
@@ -64,14 +65,15 @@
                 @enderror
               </div>
               
-              <div class="form-group col-sm-6">
+              <div class="form-group col-md-4 col-sm-6">
                 <label>Role</label>
                 <select class="form-control @error('role') is-invalid @enderror" id="role" name="role">
-                  <option value=""> ---- Choose an option ---- </option>
-                  <option {{ old('role') == 'Manager' ? 'selected': '' }} value="Manager"> Manager </option>
-                  <option {{ old('role') == 'Agent' ? 'selected': '' }} value="Agent"> Agent </option>
-                  <option {{ old('role') == 'Staff' ? 'selected': '' }} value="Staff"> Staff </option>
-                  <option {{ old('role') == 'Customer' ? 'selected': '' }} value="Customer"> Customer </option>
+                  <option value=""> ---- Choose any role ---- </option>
+                  @if (isset($data['roles']) && count($data['roles']) > 0 )
+                    @foreach ($data['roles'] as $key => $role)
+                      <option {{ old('role') == $role || (isset($data->role) && $data->role == $role) ? 'selected': '' }} value="{{$role}}"> {{$role}} </option>
+                    @endforeach
+                  @endif
                 </select>
                 @error('role')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
@@ -80,7 +82,7 @@
                 @enderror
               </div>
               
-              <div class="form-group col-sm-6">
+              <div class="form-group col-md-4 col-sm-6">
                 <label>Email</label>
                 <input type="email" name="email" value="{{old('email', isset($data->email)? $data->email: '')}}" class="form-control @error('email') is-invalid @enderror" placeholder="Enter email address">
                 @error('email')
@@ -90,22 +92,27 @@
                 @enderror
               </div>
 
-              @if(isset($data->profile_image) && !empty($data->profile_image))
-                @php $img_path = $data->profile_image; @endphp
+              @if(isset($data->profile_photo) && !empty($data->profile_photo))
+                @php $img_path = $data->profile_photo; @endphp
               @else
                 @php $img_path = ""; @endphp
               @endif
-              <div class="form-group col-sm-6">
-                <label for="profile_image">Photo</label>
+              <div class="form-group col-md-4 col-sm-6">
+                <label for="profile_photo">Photo</label>
                 <div class="input-group" style="width: 95%; display: inline-flex;">
                   <div class="display_images">
                     <a data-fancybox="demo" class="form-control" style="padding: 0px !important;"><img title="{{ $img_path }}" src="{{ is_image_exist($img_path, 'profile') }}" height="100" onclick="showModal(this.src)"></a>
                   </div>
-                  <input type="file" id="profile_image" class="form-control" placeholder="Profile Image" name="profile_image">
+                  <input type="file" id="profile_photo" class="form-control" placeholder="Profile Image" name="profile_photo">
+                  @error('profile_photo')
+                    <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+                  @else
+                    <span class="invalid-feedback" role="alert"></span>
+                  @enderror
                 </div>
               </div>
 
-              <div class="form-group col-sm-6">
+              <div class="form-group col-md-4 col-sm-6">
                 <label>Contact Number</label>
                 <input type="number" name="contact_no" value="{{old('contact_no', isset($data->contact_no)? $data->contact_no: '')}}" class="form-control @error('contact_no') is-invalid @enderror" placeholder="Enter mobile number">
                 @error('contact_no')
@@ -115,10 +122,30 @@
                 @enderror
               </div>
 
-              <div class="form-group col-sm-6">
-                <label>Emirates ID</label>
-                <input type="text" name="emirates_id" value="{{old('emirates_id', isset($data->emirates_id)? $data->emirates_id: '')}}" class="form-control @error('emirates_id') is-invalid @enderror" placeholder="Enter emirates id">
-                @error('emirates_id')
+              @if(isset($data->passport_photo) && !empty($data->passport_photo))
+                @php $img_path = $data->passport_photo; @endphp
+              @else
+                @php $img_path = ""; @endphp
+              @endif
+              <div class="form-group col-md-4 col-sm-6">
+                <label>Passport Photo</label>
+                <div class="input-group" style="width: 95%; display: inline-flex;">
+                  <div class="display_images">
+                    <a data-fancybox="demo" class="form-control" style="padding: 0px !important;"><img title="{{ $img_path }}" src="{{ is_image_exist($img_path) }}" height="100" onclick="showModal(this.src)"></a>
+                  </div>
+                  <input type="file" id="passport_photo" class="form-control" placeholder="Profile Image" name="passport_photo">
+                </div>
+                @error('passport_photo')
+                  <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+                @else
+                  <span class="invalid-feedback" role="alert"></span>
+                @enderror
+              </div>
+
+              <div class="form-group col-md-4 col-sm-6">
+                <label>Passport No</label>
+                <input type="text" name="passport_id" value="{{old('passport_id', isset($data->passport_id)? $data->passport_id: '')}}" class="form-control @error('passport_id') is-invalid @enderror" placeholder="Enter passport no">
+                @error('passport_id')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @else
                   <span class="invalid-feedback" role="alert"></span>
@@ -130,7 +157,7 @@
               @else
                 @php $img_path = ""; @endphp
               @endif
-              <div class="form-group col-sm-6">
+              <div class="form-group col-md-4 col-sm-6">
                 <label>Emirates ID Photo</label>
                 <div class="input-group" style="width: 95%; display: inline-flex;">
                   <div class="display_images">
@@ -145,37 +172,27 @@
                 @enderror
               </div>
 
-              <div class="form-group col-sm-6">
-                <label>Passport No</label>
-                <input type="text" name="passport_id" value="{{old('passport_id', isset($data->passport_id)? $data->passport_id: '')}}" class="form-control @error('passport_id') is-invalid @enderror" placeholder="Enter passport no">
-                @error('passport_id')
+              <div class="form-group col-md-4 col-sm-6">
+                <label>Emirates ID</label>
+                <input type="text" name="emirates_id" value="{{old('emirates_id', isset($data->emirates_id)? $data->emirates_id: '')}}" class="form-control @error('emirates_id') is-invalid @enderror" placeholder="Enter emirates id">
+                @error('emirates_id')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @else
                   <span class="invalid-feedback" role="alert"></span>
                 @enderror
               </div>
 
-              @if(isset($data->passport_photo) && !empty($data->passport_photo))
-                @php $img_path = $data->passport_photo; @endphp
-              @else
-                @php $img_path = ""; @endphp
-              @endif
-              <div class="form-group col-sm-6">
-                <label>Passport Photo</label>
-                <div class="input-group" style="width: 95%; display: inline-flex;">
-                  <div class="display_images">
-                    <a data-fancybox="demo" class="form-control" style="padding: 0px !important;"><img title="{{ $img_path }}" src="{{ is_image_exist($img_path) }}" height="100" onclick="showModal(this.src)"></a>
-                  </div>
-                  <input type="file" id="passport_photo" class="form-control" placeholder="Profile Image" name="passport_photo">
-                </div>
-                @error('passport_photo')
+              <div class="form-group col-md-4 col-sm-6">
+                <label>Date of Birth</label>
+                <input id="minMaxExample" type="text" name="dob" value="{{old('dob', isset($data->dob)? $data->dob: '')}}" class="form-control @error('dob') is-invalid @enderror" placeholder="Enter date of birth">
+                @error('dob')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @else
                   <span class="invalid-feedback" role="alert"></span>
                 @enderror
               </div>
               
-              <div class="form-group col-sm-6">
+              <div class="form-group col-md-4 col-sm-6">
                 <label>Home Address</label>
                 <textarea name="home_address" class="form-control @error('home_address') is-invalid @enderror" rows="4">{{old('home_address', isset($data->home_address)? $data->home_address: '')}}</textarea>
                 @error('home_address')
@@ -185,17 +202,7 @@
                 @enderror
               </div>
 
-              <div class="form-group col-sm-6">
-                <label>Date of Birth</label>
-                <input id="minMaxExample" type="text" name="dob" value="{{old('dob', isset($data->dob)? $data->dob: '')}}" class="form-control @error('dob') is-invalid @enderror" placeholder="Enter date of birth">
-                @error('dob')
-                  <span class="invalid-feedback" role="alert"> {{ $message }} </span>
-                @else
-                  <span class="invalid-feedback" role="alert"></span>
-                @enderror
-              </div>
-
-              <div class="form-group skin-square col-sm-6">
+              <div class="form-group skin-square col-md-4 col-sm-6">
                 <label>Gender</label><br>                
                 <div class="radio-boxes">
                   <div class="i-check">
@@ -214,7 +221,7 @@
                 @enderror
               </div>
 
-              <div class="form-group skin-square col-sm-6">
+              <div class="form-group skin-square col-md-4 col-sm-6">
                 <label>Status</label><br>                
                 <div class="radio-boxes">
                   <div class="i-check">
@@ -243,28 +250,4 @@
       </div>
     </div>
   </section>
-
-  <script>
-    function showModal(src) {
-      const modal = document.getElementById('imageModal');
-      const back_content = document.getElementById('header_div');
-      const modalImg = document.getElementById('imageModalContent');
-      modal.style.display = 'block';
-      back_content.style.display = 'none';
-      modalImg.src = src;
-
-      const closeModal = document.getElementById('closeModal');
-      closeModal.onclick = function() {
-        modal.style.display = 'none';
-        back_content.style.display = 'block';
-      }
-
-      window.onclick = function(event) {
-        if (event.target == modal) {
-          modal.style.display = 'none';
-          back_content.style.display = 'block';
-        }
-      }
-    }
-  </script>
 @endsection

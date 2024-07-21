@@ -6113,6 +6113,20 @@ table.text-center th {
   text-transform: uppercase;
 }
 
+.label-min {
+  max-width: 100%;
+  margin-bottom: 2px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.input-min {
+  width: 95%;    
+  height: 25px;
+  padding: 0px 6px;
+  font-size: 14px;
+}
+
 .menu_img_icons {
   width: 20px;
   height: 20px;

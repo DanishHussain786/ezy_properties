@@ -28,15 +28,15 @@ if (!function_exists('is_image_exist')) {
 
     $storagePath = '';
     if ($inStorage) {
-      $storagePath = 'storage/';
+      $storagePath = 'storage';
     }
 
     if ($image_path == '' || is_null($image_path)) {
       return $asset_url;
     } else if ($is_public_path && (file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $image_path) || file_exists(public_path() . '/' . $image_path))) {
       return $base_url . '/' . $image_path;
-    } else if (!$is_public_path && (file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $storagePath . '' . $image_path) || file_exists(public_path() . '/' . $storagePath . '' . $image_path))) {
-      return $base_url . '/' . $storagePath . '' . $image_path;
+    } else if (!$is_public_path && (file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $storagePath . '/' . $image_path) || file_exists(public_path() . '/' . $storagePath . '/' . $image_path))) {
+      return $base_url . '/' . $storagePath . '/' . $image_path;
     } else {
       return $asset_url;
     }
@@ -44,50 +44,107 @@ if (!function_exists('is_image_exist')) {
 }
 
 if (!function_exists('upload_assets')) {
-  function upload_assets($imageData, $original = false, $optimized = false, $thumbnail = false, $inStorage = true) {
-    if (isset($imageData['fileName']) && isset($imageData['uploadfileObj']) && isset($imageData['fileObj']) && isset($imageData['folderName'])) {
-      $fileName = $imageData['fileName'];
-      $uploadfileObj = $imageData['uploadfileObj'];
-      $fileObj = $imageData['fileObj'];
-      $folderName = $imageData['folderName'];
-      $storagePath = '';
-      if ($inStorage) {
-        $storagePath = 'storage/';
-      }
+  function upload_assets($asset_data, $folder_name = false, $original = false, $optimized = false, $thumbnail = false, $inStorage = true) {
+    $extension = strtolower($asset_data->getClientOriginalExtension());
+    $fileName = time() . '_' . rand(1000000, 9999999) . '.' . $extension;
+    $uploadfileObj = $asset_data;
+    $folderName = $folder_name;
 
-      if ($original) {
-        $destinationPath = public_path('/' . $storagePath . '' . $folderName);
-        if (!file_exists($destinationPath)) {
-          mkdir($destinationPath, 0777, true);
-        }
-        $uploadfileObj->move($destinationPath, $fileName);
-        $imagePath = $folderName . '/' . $fileName;
-      }
-
-      if ($optimized) {
-        $destinationPath = public_path('/' . $storagePath . '' . $folderName . '/optimized');
-        if (!file_exists($destinationPath)) {
-          mkdir($destinationPath, 0777, true);
-        }
-        $fileObj->save($destinationPath . '/' . $fileName, 25);
-        $imagePath = $folderName . '/optimized/' . $fileName;
-      }
-
-      if ($thumbnail) {
-        $destinationPath = public_path('/' . $storagePath . '' . $folderName . '/thumbnail');
-        if (!file_exists($destinationPath)) {
-          mkdir($destinationPath, 0777, true);
-        }
-        $fileObj->resize(200, 200, function ($constraint) {
-          $constraint->aspectRatio();
-        })->save($destinationPath . '/' . $fileName);
-      }
+    $storagePath = '';
+    if ($inStorage) {
+      $storagePath = 'storage';
     }
+
+    if ($original) {
+      $destinationPath = public_path('/' . $storagePath . '/' . $folderName);
+      if (!file_exists($destinationPath)) {
+        mkdir($destinationPath, 0777, true);
+      }
+      $uploadfileObj->move($destinationPath, $fileName);
+      $imagePath = $folderName . '/' . $fileName;
+    }
+
+    // if ($optimized) {
+    //   $destinationPath = public_path('/' . $storagePath . '/' . $folderName . '/optimized');
+    //   if (!file_exists($destinationPath)) {
+    //     mkdir($destinationPath, 0777, true);
+    //   }
+    //   $fileObj->save($destinationPath . '/' . $fileName, 25);
+    //   $imagePath = $folderName . '/optimized/' . $fileName;
+    // }
+
+    // if ($thumbnail) {
+    //   $destinationPath = public_path('/' . $storagePath . '/' . $folderName . '/thumbnail');
+    //   if (!file_exists($destinationPath)) {
+    //     mkdir($destinationPath, 0777, true);
+    //   }
+    //   $fileObj->resize(200, 200, function ($constraint) {
+    //     $constraint->aspectRatio();
+    //   })->save($destinationPath . '/' . $fileName);
+    // }
 
     if (isset($imagePath)) {
       return $imagePath;
     } else {
       return false;
     }
+  }
+}
+
+if (!function_exists('unlink_assets')) {
+  function unlink_assets($asset_path, $inStorage = true)
+  {
+    if (isset($asset_path)) {
+      $base_url = public_path();
+      $storagePath = '';
+      if ($inStorage) {
+        $storagePath = 'storage';
+      }
+      $url = $base_url . '/' . $storagePath . '/' . $asset_path;
+
+      if (file_exists($url)) {
+        unlink($url);
+      }
+    }
+    return true;
+  }
+}
+
+if (!function_exists('get_roles')) {
+  function get_roles()
+  {
+    $roles = Config::get('constants.userRoles.all_keys_arr');
+		$roles = array_filter($roles, function($role) {
+			return $role !== 'Master';
+		});
+		
+		return $roles = array_values($roles); // Reindex the array if necessary
+  }
+}
+
+if (!function_exists('get_all_roles')) {
+  function get_all_roles()
+  {
+    return $roles = Config::get('constants.userRoles.all_keys_arr');
+  }
+}
+
+if (!function_exists('get_floors')) {
+  function get_floors()
+  {
+    $floors = [];
+    for ($i = 1; $i <= 100; $i++) {
+      if ($i % 10 == 1 && $i != 11) {
+        $floors[] = $i . 'st';
+      } elseif ($i % 10 == 2 && $i != 12) {
+        $floors[] = $i . 'nd';
+      } elseif ($i % 10 == 3 && $i != 13) {
+        $floors[] = $i . 'rd';
+      } else {
+        $floors[] = $i . 'th';
+      }
+    }
+
+    return $floors;
   }
 }

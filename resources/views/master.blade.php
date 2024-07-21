@@ -363,9 +363,7 @@
           <div class="sidebar">
             <!-- sidebar menu -->
             <ul class="sidebar-menu">
-              @php
-                $class = (strpos($str_slug, "dashboard") !== false) ? 'active' : '';
-              @endphp
+              @php $class = (strpos($str_slug, "dashboard") !== false) ? 'active' : ''; @endphp
               <li class="menu-item {{$class}}">
                 <a href="index-2.html">
                   <i class="fa fa-tachometer"></i><span>Dashboard</span>
@@ -383,6 +381,19 @@
                 <ul class="treeview-menu">
                   <li><a href="{{url('user/create')}}">Add User</a></li>
                   <li><a href="{{url('user')}}">All Users</a></li>
+                </ul>
+              </li>
+              @php $class = (strpos($str_slug, "property") !== false) ? 'active' : ''; @endphp
+              <li class="treeview menu-item {{$class}}">
+                <a href="#">
+                  <i class="fa fa-home"></i><span>Property</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{url('property/create')}}">Add Property</a></li>
+                  <li><a href="{{url('property')}}">All Properties</a></li>
                 </ul>
               </li>
             </ul>

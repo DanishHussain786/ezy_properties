@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class User extends Authenticatable
+class Property extends Model
 {
-  use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+  use HasFactory, SoftDeletes;
+  protected $table = 'properties';
 
   /**
    * The attributes that are mass assignable.
@@ -46,26 +45,22 @@ class User extends Authenticatable
   ];
 
   // public function skills() {
-  //   return $this->hasMany(UserInformation::class, 'user_id', 'id')->with('skill_data')
+  //   return $this->hasMany(PropertyInformation::class, 'user_id', 'id')->with('skill_data')
   //     ->where([
   //         ['info_status', '=' ,'Skill'],
   //     ])->select(['id', 'user_id', 'info_status', 'skill_id', 'created_at', 'updated_at']);
   // }
 
-  public function getUser($posted_data = array())
+  public function getProperty($posted_data = array())
   {
     $columns = ['users.*'];
     $select_columns = array_merge($columns, []);
-    $query = User::latest();
+    $query = Property::latest();
 
     // if (isset($posted_data['without_with']) && $posted_data['without_with']) {
     // } else {
       // $query = $query;
         // ->with('skills')
-        // ->with('portfolio_assets')
-        // ->with('addresses')
-        // ->with('payment_methods')
-        // ->with('profile_likes')
         // ->with('profile_reviews');
     // }
 
@@ -73,15 +68,6 @@ class User extends Authenticatable
       $query = $query->where('users.id', $posted_data['id']);
       $posted_data['detail'] = true;
     }
-    // if (isset($posted_data['users_in'])) {
-    //   $query = $query->whereIn('users.id', $posted_data['users_in']);
-    // }
-    // if (isset($posted_data['users_not_in'])) {
-    //   $query = $query->whereNotIn('users.id', $posted_data['users_not_in']);
-    // }
-    // if (isset($posted_data['email'])) {
-    //   $query = $query->where('users.email', $posted_data['email']);
-    // }
     if (isset($posted_data['first_name'])) {
       $query = $query->where('users.first_name', 'like', '%' . $posted_data['first_name'] . '%');
     }
@@ -113,31 +99,6 @@ class User extends Authenticatable
     if (isset($posted_data['status'])) {
       $query = $query->where('users.status', $posted_data['status']);
     }
-
-    // if (isset($posted_data['email_verification_code'])) {
-    //   $query = $query->where('users.email_verification_code', $posted_data['email_verification_code']);
-    // }
-    // if (isset($posted_data['roles'])) {
-    //   $query = $query->whereHas("roles", function ($qry) use ($posted_data) {
-    //     $qry->where("name", $posted_data['roles']);
-    //   });
-    // }
-    // if (isset($posted_data['stripe_customer_id'])) {
-    //   $query = $query->whereNull('users.stripe_customer_id', $posted_data['stripe_customer_id']);
-    // }
-    // if (isset($posted_data['login_having_thirty_minutes'])) {
-    //   $query = $query->where('users.last_seen', '<=', $posted_data['login_having_thirty_minutes']);
-    // }
-    // if (isset($posted_data['exclude_colums'])) {
-    //   $query = $query->exclude($posted_data['exclude_colums']);
-    // }
-    // if (isset($posted_data['comma_separated_ids'])) {
-    //   $query = $query->selectRaw("GROUP_CONCAT(id) as ids");
-    //   $posted_data['detail'] = true;
-    // }
-    // if (isset($posted_data['created_at'])) {
-    //     $query = $query->where('created_at', $posted_data['created_at']);
-    // }
 
     $query->getQuery()->orders = null;
     if (isset($posted_data['orderBy_name']) && isset($posted_data['orderBy_value'])) {
@@ -171,12 +132,12 @@ class User extends Authenticatable
     return $result;
   }
 
-  public function saveUpdateUser($posted_data = array(), $where_posted_data = array())
+  public function saveUpdateProperty($posted_data = array(), $where_posted_data = array())
   {
     if (isset($posted_data['update_id'])) {
-      $data = User::find($posted_data['update_id']);
+      $data = Property::find($posted_data['update_id']);
     } else {
-      $data = new User;
+      $data = new Property;
     }
 
     if (isset($where_posted_data) && count($where_posted_data) > 0) {
@@ -247,29 +208,23 @@ class User extends Authenticatable
     if (isset($posted_data['deleted_at'])) {
       $data->deleted_at = $posted_data['deleted_at'];
     }
-    // if (isset($posted_data['email_verification_code_set_null'])) {
-    //   $data->email_verification_code = NULL;
-    // }
-    // if (isset($posted_data['remember_token'])) {
-    //   $data->remember_token = $posted_data['remember_token'];
-    // }
     $data->save();
 
-    $data = User::getUser([
+    $data = Property::getProperty([
       'detail' => true,
       'id' => $data->id
     ]);
     return $data;
   }
 
-  public function deleteUser($id = 0, $where_posted_data = array())
+  public function deleteProperty($id = 0, $where_posted_data = array())
   {
     $is_deleted = false;
     if ($id > 0) {
       $is_deleted = true;
-      $data = User::find($id);
+      $data = Property::find($id);
     } else {
-      $data = User::latest();
+      $data = Property::latest();
     }
 
     if (isset($where_posted_data) && count($where_posted_data) > 0) {

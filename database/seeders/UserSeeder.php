@@ -206,7 +206,7 @@ class UserSeeder extends Seeder
             'last_name' => 'Hernandez',
             'gender' => 'Female',
             'status' => 'Active',
-            'role' => 'Manager',
+            'role' => 'Staff',
             'dob' => '04/25/1991',
             'contact_no' => '971509876543',
             'home_address' => 'H # 7, Street 23, Model Town',

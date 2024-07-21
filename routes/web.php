@@ -9,6 +9,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +36,10 @@ Route::get('/', function () {
     return view('dashboards.dashboard');
 });
 
+Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+
 Route::resource('user', UserController::class);
+Route::resource('property', PropertyController::class);
 
 Route::get('/storage-link', function() {
     Artisan::call("storage:link");

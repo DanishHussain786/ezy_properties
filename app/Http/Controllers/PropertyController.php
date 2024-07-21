@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Config;
-use App\Models\User;
-class UserController extends Controller
+use App\Models\Property;
+class PropertyController extends Controller
 {
-	private $controller_name_single = "User";
-	private $controller_name_plural = "Users";
-	private $route_name = "user";
-	private $model_name = "users";
+	private $controller_name_single = "Property";
+	private $controller_name_plural = "Properties";
+	private $route_name = "property";
+	private $model_name = "propertie";
 
 	/**
 	 * Display a listing of the resource.
@@ -19,7 +19,7 @@ class UserController extends Controller
 	{
 		$request_data = $request->all();
 		$request_data['paginate'] = 10;
-		$data['records'] = $this->UserObj->getUser($request_data);
+		$data['records'] = $this->PropertyObj->getProperty($request_data);
 		$data['route_name'] = $this->route_name;
 		$data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
 
@@ -34,7 +34,7 @@ class UserController extends Controller
 	 */
 	public function create(Request $request)
 	{		
-		$data['roles'] = get_roles();
+		$data['prop_types'] = Config::get('constants.propertyTypes.all_keys_arr');
 		$data['route_name'] = $this->route_name;
 		if ($request->ajax()) {
 			return $data['html'];
@@ -113,7 +113,7 @@ class UserController extends Controller
 			}
 		}
 
-		$this->UserObj->saveUpdateUser($request_data);
+		$this->PropertyObj->saveUpdateProperty($request_data);
 		$flash_data = ['message', $this->controller_name_single . ' is created successfully.'];
 		\Session::flash($flash_data[0], $flash_data[1]);
 		return redirect("/{$this->route_name}");
@@ -133,7 +133,7 @@ class UserController extends Controller
 		$request_data['id'] = $id;
 		$request_data['detail'] = true;
 
-		$data = $this->UserObj->getUser($request_data);
+		$data = $this->PropertyObj->getProperty($request_data);
 		return view("{$this->route_name}.partials.profile", compact('data'));
 	}
 
@@ -146,7 +146,7 @@ class UserController extends Controller
 		$request_data['id'] = $id;
 		$request_data['detail'] = true;
 
-		$data = $this->UserObj->getUser($request_data);
+		$data = $this->PropertyObj->getProperty($request_data);
 		$data['roles'] = get_roles();
 		$data['route_name'] = $this->route_name;
 		return view("{$this->route_name}.add_edit", compact('data'));
@@ -194,7 +194,7 @@ class UserController extends Controller
 			return redirect()->back()->withErrors($validator)->withInput();
 		}
 
-		$user_obj = $this->UserObj->getUser(['id' => $request_data['update_id'], 'detail' => true]);
+		$user_obj = $this->PropertyObj->getProperty(['id' => $request_data['update_id'], 'detail' => true]);
 
 		if ($request->file('profile_photo')) {
 			$path = upload_assets($request->profile_photo, 'users', $original = true);
@@ -229,7 +229,7 @@ class UserController extends Controller
 
 		$request_data = array_filter($request_data);
 
-		$data = $this->UserObj->saveUpdateUser($request_data);
+		$data = $this->PropertyObj->saveUpdateProperty($request_data);
 		if ($data->id)
 			$flash_data = ['message', $this->controller_name_single.' is updated successfully.'];
 		else 
@@ -242,7 +242,7 @@ class UserController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 */
-	public function destroy(User $user)
+	public function destroy(Property $user)
 	{
 		$user->delete();
 

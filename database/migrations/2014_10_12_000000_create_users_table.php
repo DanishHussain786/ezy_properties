@@ -17,7 +17,7 @@ return new class extends Migration
       $table->string('last_name', 100);
       $table->enum('gender', ['Male','Female']);
       $table->enum('status', ['Active','Block']);
-      $table->enum('role', ['Super-Master','Manager','Agent','Staff','Customer']);
+      $table->enum('role', ['Master','Manager','Agent','Staff','Customer']);
       $table->string('dob', 100)->nullable();
       $table->string('contact_no', 100)->nullable();
       $table->string('whatsapp_no', 100)->nullable();

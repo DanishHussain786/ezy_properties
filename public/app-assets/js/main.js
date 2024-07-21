@@ -39,6 +39,28 @@ jQuery(document).ready(function() {
   })
 });
 
+function showModal(src) {
+  const modal = document.getElementById('imageModal');
+  const back_content = document.getElementById('header_div');
+  const modalImg = document.getElementById('imageModalContent');
+  modal.style.display = 'block';
+  back_content.style.display = 'none';
+  modalImg.src = src;
+
+  const closeModal = document.getElementById('closeModal');
+  closeModal.onclick = function() {
+    modal.style.display = 'none';
+    back_content.style.display = 'block';
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+      back_content.style.display = 'block';
+    }
+  }
+}
+
 
 
 
@@ -160,6 +182,11 @@ jQuery(document).ready(function() {
     clearFormFields();
     $("#filterPage").val(1);
     getAjaxData();
+  });
+
+  $(document).on("click", "#delete_btn", function(event) {
+    var url = $(this).data("delete_url");
+    $('.delete_popup').attr("action", url);
   });
 
   /*

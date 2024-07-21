@@ -15,6 +15,10 @@ return [
       'regex' => '/^\d{3}-\d{3}-\d{4}$/', // valid phone number in this format XXX-XXX-XXXX
       'error' => 'Please post a valid format (XXX-XXX-XXXX)',
     ],
+    'Phone_UAE' => [
+      'regex' => '/^971\d{9}$/', // valid phone number in this format 971XXXXXXXXXX
+      'error' => 'Please post a valid format (971XXXXXXXXX)',
+    ],
     'Password' => [
       'regex' => '/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%@^&*()_+]).*$/', // atleast eight characters long, atleast one letter, number and special character
       'error' => 'Password must be atleast eight characters long, atleast one letter, number and special character.',
@@ -23,6 +27,24 @@ return [
       'regex' => '/^(([0-9]*)(\.([0-9]+))?)$/', // validate a decimal number upto 9 digits
       'error' => 'Please post a valid decimal integer',
     ],
+  ],
+  'userStatus' => [
+    'data' => [
+      'Active' => 'Active',
+      'Block' => 'Block',
+    ],
+    'all_keys_str' => 'Active,Block',
+    'all_keys_arr' => ['Active', 'Block'],
+    'error' => 'Please post a valid value (Active or Block)',
+  ],
+  'userGender' => [
+    'data' => [
+      'Male' => 'Male',
+      'Female' => 'Female',
+    ],
+    'all_keys_str' => 'Male,Female',
+    'all_keys_arr' => ['Male', 'Female'],
+    'error' => 'Please post a valid value (Male or Female)',
   ],
   'image' => [
     'data' => [
@@ -34,53 +56,49 @@ return [
     'all_keys_arr' => ['jpg', 'jpeg', 'png'],
     'error' => 'Please post a valid file (jpg,jpeg or png)',
   ],
-  'video' => [
-    'data' => [
-      'mp4' => 'mp4',
-      'mov' => 'mov',
-      'mpeg' => 'mpeg',
-      'avi' => 'avi',
-    ],
-    'all_keys_str' => 'mp4,mov,mpeg,avi',
-    'all_keys_arr' => ['mp4', 'mov', 'mpeg', 'avi'],
-    'error' => 'Please post a valid file (mp4,mov, mpeg or avi)',
-  ],
+  // 'video' => [
+  //   'data' => [
+  //     'mp4' => 'mp4',
+  //     'mov' => 'mov',
+  //     'mpeg' => 'mpeg',
+  //     'avi' => 'avi',
+  //   ],
+  //   'all_keys_str' => 'mp4,mov,mpeg,avi',
+  //   'all_keys_arr' => ['mp4', 'mov', 'mpeg', 'avi'],
+  //   'error' => 'Please post a valid file (mp4,mov, mpeg or avi)',
+  // ],
   'userRoles' => [
     'data' => [
+      'Master' => 'Master',
       'Manager' => 'Manager',
-      'Employee' => 'Employee',
+      'Agent' => 'Agent',
+      'Staff' => 'Staff',
       'Customer' => 'Customer',
     ],
-    'all_keys_str' => 'Manager,Employee,Customer',
-    'all_keys_arr' => ['Manager', 'Employee','Customer'],
-    'error' => 'Please post a valid value (Manager,Employee or Customer)',
+    'all_keys_str' => 'Master,Manager,Agent,Staff,Customer',
+    'all_keys_arr' => ['Master', 'Manager','Agent','Staff','Customer'],
+    'error' => 'Please post a valid value (Manager,Agent,Staff or Customer)',
   ],
-  'paymentModes' => [
+  'propertyTypes' => [
     'data' => [
-      'Card' => 'Card',
-      'Bank' => 'Bank',
-      'Cash' => 'Cash',
+      'Villa' => 'Villa',
+      'Appartment' => 'Appartment',
+      'Studio' => 'Studio',
+      'Room' => 'Room',
+      'Bed Space' => 'Bed Space',
     ],
-    'all_keys_str' => 'Card,Bank,Cash',
-    'all_keys_arr' => ['Card', 'Bank', 'Cash'],
-    'error' => 'Please post a valid value (Card,Bank or Cash)',
+    'all_keys_str' => 'Villa,Appartment,Studio,Room,Bed Space',
+    'all_keys_arr' => ['Villa', 'Appartment','Studio','Room','Bed Space'],
+    'error' => 'Please post a valid value (Appartment,Studio,Room or Bed Space)',
   ],
-  'userStatus' => [
-    'data' => [
-      'Active' => 'Active',
-      'Block' => 'Block',
-    ],
-    'all_keys_str' => 'Active,Block',
-    'all_keys_arr' => ['Active', 'Block'],
-    'error' => 'Please post a valid value (Active or Block)',
-  ],
-  'gender' => [
-    'data' => [
-      'Male' => 'Male',
-      'Female' => 'Female',
-    ],
-    'all_keys_str' => 'Male,Female',
-    'all_keys_arr' => ['Male', 'Female'],
-    'error' => 'Please post a valid value (Male or Female)',
-  ],
+  // 'paymentModes' => [
+  //   'data' => [
+  //     'Card' => 'Card',
+  //     'Bank' => 'Bank',
+  //     'Cash' => 'Cash',
+  //   ],
+  //   'all_keys_str' => 'Card,Bank,Cash',
+  //   'all_keys_arr' => ['Card', 'Bank', 'Cash'],
+  //   'error' => 'Please post a valid value (Card,Bank or Cash)',
+  // ],
 ];
