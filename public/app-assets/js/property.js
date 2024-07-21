@@ -13,7 +13,7 @@ jQuery(document).ready(function() {
   }, 4000);
 
   $('.select2_field').select2();
-  $('.dy_prop_number, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
+  $('.dy_prop_number, .dy_room_no, .dy_floor, .dy_rent, .dy_other_charges, .dy_dewa_ch, .dy_wifi_ch, .dy_misc_ch, .dy_prop_add, .dy_bs_level').css('display', 'none');
 });
 
 $(document).on("click", "#add_res_btn", function(event) {
@@ -39,12 +39,13 @@ $(document).on("click", "#add_res_btn", function(event) {
   
 $(document).on("change", "#prop_type", function(event) { 
   // Clear values of form fields
-  $('#prop_number, #room_no, #prop_floor, #prop_rent, #prop_address, #bs_level').each(function() {
+  $('#prop_number, #room_no, #prop_floor, #prop_rent, #other_charges, #dewa_ch, #wifi_ch, #misc_ch, #prop_address, #bs_level').each(function() {
     if ($(this).is('select')) {
       $(this).val('').trigger("change"); // Reset select to first option
     } else {
       $(this).val(''); // Clear input field value
     }
+    $('.dy_dewa_ch, .dy_wifi_ch, .dy_misc_ch').css('display', 'none');
   });
 
   $('.dy_prop_number, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
@@ -54,10 +55,22 @@ $(document).on("change", "#prop_type", function(event) {
 
 
   if (val === "Villa" || val === "Appartment" || val === "Studio" || val === "Room") {
-    $('.dy_prop_number, .dy_floor, .dy_rent, .dy_prop_add').css('display', 'block');
+    $('.dy_prop_number, .dy_floor, .dy_rent, .dy_other_charges, .dy_prop_add').css('display', 'block');
   }
   else if (val === "Bed Space") {
-    $('.dy_room_no, .dy_rent, .dy_bs_level').css('display', 'block');
+    $('.dy_room_no, .dy_rent, .dy_other_charges, .dy_bs_level').css('display', 'block');
+  }
+});
+
+$(document).on("change", "#other_charges", function(event) { 
+  if ($(this).val() == 'Yes') {
+    $('.dy_dewa_ch, .dy_wifi_ch, .dy_misc_ch').css('display', 'block');
+  }
+  if ($(this).val() == 'No' || $(this).val() == "") {
+    $('#dewa_ch, #wifi_ch, #misc_ch').each(function() {
+      $(this).val('');
+    });
+    $('.dy_dewa_ch, .dy_wifi_ch, .dy_misc_ch').css('display', 'none');
   }
 });
 
