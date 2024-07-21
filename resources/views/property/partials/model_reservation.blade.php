@@ -48,6 +48,7 @@
   </div>
 </fieldset>
 
+{{--
 <fieldset>
   <legend class="legend-padds">Initial Deposits</legend>
   <div class="form-group col-md-4 col-sm-6 col-xs-12">
@@ -91,6 +92,7 @@
     </select>
   </div>
 </fieldset>
+--}}
 
 <fieldset>
   <legend class="legend-padds">Other Charges</legend>
