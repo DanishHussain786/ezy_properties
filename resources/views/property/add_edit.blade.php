@@ -38,11 +38,11 @@
             @endif
 
             @if (isset($data->id))
-            <form class="form col-sm-12" action="{{ route($data['route_name'].'.update', $data->id) }}" method="post" enctype="multipart/form-data">
+            <form class="form col-sm-12 form-np" action="{{ route($data['route_name'].'.update', $data->id) }}" method="post" enctype="multipart/form-data">
             @method('PUT')
             <input type="hidden" name="update_id" value="{{$data->id}}">
             @else
-            <form class="form col-sm-12" action="{{ route($data['route_name'].'.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="form col-sm-12 form-np" action="{{ route($data['route_name'].'.store') }}" method="POST" enctype="multipart/form-data">
             @endif
             @csrf
 

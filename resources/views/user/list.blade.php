@@ -34,7 +34,7 @@
               </div>
             </div>
             <div class="form-group right-align">
-              <select class="form-control formFilter input-min" id="user_status" name="status">
+              <select class="form-control formFilter input-min full_width" id="user_status" name="status">
                 <option value="" selected> ---- Select Status ---- </option>
                 <option value="Active">Active</option>
                 <option value="Block">Block</option>
