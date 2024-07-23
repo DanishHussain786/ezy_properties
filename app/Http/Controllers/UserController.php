@@ -227,8 +227,6 @@ class UserController extends Controller
 			unlink_assets($user_obj['passport_photo']);
 		}
 
-		$request_data = array_filter($request_data);
-
 		$data = $this->UserObj->saveUpdateUser($request_data);
 		if ($data->id)
 			$flash_data = ['message', $this->controller_name_single.' is updated successfully.'];

@@ -44,6 +44,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
     <!-- iCheck -->
     <link href="{{ asset('app-assets/plugins/icheck/skins/all.css') }}" rel="stylesheet" type="text/css">
+    <!-- Select2 Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    
     <!-- End Theme Layout Style
     =====================================================================-->
   </head>
@@ -439,10 +442,8 @@
       <script src="{{ asset('app-assets/plugins/fastclick/fastclick.min.js') }}" type="text/javascript"></script>
       <!-- CRMadmin frame -->
       <script src="{{ asset('app-assets/dist/js/custom.js') }}" type="text/javascript"></script>
-      <!-- End Core Plugins
-         =====================================================================-->
-      <!-- Start Page Lavel Plugins
-         =====================================================================-->
+      <!-- Select2 Library -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
       <!-- ChartJs JavaScript -->
       <script src="{{ asset('app-assets/plugins/chartJs/Chart.min.js') }}" type="text/javascript"></script>
       <!-- Counter js -->
@@ -460,9 +461,9 @@
          =====================================================================-->
       
       @if (preg_match('/\buser\b/', Request::path() ))
-        <script src="{{ asset('app-assets/js/user.js') }}"></script> <!-- Category User -->
-      @elseif (preg_match('/\bsub_category\b/', Request::path() ))
-        <script src="{{ asset('app-assets/js/sub_category.js') }}"></script> <!-- Category User -->
+        <script src="{{ asset('app-assets/js/user.js') }}"></script>
+      @elseif (preg_match('/\bproperty\b/', Request::path() ))
+        <script src="{{ asset('app-assets/js/property.js') }}"></script>
       @endif
    </body>
 </html>

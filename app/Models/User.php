@@ -173,6 +173,7 @@ class User extends Authenticatable
 
   public function saveUpdateUser($posted_data = array(), $where_posted_data = array())
   {
+    $posted_data = array_filter($posted_data);
     if (isset($posted_data['update_id'])) {
       $data = User::find($posted_data['update_id']);
     } else {

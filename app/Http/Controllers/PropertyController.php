@@ -49,6 +49,35 @@ class PropertyController extends Controller
 	{
 		$request_data = $request->all();
 		$rules = array(
+			'prop_type'        => ['required', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
+			'prop_no'          => ['required'],
+			'prop_floor'       => ['required'],
+			'prop_rent'        => ['required'],
+			'prop_address'     => ['required', 'max:400'],
+		);
+
+		if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
+			$rules['room_no'] = ['required'];
+			$rules['bs_level'] = ['required', 'in:1,2,3'];
+		}
+
+		$messages = array(
+			'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
+		);
+
+		$validator = \Validator::make($request_data, $rules, $messages);
+
+		if ($validator->fails()) {
+			return redirect()->back()->withErrors($validator)->withInput();
+		}
+
+		echo "<pre>";
+		echo " request_data"."<br>";
+		print_r($request_data);
+		echo "</pre>";
+		exit("@@@@");
+
+		$rules = array(
 			'first_name'				=> ['required', 'max:20', 'regex:'.Config::get('constants.regexPatterns.Only_Alphabets.regex')],
 			'last_name'					=> ['required', 'max:20', 'regex:'.Config::get('constants.regexPatterns.Only_Alphabets.regex')],
 			'role'							=> ['required', 'in:'.Config::get('constants.userRoles.all_keys_str')],
@@ -80,37 +109,6 @@ class PropertyController extends Controller
 
 		if ($validator->fails()) {
 			return redirect()->back()->withErrors($validator)->withInput();
-		}
-
-		if (!isset($request_data['password']))
-			$request_data['password'] = '12345678@9';
-
-		if ($request->file('profile_photo')) {
-			$path = upload_assets($request->profile_photo, 'users', $original = true);
-			$request_data['profile_photo'] = $path;
-			if (!$path) {
-				return redirect()->back()->withErrors([
-					'profile_photo' => 'Something wrong with profile photo upload.',
-				])->withInput();
-			}
-		}
-		if ($request->file('emirates_photo')) {
-			$path = upload_assets($request->emirates_photo, 'users', $original = true);
-			$request_data['emirates_photo'] = $path;
-			if (!$path) {
-				return redirect()->back()->withErrors([
-					'emirates_photo' => 'Something wrong with emirates photo upload.',
-				])->withInput();
-			}
-		}
-		if ($request->file('passport_photo')) {
-			$path = upload_assets($request->passport_photo, 'users', $original = true);
-			$request_data['passport_photo'] = $path;
-			if (!$path) {
-				return redirect()->back()->withErrors([
-					'passport_photo' => 'Something wrong with passport photo upload.',
-				])->withInput();
-			}
 		}
 
 		$this->PropertyObj->saveUpdateProperty($request_data);

@@ -134,6 +134,7 @@ class Property extends Model
 
   public function saveUpdateProperty($posted_data = array(), $where_posted_data = array())
   {
+    $posted_data = array_filter($posted_data);
     if (isset($posted_data['update_id'])) {
       $data = Property::find($posted_data['update_id']);
     } else {
