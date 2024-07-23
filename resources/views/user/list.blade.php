@@ -30,7 +30,7 @@
             <input class="route_name" value="user" type="hidden">
             <div class="left-align">
               <div class="form-group m-r-rem">
-                <input type="text" name="search_user" id="search_user" class="form-control formFilter input-min" placeholder="Search here..." style="width: 135%;">
+                <input type="text" name="search_query" id="search_query" class="form-control formFilter input-min" placeholder="Search here..." style="width: 135%;">
               </div>
             </div>
             <div class="form-group right-align">

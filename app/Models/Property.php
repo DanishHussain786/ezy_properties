@@ -53,7 +53,7 @@ class Property extends Model
 
   public function getProperty($posted_data = array())
   {
-    $columns = ['users.*'];
+    $columns = ['properties.*'];
     $select_columns = array_merge($columns, []);
     $query = Property::latest();
 
@@ -65,46 +65,34 @@ class Property extends Model
     // }
 
     if (isset($posted_data['id'])) {
-      $query = $query->where('users.id', $posted_data['id']);
+      $query = $query->where('properties.id', $posted_data['id']);
       $posted_data['detail'] = true;
     }
     if (isset($posted_data['first_name'])) {
-      $query = $query->where('users.first_name', 'like', '%' . $posted_data['first_name'] . '%');
+      $query = $query->where('properties.first_name', 'like', '%' . $posted_data['first_name'] . '%');
     }
     if (isset($posted_data['last_name'])) {
-      $query = $query->where('users.last_name', 'like', '%' . $posted_data['last_name'] . '%');
+      $query = $query->where('properties.last_name', 'like', '%' . $posted_data['last_name'] . '%');
     }
-    if (isset($posted_data['search_user'])) {
-      $str = $posted_data['search_user'];
-      if ($str == trim($str) && strpos($str, ' ') !== false) {
-        $query = $query->where(
-          function ($query) use ($str) {
-            $str_ary = explode(' ', $str);
-            return $query
-              ->where('users.first_name', 'like', '%' . $str_ary[0] . '%')
-              ->orwhere('users.last_name', 'like', '%' . $str_ary[1] . '%');
-          }
-        );
-      }
-      else {
-        $query = $query->where(
-          function ($query) use ($str) {
-            return $query
-              ->where('users.first_name', 'like', '%' . $str . '%')
-              ->orwhere('users.last_name', 'like', '%' . $str . '%');
-          }
-        );
-      }
+    if (isset($posted_data['search_query'])) {
+      $str = $posted_data['search_query'];
+      $query = $query->where(
+        function ($query) use ($str) {
+          return $query
+            ->where('properties.prop_type', 'like', '%' . $str . '%')
+            ->orwhere('properties.prop_number', 'like', '%' . $str . '%');
+        }
+      );
     }
     if (isset($posted_data['status'])) {
-      $query = $query->where('users.status', $posted_data['status']);
+      $query = $query->where('properties.status', $posted_data['status']);
     }
 
     $query->getQuery()->orders = null;
     if (isset($posted_data['orderBy_name']) && isset($posted_data['orderBy_value'])) {
       $query->orderBy($posted_data['orderBy_name'], $posted_data['orderBy_value']);
     } else {
-      $query->orderBy('users.id', 'DESC');
+      $query->orderBy('properties.id', 'DESC');
     }
 
 
@@ -155,56 +143,20 @@ class Property extends Model
       }
     }
 
-    if (isset($posted_data['first_name'])) {
-      $data->first_name = ucwords($posted_data['first_name']);
+    if (isset($posted_data['prop_type'])) {
+      $data->prop_type = $posted_data['prop_type'];
     }
-    if (isset($posted_data['last_name'])) {
-      $data->last_name = ucwords($posted_data['last_name']);
+    if (isset($posted_data['prop_number'])) {
+      $data->prop_number = $posted_data['prop_number'];
     }
-    if (isset($posted_data['gender'])) {
-      $data->gender = $posted_data['gender'];
+    if (isset($posted_data['prop_floor'])) {
+      $data->prop_floor = $posted_data['prop_floor'];
     }
-    if (isset($posted_data['status'])) {
-      $data->status = $posted_data['status'];
+    if (isset($posted_data['prop_rent'])) {
+      $data->prop_rent = $posted_data['prop_rent'];
     }
-    if (isset($posted_data['role'])) {
-      $data->role = $posted_data['role'];
-    }
-    if (isset($posted_data['dob'])) {
-      $data->dob = $posted_data['dob'];
-    }
-    if (isset($posted_data['contact_no'])) {
-      $data->contact_no = $posted_data['contact_no'];
-    }
-    if (isset($posted_data['whatsapp_no'])) {
-      $data->whatsapp_no = $posted_data['whatsapp_no'];
-    }
-    if (isset($posted_data['profile_photo'])) {
-      $data->profile_photo = $posted_data['profile_photo'];
-    }
-    if (isset($posted_data['home_address'])) {
-      $data->home_address = $posted_data['home_address'];
-    }
-    if (isset($posted_data['email'])) {
-      $data->email = $posted_data['email'];
-    }
-    if (isset($posted_data['emirates_id'])) {
-      $data->emirates_id = $posted_data['emirates_id'];
-    }
-    if (isset($posted_data['emirates_photo'])) {
-      $data->emirates_photo = $posted_data['emirates_photo'];
-    }
-    if (isset($posted_data['passport_id'])) {
-      $data->passport_id = $posted_data['passport_id'];
-    }
-    if (isset($posted_data['passport_photo'])) {
-      $data->passport_photo = $posted_data['passport_photo'];
-    }
-    if (isset($posted_data['password'])) {
-      $data->password = Hash::make($posted_data['password']);
-    }
-    if (isset($posted_data['email_verified_at'])) {
-      $data->email_verified_at = $posted_data['email_verified_at'];
+    if (isset($posted_data['prop_address'])) {
+      $data->prop_address = $posted_data['prop_address'];
     }
     if (isset($posted_data['deleted_at'])) {
       $data->deleted_at = $posted_data['deleted_at'];

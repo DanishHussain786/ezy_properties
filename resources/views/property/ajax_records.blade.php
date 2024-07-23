@@ -3,15 +3,11 @@
     <thead>
       <tr class="info">
         <th>Sr #</th>
-        <th>User Id</th>
-        <th>Full Name</th>
-        <th>Gender</th>
-        <th>Status</th>
-        <th>Contact No</th>
-        <th>Photo</th>
-        <th>Emirates Id</th>
-        <th>Passport Id</th>
-        <th>Status</th>
+        <th>Type</th>
+        <th>Property No.</th>
+        <th>Floor</th>
+        <th>Rent</th>
+        {{--<th>Status</th>--}}
         <th>Action</th>
       </tr>
     </thead>
@@ -38,15 +34,11 @@
         @endphp
         <tr>
           <td>{{ $sr_no }}</td>
-          <td>{{ $item['id'] }}</td>
-          <td>{{ $item['first_name'] }} {{ $item['last_name'] }}</td>
-          <td>{{ $item['gender'] }}</td>
-          <td><span class="{{$status_class}} label label-default">{{ $item['status'] }}</span></td>
-          <td>{{ $item['contact_no'] }}</td>
-          <td>{{ $item['contact_no'] }}</td>
-          <td>{{ $item['created_at'] }}</td>
-          <td>{{ $item['created_at'] }}</td>
-          <td>{{ $item['created_at'] }}</td>
+          <td>{{ $item['prop_type'] }}</td>
+          <td>{{ isset($item['prop_number']) ? $item['prop_number'] : "N/A" }}</td>
+          <td>{{ $item['prop_floor'] }}</td>
+          <td>{{ $item['prop_rent'] }}</td>
+          {{--<td><span class="{{$status_class}} label label-default">{{ $item['status'] }}</span></td>--}}
           <td>
             <a href="{{ url($data['route_name'].'/'.$item['id'].'/edit') }}"> <button type="button" class="btn btn-add btn-sm m-1" title="User Profile" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button></a>
             <a href="{{ url($data['route_name'].'/'.$item['id']) }}"> <button type="button" class="btn btn-info btn-sm m-1" title="User Profile" data-toggle="modal" data-target="#"><i class="fa fa-user-circle"></i> </button> </a>

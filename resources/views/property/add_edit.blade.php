@@ -65,10 +65,10 @@
                 </div>
               </div>
 
-              <div class="form-group dy_prop_no col-md-4 col-sm-6 is-required">
+              <div class="form-group dy_prop_number col-md-4 col-sm-6 is-required">
                 <label id="property_type">Property No.</label>
-                <input type="number" name="prop_no" id="prop_no" value="{{old('prop_no', isset($data->prop_no)? $data->prop_no: '')}}" class="form-control @error('prop_no') is-invalid @enderror" placeholder="Enter property number or reference" required>
-                @error('prop_no')
+                <input type="number" name="prop_number" id="prop_number" value="{{old('prop_number', isset($data->prop_number)? $data->prop_number: '')}}" class="form-control @error('prop_number') is-invalid @enderror" placeholder="Enter property number or reference" required>
+                @error('prop_number')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @else
                   <span class="invalid-feedback" role="alert"></span>

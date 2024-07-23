@@ -5,11 +5,11 @@ jQuery(document).ready(function() {
 
   $('.select2_field').select2();
 
-  $('.dy_prop_no, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
+  $('.dy_prop_number, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
 
   $(document).on("change", "#prop_type", function(event) { 
     // Clear values of form fields
-    $('#prop_no, #room_no, #prop_floor, #prop_rent, #prop_address, #bs_level').each(function() {
+    $('#prop_number, #room_no, #prop_floor, #prop_rent, #prop_address, #bs_level').each(function() {
       if ($(this).is('select')) {
         $(this).val('').trigger("change"); // Reset select to first option
       } else {
@@ -17,21 +17,17 @@ jQuery(document).ready(function() {
       }
     });
 
-    $('.dy_prop_no, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
+    $('.dy_prop_number, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
 
     var val = $(this).val();
     $("#property_type").text(val ? val + " No." : "Property No.");
 
     if (val === "Villa" || val === "Appartment" || val === "Studio" || val === "Room") {
-      $('.dy_prop_no, .dy_floor, .dy_rent, .dy_prop_add').css('display', 'block');
-      $('.dy_room_no').val('');
+      $('.dy_prop_number, .dy_floor, .dy_rent, .dy_prop_add').css('display', 'block');
     }
     else {
       if (val === "Bed Space") {
         $('.dy_room_no, .dy_rent, .dy_bs_level').css('display', 'block');
-        // $('.dy_prop_no').val('');
-        // $(".dy_floor").val('').trigger("change");
-        // $('.dy_prop_add').val('');
       }
     }
 

@@ -1,4 +1,4 @@
-@php $title = 'List User' @endphp
+@php $title = 'List Properties' @endphp
 
 @section('title', $title)
 @extends('master')
@@ -8,7 +8,7 @@
     <i class="fa fa-dashboard"></i>
   </div>
   <div class="header-title">
-    <h1>User Panel</h1>
+    <h1>Properties Panel</h1>
     <small>{{ $title }}</small>
   </div>
 </section>
@@ -19,7 +19,7 @@
       <div class="panel panel-bd lobidrag">
         <div class="panel-heading">
           <div class="btn-group">
-            <a class="btn btn-add m-r-5" href="{{ url($data['route_name'] . '/create') }}"> <i class="fa fa-plus"></i> Add User </a>
+            <a class="btn btn-add m-r-5" href="{{ url($data['route_name'] . '/create') }}"> <i class="fa fa-plus"></i> Add Property </a>
             <a class="btn btn-add formReset" href="#"> <i class="fa fa-refresh"></i> Reset Filters </a>
           </div>
         </div>
@@ -30,7 +30,7 @@
             <input class="route_name" value="user" type="hidden">
             <div class="left-align">
               <div class="form-group m-r-rem">
-                <input type="text" name="search_user" id="search_user" class="form-control formFilter input-min" placeholder="Search here..." style="width: 135%;">
+                <input type="text" name="search_query" id="search_query" class="form-control formFilter input-min" placeholder="Search here..." style="width: 135%;">
               </div>
             </div>
             <div class="form-group right-align">

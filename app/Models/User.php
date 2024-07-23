@@ -88,8 +88,8 @@ class User extends Authenticatable
     if (isset($posted_data['last_name'])) {
       $query = $query->where('users.last_name', 'like', '%' . $posted_data['last_name'] . '%');
     }
-    if (isset($posted_data['search_user'])) {
-      $str = $posted_data['search_user'];
+    if (isset($posted_data['search_query'])) {
+      $str = $posted_data['search_query'];
       if ($str == trim($str) && strpos($str, ' ') !== false) {
         $query = $query->where(
           function ($query) use ($str) {

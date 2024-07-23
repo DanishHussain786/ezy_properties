@@ -258,9 +258,9 @@ function throttle(f, delay) {
 }
 
 function clearFormFields() {
-  var route = $(".route_name").val();
-  if (route === "user") {
-    $("#search_user").val("");
+  // var route = $(".route_name").val();
+  // if (route === "user") {
+    $("#search_query").val("");
     $("#user_status").val("").trigger("change");
 
     // $("#select2-category").select2("val", "");
@@ -270,7 +270,7 @@ function clearFormFields() {
     // $("#select2-orderBy_name").val("").trigger("change");
     // $("#select2-orderBy_value").select2("val", "");
     // $("#select2-orderBy_value").val("").trigger("change");
-  }
+  // }
   // else if (route === 'other') {
   // other routes here
   // }

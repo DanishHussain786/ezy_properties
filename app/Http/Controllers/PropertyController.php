@@ -50,7 +50,7 @@ class PropertyController extends Controller
 		$request_data = $request->all();
 		$rules = array(
 			'prop_type'        => ['required', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
-			'prop_no'          => ['required'],
+			'prop_number'      => ['required'],
 			'prop_floor'       => ['required'],
 			'prop_rent'        => ['required'],
 			'prop_address'     => ['required', 'max:400'],
@@ -71,45 +71,39 @@ class PropertyController extends Controller
 			return redirect()->back()->withErrors($validator)->withInput();
 		}
 
-		echo "<pre>";
-		echo " request_data"."<br>";
-		print_r($request_data);
-		echo "</pre>";
-		exit("@@@@");
+		// $rules = array(
+		// 	'first_name'				=> ['required', 'max:20', 'regex:'.Config::get('constants.regexPatterns.Only_Alphabets.regex')],
+		// 	'last_name'					=> ['required', 'max:20', 'regex:'.Config::get('constants.regexPatterns.Only_Alphabets.regex')],
+		// 	'role'							=> ['required', 'in:'.Config::get('constants.userRoles.all_keys_str')],
+		// 	'email' 						=> ['required', 'email', 'unique:users'],
+		// 	'profile_photo' 		=> ['nullable', 'mimes:'.Config::get('constants.image.all_keys_str'), 'max:20480'],
+		// 	'contact_no' 				=> ['required', 'regex:'.Config::get('constants.regexPatterns.Phone_UAE.regex')],
+		// 	'emirates_id' 			=> ['nullable', 'max:50'],
+		// 	'emirates_photo' 		=> ['nullable', 'mimes:'.Config::get('constants.image.all_keys_str'), 'max:20480'],
+		// 	'passport_id' 			=> ['nullable', 'max:50'],
+		// 	'passport_photo' 		=> ['nullable', 'mimes:'.Config::get('constants.image.all_keys_str'), 'max:20480'],
+		// 	'home_address' 			=> ['nullable', 'max:200'],
+		// 	'dob' 							=> ['nullable', 'date_format:m/d/Y'],
+		// 	'gender' 						=> ['required', 'in:'.Config::get('constants.userGender.all_keys_str')],
+		// 	'status' 						=> ['required', 'in:'.Config::get('constants.userStatus.all_keys_str')],
+		// );
 
-		$rules = array(
-			'first_name'				=> ['required', 'max:20', 'regex:'.Config::get('constants.regexPatterns.Only_Alphabets.regex')],
-			'last_name'					=> ['required', 'max:20', 'regex:'.Config::get('constants.regexPatterns.Only_Alphabets.regex')],
-			'role'							=> ['required', 'in:'.Config::get('constants.userRoles.all_keys_str')],
-			'email' 						=> ['required', 'email', 'unique:users'],
-			'profile_photo' 		=> ['nullable', 'mimes:'.Config::get('constants.image.all_keys_str'), 'max:20480'],
-			'contact_no' 				=> ['required', 'regex:'.Config::get('constants.regexPatterns.Phone_UAE.regex')],
-			'emirates_id' 			=> ['nullable', 'max:50'],
-			'emirates_photo' 		=> ['nullable', 'mimes:'.Config::get('constants.image.all_keys_str'), 'max:20480'],
-			'passport_id' 			=> ['nullable', 'max:50'],
-			'passport_photo' 		=> ['nullable', 'mimes:'.Config::get('constants.image.all_keys_str'), 'max:20480'],
-			'home_address' 			=> ['nullable', 'max:200'],
-			'dob' 							=> ['nullable', 'date_format:m/d/Y'],
-			'gender' 						=> ['required', 'in:'.Config::get('constants.userGender.all_keys_str')],
-			'status' 						=> ['required', 'in:'.Config::get('constants.userStatus.all_keys_str')],
-		);
+		// $messages = array(
+		// 	'first_name.regex' => Config::get('constants.regexPatterns.Only_Alphabets.error').' for :attribute.',
+		// 	'last_name.regex' => Config::get('constants.regexPatterns.Only_Alphabets.error').' for :attribute.',
+		// 	'contact_no.regex' => Config::get('constants.regexPatterns.Phone_UAE.error').' for :attribute.',
+		// 	'profile_photo.mimes' => Config::get('constants.image.error').' for :attribute.',
+		// 	'emirates_photo.mimes' => Config::get('constants.image.error').' for :attribute.',
+		// 	'passport_photo.mimes' => Config::get('constants.image.error').' for :attribute.',
+		// 	'gender.in' => Config::get('constants.userGender.error').' for :attribute.',
+		// 	'status.in' => Config::get('constants.userStatus.error').' for :attribute.',
+		// );
 
-		$messages = array(
-			'first_name.regex' => Config::get('constants.regexPatterns.Only_Alphabets.error').' for :attribute.',
-			'last_name.regex' => Config::get('constants.regexPatterns.Only_Alphabets.error').' for :attribute.',
-			'contact_no.regex' => Config::get('constants.regexPatterns.Phone_UAE.error').' for :attribute.',
-			'profile_photo.mimes' => Config::get('constants.image.error').' for :attribute.',
-			'emirates_photo.mimes' => Config::get('constants.image.error').' for :attribute.',
-			'passport_photo.mimes' => Config::get('constants.image.error').' for :attribute.',
-			'gender.in' => Config::get('constants.userGender.error').' for :attribute.',
-			'status.in' => Config::get('constants.userStatus.error').' for :attribute.',
-		);
+		// $validator = \Validator::make($request_data, $rules, $messages);
 
-		$validator = \Validator::make($request_data, $rules, $messages);
-
-		if ($validator->fails()) {
-			return redirect()->back()->withErrors($validator)->withInput();
-		}
+		// if ($validator->fails()) {
+		// 	return redirect()->back()->withErrors($validator)->withInput();
+		// }
 
 		$this->PropertyObj->saveUpdateProperty($request_data);
 		$flash_data = ['message', $this->controller_name_single . ' is created successfully.'];
