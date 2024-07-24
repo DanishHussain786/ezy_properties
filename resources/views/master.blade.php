@@ -416,7 +416,7 @@
                   <li><a href="{{url('booking/services')}}">Other Services</a></li>
                 </ul>
               </li>
-              @php $class = (strpos($str_slug, "accounts") !== false) ? 'active' : ''; @endphp
+              @php $class = (strpos($str_slug, "account") !== false) ? 'active' : ''; @endphp
               <li class="treeview menu-item {{$class}}">
                 <a href="#">
                   <i class="fa fa-home"></i><span>Accounts</span>
@@ -425,8 +425,8 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="{{url('property/create')}}">Payment In</a></li>
-                  <li><a href="{{url('property')}}">Payment Out</a></li>
+                  <li><a href="{{url('account')}}?mode=pay_in">Payment In</a></li>
+                  <li><a href="{{url('account')}}?mode=pay_out">Payment Out</a></li>
                   <li><a href="{{url('property')}}">Guest Services</a></li>
                 </ul>
               </li>
