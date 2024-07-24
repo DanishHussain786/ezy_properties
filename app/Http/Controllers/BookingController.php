@@ -172,8 +172,8 @@ class BookingController extends Controller
 		$rent = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
 		$stay = isset($request_data['stay_months']) ? $request_data['stay_months'] : 0;
 		$markup = isset($request_data['markup_rent']) ? $request_data['markup_rent'] : 0;
-		$dewa = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : 0;
-		$wifi = isset($request_data['wifi_ch']) ? $request_data['wifi_ch'] : 0;
+		// $dewa = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : 0;
+		// $wifi = isset($request_data['wifi_ch']) ? $request_data['wifi_ch'] : 0;
 		$admin = isset($request_data['admin_ch']) ? $request_data['admin_ch'] : 0;
 		$sec = isset($request_data['sec_ch']) ? $request_data['sec_ch'] : 0;
 		// $deposit = isset($request_data['init_deposit']) ? $request_data['init_deposit'] : 0;
@@ -186,7 +186,7 @@ class BookingController extends Controller
 		else 
 			$adv_rent = ($rent * $stay) + $markup - $rent;
 
-		$tot_rent = $rent + $adv_rent + $dewa + $wifi + $admin + $sec;
+		$tot_rent = $rent + $adv_rent + $admin + $sec;
 
 		$last_id = 0;
 		$last_data = $this->BookingObj->latest('id')->first();
@@ -206,8 +206,8 @@ class BookingController extends Controller
 		$booking_data['rent'] = $rent;
 		$booking_data['markup_rent'] = $markup;
 		$booking_data['other_charges'] = $request_data['other_charges'];
-		$booking_data['dewa_charges'] = $dewa;
-		$booking_data['wifi_charges'] = $wifi;
+		// $booking_data['dewa_charges'] = $dewa;
+		// $booking_data['wifi_charges'] = $wifi;
 		$booking_data['admin_charges'] = $admin;
 		$booking_data['security_charges'] = $sec;
 		$booking_data['balance'] = $tot_rent;
@@ -324,13 +324,13 @@ class BookingController extends Controller
 		if ($request->has('markup_rent') && ($markup == '' || $markup == 0) )
 			$bookings_data->markup_rent = null;
 
-		$dewa = $request->input('dewa_ch');
-		if ($request->has('dewa_ch') && ($dewa == '' || $dewa == 0) )
-			$bookings_data->dewa_charges = null;
+		// $dewa = $request->input('dewa_ch');
+		// if ($request->has('dewa_ch') && ($dewa == '' || $dewa == 0) )
+		// 	$bookings_data->dewa_charges = null;
 
-		$wifi = $request->input('wifi_ch');
-		if ($request->has('wifi_ch') && ($wifi == '' || $wifi == 0) )
-			$bookings_data->wifi_charges = null;
+		// $wifi = $request->input('wifi_ch');
+		// if ($request->has('wifi_ch') && ($wifi == '' || $wifi == 0) )
+		// 	$bookings_data->wifi_charges = null;
 
 		$admin = $request->input('admin_ch');
 		if ($request->has('admin_ch') && ($admin == '' || $admin == 0) )
@@ -357,11 +357,12 @@ class BookingController extends Controller
 		$bookings['rent'] = $request_data['prop_rent'];
 		$bookings['markup_rent'] = $request_data['markup_rent'];
 		$bookings['other_charges'] = $request_data['other_charges'];
-		$bookings['dewa_charges'] = $request_data['dewa_ch'];
-		$bookings['wifi_charges'] = $request_data['wifi_ch'];
+		// $bookings['dewa_charges'] = $request_data['dewa_ch'];
+		// $bookings['wifi_charges'] = $request_data['wifi_ch'];
 		$bookings['admin_charges'] = $request_data['admin_ch'];
 		$bookings['security_charges'] = $request_data['sec_ch'];
-		$bookings['net_total'] = $request_data['net_total'];
+		$bookings['balance'] = $request_data['net_total'];
+		$bookings['total_payable'] = $request_data['net_total'];
 
 		$data = $this->BookingObj->saveUpdateBooking($bookings);
 		$data['redirect_url'] = url("{$this->route_name}");
