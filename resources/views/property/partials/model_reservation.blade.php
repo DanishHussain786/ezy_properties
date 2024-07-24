@@ -39,7 +39,7 @@
 
   <div class="form-group col-md-4 col-sm-6 col-xs-12">
     <label class="control-label">Monthly Rent (AED)</label>
-    <input type="text" value="{{$data['prop_rent']}}" id="prop_rent" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width only_numbers" readonly>
+    <input type="text" value="{{$data['prop_net_rent']}}" id="prop_rent" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width only_numbers" readonly>
   </div>
 
   <div class="form-group col-md-4 col-sm-6 col-xs-12">
@@ -104,6 +104,7 @@
     </select>
   </div>
 
+  {{--
   <div class="form-group d-none hidden_charges col-md-4 col-sm-6 col-xs-12">
     <label class="control-label" for="dewa_ch">DEWA Charges</label>
     <input type="text" class="form-control full_width only_numbers" placeholder="Enter dewa charges" id="dewa_ch" name="dewa_ch">
@@ -112,6 +113,7 @@
     <label class="control-label" for="wifi_ch">Wifi Charges</label>
     <input type="text" class="form-control full_width only_numbers" placeholder="Enter wifi charges" id="wifi_ch" name="wifi_ch">
   </div>
+  --}}
   <div class="form-group d-none hidden_charges col-md-4 col-sm-6 col-xs-12">
     <label class="control-label" for="admin_ch">Admin Fee</label>
     <input type="text" class="form-control full_width only_numbers" placeholder="Enter admin charges" id="admin_ch" name="admin_ch">
