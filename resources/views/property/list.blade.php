@@ -70,7 +70,7 @@
           <div class="row">
             <div class="col-md-12">
               <form class="form-horizontal update_popup" action="" method="POST">
-                @method('put')
+                @method('PUT')
                 @csrf
                 <fieldset class="model-ajax">
                 </fieldset>
@@ -97,7 +97,7 @@
           <div class="row">
             <div class="col-md-12">
               <form class="form-horizontal delete_popup" action="" method="POST">
-                @method('delete')
+                @method('DELETE')
                 @csrf
                 <fieldset>
                   <div class="col-md-12 form-group user-form-group">

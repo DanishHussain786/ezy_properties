@@ -95,7 +95,7 @@
                     <input type="text" placeholder="type" class="form-control">
                   </div>
                   <div class="col-md-12 form-group user-form-group">
-                    <div class="pull-right">
+                    <div class="pull-right m-t-20">
                       <button type="button" class="btn btn-danger btn-sm">Cancel</button>
                       <button type="submit" class="btn btn-add btn-sm">Save</button>
                     </div>
@@ -127,7 +127,7 @@
           <div class="row">
             <div class="col-md-12">
               <form class="form-horizontal delete_popup" action="" method="POST">
-                @method('delete')
+                @method('DELETE')
                 @csrf
                 <fieldset>
                   <div class="col-md-12 form-group user-form-group">

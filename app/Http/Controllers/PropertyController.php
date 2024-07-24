@@ -10,7 +10,7 @@ class PropertyController extends Controller
 	private $controller_name_single = "Property";
 	private $controller_name_plural = "Properties";
 	private $route_name = "property";
-	private $model_name = "propertie";
+	private $model_name = "properties";
 
 	/**
 	 * Display a listing of the resource.
@@ -49,14 +49,16 @@ class PropertyController extends Controller
 	{
 		$request_data = $request->all();
 		$rules = array(
-			'prop_type'        => ['required', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
-			'prop_number'      => ['required'],
-			'prop_floor'       => ['required'],
-			'prop_rent'        => ['required'],
-			'prop_address'     => ['required', 'max:400'],
+			'prop_type'     => ['required', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
+			'prop_rent'     => ['required'],
 		);
-
-		if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
+		
+		if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
+			$rules['prop_number'] = ['required'];
+			$rules['prop_floor'] = ['required'];
+			$rules['prop_address'] = ['required', 'max:400'];
+		}
+		else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
 			$rules['room_no'] = ['required'];
 			$rules['bs_level'] = ['required', 'in:1,2,3'];
 		}
@@ -70,40 +72,6 @@ class PropertyController extends Controller
 		if ($validator->fails()) {
 			return redirect()->back()->withErrors($validator)->withInput();
 		}
-
-		// $rules = array(
-		// 	'first_name'				=> ['required', 'max:20', 'regex:'.Config::get('constants.regexPatterns.Only_Alphabets.regex')],
-		// 	'last_name'					=> ['required', 'max:20', 'regex:'.Config::get('constants.regexPatterns.Only_Alphabets.regex')],
-		// 	'role'							=> ['required', 'in:'.Config::get('constants.userRoles.all_keys_str')],
-		// 	'email' 						=> ['required', 'email', 'unique:users'],
-		// 	'profile_photo' 		=> ['nullable', 'mimes:'.Config::get('constants.image.all_keys_str'), 'max:20480'],
-		// 	'contact_no' 				=> ['required', 'regex:'.Config::get('constants.regexPatterns.Phone_UAE.regex')],
-		// 	'emirates_id' 			=> ['nullable', 'max:50'],
-		// 	'emirates_photo' 		=> ['nullable', 'mimes:'.Config::get('constants.image.all_keys_str'), 'max:20480'],
-		// 	'passport_id' 			=> ['nullable', 'max:50'],
-		// 	'passport_photo' 		=> ['nullable', 'mimes:'.Config::get('constants.image.all_keys_str'), 'max:20480'],
-		// 	'home_address' 			=> ['nullable', 'max:200'],
-		// 	'dob' 							=> ['nullable', 'date_format:m/d/Y'],
-		// 	'gender' 						=> ['required', 'in:'.Config::get('constants.userGender.all_keys_str')],
-		// 	'status' 						=> ['required', 'in:'.Config::get('constants.userStatus.all_keys_str')],
-		// );
-
-		// $messages = array(
-		// 	'first_name.regex' => Config::get('constants.regexPatterns.Only_Alphabets.error').' for :attribute.',
-		// 	'last_name.regex' => Config::get('constants.regexPatterns.Only_Alphabets.error').' for :attribute.',
-		// 	'contact_no.regex' => Config::get('constants.regexPatterns.Phone_UAE.error').' for :attribute.',
-		// 	'profile_photo.mimes' => Config::get('constants.image.error').' for :attribute.',
-		// 	'emirates_photo.mimes' => Config::get('constants.image.error').' for :attribute.',
-		// 	'passport_photo.mimes' => Config::get('constants.image.error').' for :attribute.',
-		// 	'gender.in' => Config::get('constants.userGender.error').' for :attribute.',
-		// 	'status.in' => Config::get('constants.userStatus.error').' for :attribute.',
-		// );
-
-		// $validator = \Validator::make($request_data, $rules, $messages);
-
-		// if ($validator->fails()) {
-		// 	return redirect()->back()->withErrors($validator)->withInput();
-		// }
 
 		$this->PropertyObj->saveUpdateProperty($request_data);
 		$flash_data = ['message', $this->controller_name_single . ' is created successfully.'];
@@ -161,41 +129,25 @@ class PropertyController extends Controller
 	public function update(Request $request, $id = 0)
 	{
 		$request_data = $request->all();
-
-		echo "<pre>";
-		echo " request_data"."<br>";
-		print_r($request_data);
-		echo "</pre>";
-		exit("@@@@");
-
 		$request_data['update_id'] = $id;
 		$rules = array(
-			'update_id'				  => ['required', 'exists:' . $this->model_name . ',id'],
-			'first_name'				=> ['nullable', 'max:20', 'regex:'.Config::get('constants.regexPatterns.Only_Alphabets.regex')],
-			'last_name'					=> ['nullable', 'max:20', 'regex:'.Config::get('constants.regexPatterns.Only_Alphabets.regex')],
-			'role'							=> ['nullable', 'in:'.Config::get('constants.userRoles.all_keys_str')],
-			'email' 						=> ['nullable', 'email', 'unique:users,email,'.$id.',id'],
-			'profile_photo' 		=> ['nullable', 'mimes:'.Config::get('constants.image.all_keys_str'), 'max:20480'],
-			'contact_no' 				=> ['nullable', 'regex:'.Config::get('constants.regexPatterns.Phone_UAE.regex')],
-			'emirates_id' 			=> ['nullable', 'max:50'],
-			'emirates_photo' 		=> ['nullable', 'mimes:'.Config::get('constants.image.all_keys_str'), 'max:20480'],
-			'passport_id' 			=> ['nullable', 'max:50'],
-			'passport_photo' 		=> ['nullable', 'mimes:'.Config::get('constants.image.all_keys_str'), 'max:20480'],
-			'home_address' 			=> ['nullable', 'max:200'],
-			'dob' 							=> ['nullable', 'date_format:m/d/Y'],
-			'gender' 						=> ['nullable', 'in:'.Config::get('constants.userGender.all_keys_str')],
-			'status' 						=> ['nullable', 'in:'.Config::get('constants.userStatus.all_keys_str')],
+			'update_id'			=> ['required', 'exists:' . $this->model_name . ',id'],
+			'prop_type'     => ['nullable', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
+			'prop_rent'     => ['nullable'],
 		);
+		
+		if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
+			$rules['prop_number'] = ['nullable'];
+			$rules['prop_floor'] = ['nullable'];
+			$rules['prop_address'] = ['nullable', 'max:400'];
+		}
+		else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
+			$rules['room_no'] = ['nullable'];
+			$rules['bs_level'] = ['nullable', 'in:1,2,3'];
+		}
 
 		$messages = array(
-			'first_name.regex' => Config::get('constants.regexPatterns.Only_Alphabets.error').' for :attribute.',
-			'last_name.regex' => Config::get('constants.regexPatterns.Only_Alphabets.error').' for :attribute.',
-			'contact_no.regex' => Config::get('constants.regexPatterns.Phone_UAE.error').' for :attribute.',
-			'profile_photo.mimes' => Config::get('constants.image.error').' for :attribute.',
-			'emirates_photo.mimes' => Config::get('constants.image.error').' for :attribute.',
-			'passport_photo.mimes' => Config::get('constants.image.error').' for :attribute.',
-			'gender.in' => Config::get('constants.userGender.error').' for :attribute.',
-			'status.in' => Config::get('constants.userStatus.error').' for :attribute.',
+			'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
 		);
 
 		$validator = \Validator::make($request_data, $rules, $messages);
@@ -203,41 +155,6 @@ class PropertyController extends Controller
 		if ($validator->fails()) {
 			return redirect()->back()->withErrors($validator)->withInput();
 		}
-
-		$user_obj = $this->PropertyObj->getProperty(['id' => $request_data['update_id'], 'detail' => true]);
-
-		if ($request->file('profile_photo')) {
-			$path = upload_assets($request->profile_photo, 'users', $original = true);
-			$request_data['profile_photo'] = $path;
-			if (!$path) {
-				return redirect()->back()->withErrors([
-					'profile_photo' => 'Something wrong with profile photo upload.',
-				])->withInput();
-			}
-			unlink_assets($user_obj['profile_photo']);
-		}
-		if ($request->file('emirates_photo')) {
-			$path = upload_assets($request->emirates_photo, 'users', $original = true);
-			$request_data['emirates_photo'] = $path;
-			if (!$path) {
-				return redirect()->back()->withErrors([
-					'emirates_photo' => 'Something wrong with emirates photo upload.',
-				])->withInput();
-			}
-			unlink_assets($user_obj['emirates_photo']);
-		}
-		if ($request->file('passport_photo')) {
-			$path = upload_assets($request->passport_photo, 'users', $original = true);
-			$request_data['passport_photo'] = $path;
-			if (!$path) {
-				return redirect()->back()->withErrors([
-					'passport_photo' => 'Something wrong with passport photo upload.',
-				])->withInput();
-			}
-			unlink_assets($user_obj['passport_photo']);
-		}
-
-		$request_data = array_filter($request_data);
 
 		$data = $this->PropertyObj->saveUpdateProperty($request_data);
 		if ($data->id)
