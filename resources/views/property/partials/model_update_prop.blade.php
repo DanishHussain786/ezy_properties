@@ -8,7 +8,7 @@
 @if ($data['prop_status'] == 'Available')
   <div class="col-md-6 form-group">
     <label class="control-label">{{$data['prop_type']}} No.</label>
-    <input type="number" value="{{$data['prop_number']}}" name="prop_number" placeholder="Enter property number here" class="form-control full_width">
+    <input type="text" value="{{$data['prop_number']}}" name="prop_number" placeholder="Enter property number here" class="form-control full_width only_numbers">
   </div>
 @endif
 
@@ -31,7 +31,30 @@
 
 <div class="col-md-6 form-group">
   <label class="control-label">Rent (AED)</label>
-  <input type="number" value="{{$data['prop_rent']}}" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width">
+  <input type="text" value="{{$data['prop_rent']}}" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width only_numbers">
+</div>
+
+<div class="col-md-6 form-group">
+  <label>Other Charges</label>
+  <select class="form-control full_width" id="other_charges" name="other_charges">
+    <option {{(isset($data['other_charges']) && $data['other_charges'] == 'No') ? 'selected': '' }} value="No"> No </option>
+    <option {{(isset($data['other_charges']) && $data['other_charges'] == 'Yes') ? 'selected': '' }} value="Yes"> Yes </option>
+  </select>
+</div>
+
+<div class="col-md-6 form-group dy_dewa_ch {{$data['dewa_charges'] > 0 && $data['other_charges'] == 'Yes' ? '' : 'd-none'}}">
+  <label class="control-label">Dewa Charges</label>
+  <input type="text" value="{{$data['dewa_charges']}}" id="dewa_ch" name="dewa_ch" placeholder="Enter property dewa charges" class="form-control full_width only_numbers">
+</div>
+
+<div class="col-md-6 form-group dy_wifi_ch {{$data['wifi_charges'] > 0 && $data['other_charges'] == 'Yes' ? '' : 'd-none'}}">
+  <label class="control-label">Wifi Charges</label>
+  <input type="text" value="{{$data['wifi_charges']}}" id="wifi_ch" name="wifi_ch" placeholder="Enter property wifi charges" class="form-control full_width only_numbers">
+</div>
+
+<div class="col-md-6 form-group dy_misc_ch {{$data['misc_charges'] > 0 && $data['other_charges'] == 'Yes' ? '' : 'd-none'}}">
+  <label class="control-label">Misc. Address</label>
+  <input type="text" value="{{$data['misc_charges']}}" id="misc_ch" name="misc_ch" placeholder="Enter property misc charges" class="form-control full_width only_numbers">
 </div>
 
 @if ($data['prop_status'] == 'Available')
