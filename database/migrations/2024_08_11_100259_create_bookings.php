@@ -29,6 +29,9 @@ return new class extends Migration
       $table->double('rent')->nullable();
       $table->double('markup_rent')->nullable();
       $table->double('exempt_rent')->nullable();
+      $table->enum('other_charges', ['Yes','No'])->default('No');
+      $table->double('admin_charges')->nullable();
+      $table->double('security_charges')->nullable();
       $table->double('balance')->nullable();
       $table->double('total_payable')->nullable();
       $table->softDeletes('deleted_at');
