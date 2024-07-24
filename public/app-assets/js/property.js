@@ -20,24 +20,15 @@ jQuery(document).ready(function() {
     $('.dy_prop_number, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
 
     var val = $(this).val();
-    $("#property_type").text(val ? val + " No." : "Property No.");
+    $("#property_type").text(val ? val + " No." : "Property No.");  
+
 
     if (val === "Villa" || val === "Appartment" || val === "Studio" || val === "Room") {
       $('.dy_prop_number, .dy_floor, .dy_rent, .dy_prop_add').css('display', 'block');
     }
-    else {
-      if (val === "Bed Space") {
-        $('.dy_room_no, .dy_rent, .dy_bs_level').css('display', 'block');
-      }
-    }
-
-    $(document).on("click", "#property_btn", function(event) {
-      $('.is-required').each(function() {
-        if ($(this).css('display') === 'none') {
-          $(this).find('input, select').prop('required', false);
-        }
-      });
-    });
+    else if (val === "Bed Space") {
+      $('.dy_room_no, .dy_rent, .dy_bs_level').css('display', 'block');
+    }   
 
     // var btn_txt = $(this).text().trim();
     // var form = $(this).closest("form");
@@ -87,6 +78,34 @@ jQuery(document).ready(function() {
     // }
   })
 });
+
+$(document).on("click", "#property_btn", function(event) {
+  $('.is-required').each(function() {
+    if ($(this).css('display') === 'none') {
+      $(this).find('input, select').prop('required', false);
+    }
+  });
+});
+
+$(document).on("click", ".update_property_btn", function(event) {
+  event.preventDefault();
+  var update_id = $(this).data("update_id");
+  var url = $(this).data("update_url");
+  $('.update_popup').attr("action", url);
+
+  dynamicAjaxGetRequest('/property/'+update_id+'/edit', { 'update_id': update_id, 'return_to': 'model_update_prop' }, function(response) {
+    try {
+      $(".model-ajax").html(response);
+      $("#update_property_popup").modal("show");
+    } catch (e) {
+      console.error('Error parsing response:', e);
+    }
+  }, function(xhr, status, error) {
+    console.error('Error:', status, error);
+  });
+});
+
+
 /*
   $(document).on(
     "click",

@@ -40,8 +40,8 @@
           <td>{{ $item['prop_rent'] }}</td>
           {{--<td><span class="{{$status_class}} label label-default">{{ $item['status'] }}</span></td>--}}
           <td>
-            <a href="{{ url($data['route_name'].'/'.$item['id'].'/edit') }}"> <button type="button" class="btn btn-add btn-sm m-1" title="User Profile" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button></a>
-            <button type="button" class="btn btn-danger btn-sm m-1" id="delete_btn" title="User Profile" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_user_popup"><i class="fa fa-trash-o"></i> </button>
+            <button type="button" class="btn btn-add btn-sm m-1 update_property_btn" title="Update Property" data-update_id="{{$item['id']}}" data-update_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
+            <button type="button" class="btn btn-danger btn-sm m-1 delete_btn" title="Delete Property" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_property_popup"><i class="fa fa-trash-o"></i> </button>
           </td>
         </tr>
       @endforeach

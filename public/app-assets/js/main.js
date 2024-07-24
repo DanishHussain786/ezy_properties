@@ -184,7 +184,7 @@ function showModal(src) {
     getAjaxData();
   });
 
-  $(document).on("click", "#delete_btn", function(event) {
+  $(document).on("click", ".delete_btn", function(event) {
     var url = $(this).data("delete_url");
     $('.delete_popup').attr("action", url);
   });
@@ -286,13 +286,59 @@ function getAjaxData(data) {
     success: function(response) {
       $(".loaderOverlay").fadeOut();
       $("#table_data").html(response);
+    }
+  });
+}
 
-      // if (feather) {
-      //   feather.replace({
-      //     width: 14,
-      //     height: 14,
-      //   });
-      // }
+/**
+ * Function to make a dynamic AJAX GET request
+ * @param {string} url - The URL to which the request is sent
+ * @param {object} data - Data to be sent to the server
+ * @param {function} successCallback - A function to be called if the request succeeds
+ * @param {function} errorCallback - A function to be called if the request fails
+ */
+function dynamicAjaxGetRequest(url, data, successCallback, errorCallback) {
+  $.ajax({
+    url: url,
+    type: 'GET',
+    data: data,
+    // dataType: 'json',
+    success: function(response) {
+      if (typeof successCallback === 'function') {
+        successCallback(response);
+      }
+    },
+    error: function(xhr, status, error) {
+      if (typeof errorCallback === 'function') {
+        errorCallback(xhr, status, error);
+      }
+    }
+  });
+}
+
+/**
+ * Function to make a dynamic AJAX POST request
+ * @param {string} url - The URL to which the request is sent
+ * @param {object} data - Data to be sent to the server
+ * @param {function} successCallback - A function to be called if the request succeeds
+ * @param {function} errorCallback - A function to be called if the request fails
+ */
+function dynamicAjaxPostRequest(url, data, successCallback, errorCallback) {
+  $.ajax({
+    url: url,
+    type: 'POST',
+    data: JSON.stringify(data),
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    success: function(response) {
+      if (typeof successCallback === 'function') {
+        successCallback(response);
+      }
+    },
+    error: function(xhr, status, error) {
+      if (typeof errorCallback === 'function') {
+        errorCallback(xhr, status, error);
+      }
     }
   });
 }
