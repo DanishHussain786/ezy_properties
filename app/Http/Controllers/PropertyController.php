@@ -97,6 +97,7 @@ class PropertyController extends Controller
 		$data = $this->PropertyObj->getProperty($request_data);
 		$data['users'] = $this->UserObj->getUser(['role' => 'Guest']);
 		$data['route_name'] = $this->route_name;
+		$data['pay_methods'] = Config::get('constants.paymentModes.all_keys_arr');
 
 		if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_reservation') {
 			$data['html'] = view("{$this->route_name}.partials.model_reservation", compact('data'));
