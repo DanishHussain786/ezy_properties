@@ -183,10 +183,20 @@ class BookingController extends Controller
 			'grace_rent'    => ['nullable'],
 			'other_charges' => ['required', 'in:Yes,No'],
 		);
-	
+
+		if (isset($request->deposit_by) && $request->deposit_by == 'Other') {
+			$rules['dep_name'] = ['required', 'max:100'];
+			$rules['dep_email'] = ['required', 'max:100'];
+			$rules['dep_contact'] = ['required', 'max:50'];
+			$rules['dep_method'] = ['required'];
+		}
+		
 		$messages = array(
 			'user_id.required' => 'Please select guest from list.',
-			'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
+			'dep_name.required' => 'Depositor name is required.',
+			'dep_email.required' => 'Depositor email is required.',
+			'dep_contact.required' => 'Depositor contact is required.',
+			'dep_method.required' => 'Depositor pay method is required.',
 		);
 
 		$validator = \Validator::make($request_data, $rules, $messages);
@@ -194,7 +204,13 @@ class BookingController extends Controller
 		if ($validator->fails()) {
 			return $this->sendError($validator->errors()->first(), ["error" => $validator->errors()->first()]);
 		}
-		
+
+		if (isset($request_data['init_deposit']) && $request_data['init_deposit'] > 0) {
+			if (!isset($request_data['deposit_by'])) {
+				return $this->sendError("Please select deposit by from list.", ["error" => "Please select deposit by from list."]);
+			}
+		}
+
 		$rent = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
 		$stay = isset($request_data['stay_months']) ? $request_data['stay_months'] : 0;
 		$grace = isset($request_data['grace_rent']) ? $request_data['grace_rent'] : 0;
@@ -241,7 +257,13 @@ class BookingController extends Controller
 			$deposit_data['property_id'] = $request_data['property_id'];
 			$deposit_data['booking_id'] = $data->id;
 			$deposit_data['paid_by'] = $request_data['user_id'];
+			$deposit_data['deposit_by'] = $request_data['deposit_by'];
+			$deposit_data['dep_name'] = $request_data['dep_name'];
+			$deposit_data['dep_email'] = $request_data['dep_email'];
+			$deposit_data['dep_contact'] = $request_data['dep_contact'];
+			$deposit_data['dep_method'] = $request_data['dep_method'];
 			$deposit_data['amount'] = $deposit;
+			$deposit_data['balance'] = $tot_rent - $deposit;
 			$deposit_data['paid_for'] = 'Property';
 			$deposit_data['type'] = 'Initial-Deposit';
 			$this->TransactionObj->saveUpdateTransaction($deposit_data);
