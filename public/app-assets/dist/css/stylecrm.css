@@ -408,6 +408,10 @@ hr {
   padding: 0;
 }
 
+.pt-0 {
+  padding-top: 0;
+}
+
 .p-l-15 {
   padding-left: 15px;
 }
@@ -6261,6 +6265,12 @@ table.text-center th {
 .font-sm{
   font-size: small;
   font-weight: 600;
+}
+
+.legend-padds {
+  margin-bottom: 5px;
+  font-size: 18px;
+  padding-top: 20px;
 }
 
 /* ---------- END CUSTOM PADDINGS ---------- */
