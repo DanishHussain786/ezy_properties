@@ -130,6 +130,18 @@ class Transaction extends Model
     if (isset($posted_data['paid_by'])) {
       $data->paid_by = $posted_data['paid_by'];
     }
+    if (isset($posted_data['deposit_by'])) {
+      $data->deposit_by = $posted_data['deposit_by'];
+    }
+    if (isset($posted_data['dep_name'])) {
+      $data->dep_name = ucwords(strtolower($posted_data['dep_name']));
+    }
+    if (isset($posted_data['dep_email'])) {
+      $data->dep_email = $posted_data['dep_email'];
+    }
+    if (isset($posted_data['dep_contact'])) {
+      $data->dep_contact = $posted_data['dep_contact'];
+    }
     if (isset($posted_data['amount'])) {
       $data->amount = $posted_data['amount'];
     }
