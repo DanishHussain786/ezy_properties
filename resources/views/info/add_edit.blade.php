@@ -70,7 +70,7 @@
                 </div>
                 <div class="form-group col-md-4 col-sm-6">
                   <label>Office Contact</label>
-                  <input type="email" name="c_office_ph" value="{{old('c_office_ph', isset($data->c_office_ph)? $data->c_office_ph: '')}}" class="form-control @error('c_office_ph') is-invalid @enderror" placeholder="Enter company office contact">
+                  <input type="text" name="c_office_ph" value="{{old('c_office_ph', isset($data->c_office_ph)? $data->c_office_ph: '')}}" class="form-control @error('c_office_ph') is-invalid @enderror" placeholder="Enter company office contact">
                   @error('c_office_ph')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                   @else
@@ -79,7 +79,7 @@
                 </div>
                 <div class="form-group col-md-4 col-sm-6">
                   <label>Landline Contact</label>
-                  <input type="email" name="c_mobile_ph" value="{{old('c_mobile_ph', isset($data->c_mobile_ph)? $data->c_mobile_ph: '')}}" class="form-control @error('c_mobile_ph') is-invalid @enderror" placeholder="Enter company office contact">
+                  <input type="text" name="c_mobile_ph" value="{{old('c_mobile_ph', isset($data->c_mobile_ph)? $data->c_mobile_ph: '')}}" class="form-control @error('c_mobile_ph') is-invalid @enderror" placeholder="Enter company office contact">
                   @error('c_mobile_ph')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                   @else
