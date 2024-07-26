@@ -314,6 +314,17 @@ $(document).on("change", "#other_charges", function(event) {
   }
 });
 
+$(document).on("change", "#deposit_by", function(event) {
+  if ($(this).val() === 'Other') {
+    $('.depositor_data').removeClass('d-none');
+  } else {
+    $('.depositor_data').addClass('d-none');
+    $("input[name='dep_name']").val('');
+    $("input[name='dep_email']").val('');
+    $("input[name='dep_contact']").val('');
+  }
+});
+
 $(document).on("input", "input[name='dewa_ch']", function(event) { 
   $("input[name='dewa_ch']").val($(this).val());
   calculateTotal();
