@@ -34,7 +34,7 @@ return [
       'Block' => 'Block',
     ],
     'all_keys_str' => 'Active,Block',
-    'all_keys_arr' => ['Active', 'Block'],
+    'all_keys_arr' => ['Active','Block'],
     'error' => 'Please post a valid value (Active or Block)',
   ],
   'userGender' => [
@@ -43,7 +43,7 @@ return [
       'Female' => 'Female',
     ],
     'all_keys_str' => 'Male,Female',
-    'all_keys_arr' => ['Male', 'Female'],
+    'all_keys_arr' => ['Male','Female'],
     'error' => 'Please post a valid value (Male or Female)',
   ],
   'image' => [
@@ -53,7 +53,7 @@ return [
       'png' => 'png',
     ],
     'all_keys_str' => 'jpg,jpeg,png',
-    'all_keys_arr' => ['jpg', 'jpeg', 'png'],
+    'all_keys_arr' => ['jpg','jpeg','png'],
     'error' => 'Please post a valid file (jpg,jpeg or png)',
   ],
   // 'video' => [
@@ -76,7 +76,7 @@ return [
       'Guest' => 'Guest',
     ],
     'all_keys_str' => 'Master,Manager,Agent,Staff,Guest',
-    'all_keys_arr' => ['Master', 'Manager','Agent','Staff','Guest'],
+    'all_keys_arr' => ['Master','Manager','Agent','Staff','Guest'],
     'error' => 'Please post a valid value (Manager,Agent,Staff or Guest)',
   ],
   'propertyTypes' => [
@@ -91,14 +91,16 @@ return [
     'all_keys_arr' => ['Villa', 'Appartment','Studio','Room','Bed Space'],
     'error' => 'Please post a valid value (Appartment,Studio,Room or Bed Space)',
   ],
-  // 'paymentModes' => [
-  //   'data' => [
-  //     'Card' => 'Card',
-  //     'Bank' => 'Bank',
-  //     'Cash' => 'Cash',
-  //   ],
-  //   'all_keys_str' => 'Card,Bank,Cash',
-  //   'all_keys_arr' => ['Card', 'Bank', 'Cash'],
-  //   'error' => 'Please post a valid value (Card,Bank or Cash)',
-  // ],
+  'paymentModes' => [
+    'data' => [
+      'Cash' => 'Cash',
+      'Credit-Card' => 'Credit-Card',
+      'Online' => 'Online',
+      'Bank-Transfer' => 'Bank-Transfer',
+      'Bank-Cheque' => 'Bank-Cheque',
+    ],
+    'all_keys_str' => 'Cash,Credit-Card,Online,Bank-Transfer,Bank-Cheque',
+    'all_keys_arr' => ['Cash','Credit-Card','Online','Bank-Transfer','Bank-Cheque'],
+    'error' => 'Please post a valid value (Cash,Credit-Card,Online,Bank-Transfer or Bank-Cheque)',
+  ],
 ];
