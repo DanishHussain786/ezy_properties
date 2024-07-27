@@ -21,6 +21,11 @@ return new class extends Migration
       $table->foreign('service_id')->references('id')->constrained()->on('services')->onUpdate('cascade')->onDelete('cascade');
       $table->unsignedBigInteger('paid_by')->nullable();
       $table->foreign('paid_by')->references('id')->constrained()->on('users')->onUpdate('cascade')->onDelete('cascade');
+      $table->enum('deposit_by', ['Guest','Other'])->default('Guest');
+      $table->string('dep_name', 180)->nullable();
+      $table->string('dep_email', 180)->nullable();
+      $table->string('dep_contact', 180)->nullable();
+      $table->enum('dep_method', ['Cash','Credit-Card','Online','Bank-Transfer','Bank-Cheque'])->default('Cash');
       $table->double('amount')->nullable();
       $table->double('balance')->nullable();
       $table->enum('paid_for', ['Property','Service'])->default('Property');
