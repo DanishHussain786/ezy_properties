@@ -443,6 +443,19 @@
                   <li><a href="{{url('property')}}">List Services</a></li>
                 </ul>
               </li>
+              @php $class = (strpos($str_slug, "info") !== false) ? 'active' : ''; @endphp
+              <li class="treeview menu-item {{$class}}">
+                <a href="#">
+                  <i class="fa fa-home"></i><span>Information</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{url('info/create')}}">Company Information</a></li>
+                  <li><a href="{{url('info')}}">Receipts Design</a></li>
+                </ul>
+              </li>
             </ul>
           </div>
           <!-- /.sidebar -->
