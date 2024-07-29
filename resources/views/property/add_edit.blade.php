@@ -68,21 +68,21 @@
               <div class="form-group dy_prop_number col-md-4 col-sm-6 is-required">
                 <label id="property_type">Property No.</label>
                 <input type="number" name="prop_number" id="prop_number" value="{{old('prop_number', isset($data->prop_number)? $data->prop_number: '')}}" class="form-control @error('prop_number') is-invalid @enderror" placeholder="Enter property number or reference" required>
-                @error('prop_number')
+                {{--@error('prop_number')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @else
                   <span class="invalid-feedback" role="alert"></span>
-                @enderror
+                @enderror--}}
               </div>
 
               <div class="form-group dy_room_no col-md-4 col-sm-6 is-required" style="display: none;">
                 <label id="property_type">Room No.</label>
                 <input type="number" name="room_no" id="room_no" value="{{old('room_no', isset($data->room_no)? $data->room_no: '')}}" class="form-control @error('room_no') is-invalid @enderror" placeholder="Enter property room number" required>
-                @error('room_no')
+                {{--@error('room_no')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @else
                   <span class="invalid-feedback" role="alert"></span>
-                @enderror
+                @enderror--}}
               </div>
 
               @php $all_floors = get_floors(); @endphp
@@ -96,31 +96,31 @@
                     @endforeach
                   @endif
                 </select>
-                @error('role')
+                {{--@error('role')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @else
                   <span class="invalid-feedback" role="alert"></span>
-                @enderror
+                @enderror--}}
               </div>
 
               <div class="form-group dy_rent col-md-4 col-sm-6 is-required">
                 <label>Rent (AED)</label>
                 <input type="number" name="prop_rent" id="prop_rent" value="{{old('prop_rent', isset($data->prop_rent)? $data->prop_rent: '')}}" class="form-control @error('prop_rent') is-invalid @enderror" placeholder="Enter property rental cost" required>
-                @error('prop_rent')
+                {{--@error('prop_rent')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @else
                   <span class="invalid-feedback" role="alert"></span>
-                @enderror
+                @enderror--}}
               </div>
 
               <div class="form-group dy_prop_add col-md-4 col-sm-6 is-required">
                 <label>Property Address</label>
                 <input type="text" name="prop_address" id="prop_address" value="{{old('prop_address', isset($data->prop_address)? $data->prop_address: '')}}" class="form-control @error('prop_address') is-invalid @enderror" placeholder="Enter property address" required>
-                @error('prop_address')
+                {{--@error('prop_address')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @else
                   <span class="invalid-feedback" role="alert"></span>
-                @enderror
+                @enderror--}}
               </div>
 
               <div class="row" style="margin-left: 0px;">

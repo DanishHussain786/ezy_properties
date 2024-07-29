@@ -5,41 +5,67 @@
 @section('content-view')
 
 <style>
+  {{--
+  .excel-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  .excel-table th, .excel-table td {
+    padding: 4px;
+    text-align: left;
+    border: none;
+  }
+  .form-control {
+    padding: 2px 5px;
+  }
+  .form-group {
+    margin-bottom: 5px;
+  }
+  .no-padding {
+    padding: 0 !important;
+  }
+  .no-margin {
+    margin: 0 !important;
+  }
+  @media (max-width: 767px) {
+    .excel-table tbody tr {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .excel-table td {
+      display: flex;
+      align-items: center;
+      width: 50%;
+      box-sizing: border-box;
+    }
+    .excel-table td label,
+    .excel-table td input {
+      width: 100%;
+    }
+  }
+  --}}
+
   .form-group {
     margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
-  .form-group label {
-    margin-right: 10px;
-    white-space: normal;
-    word-break: break-word;
-  }
-  .form-group input, .form-group select {
-    flex-grow: 1;
-    text-align: right;
+  .modal-body {
+    padding: 20px;
   }
   @media (max-width: 767px) {
     .form-group {
+      display: flex;
       flex-direction: column;
       align-items: flex-start;
     }
     .form-group label {
-      margin-right: 0;
       margin-bottom: 5px;
     }
     .form-group input {
       width: 100%;
-      text-align: left;
     }
   }
-  .modal-dialog {
-    max-width: 800px;
-    margin: 30px auto;
-  }
-  .modal-content {
-    padding: 20px;
+  .total-sum {
+    text-align: right;
   }
 </style>
 

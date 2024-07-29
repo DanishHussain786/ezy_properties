@@ -73,11 +73,11 @@ return [
       'Manager' => 'Manager',
       'Agent' => 'Agent',
       'Staff' => 'Staff',
-      'Customer' => 'Customer',
+      'Guest' => 'Guest',
     ],
-    'all_keys_str' => 'Master,Manager,Agent,Staff,Customer',
-    'all_keys_arr' => ['Master', 'Manager','Agent','Staff','Customer'],
-    'error' => 'Please post a valid value (Manager,Agent,Staff or Customer)',
+    'all_keys_str' => 'Master,Manager,Agent,Staff,Guest',
+    'all_keys_arr' => ['Master', 'Manager','Agent','Staff','Guest'],
+    'error' => 'Please post a valid value (Manager,Agent,Staff or Guest)',
   ],
   'propertyTypes' => [
     'data' => [

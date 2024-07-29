@@ -115,13 +115,13 @@
   </div>
   <!-- /.modal -->
   <!-- Modal -->
-  <!-- Customer Modal2 -->
+  <!-- User Modal2 -->
   <div class="modal fade" id="del_user_popup" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header modal-header-primary">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3><i class="fa fa-user m-r-5"></i> Delete Customer</h3>
+          <h3><i class="fa fa-user m-r-5"></i> Delete User</h3>
         </div>
         <div class="modal-body">
           <div class="row">

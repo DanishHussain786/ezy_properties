@@ -383,7 +383,7 @@
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="{{url('user/create')}}">Add User</a></li>
-                  <li><a href="{{url('user')}}">All Users</a></li>
+                  <li><a href="{{url('user')}}">List Users</a></li>
                 </ul>
               </li>
               @php $class = (strpos($str_slug, "property") !== false) ? 'active' : ''; @endphp
@@ -396,9 +396,38 @@
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="{{url('property/create')}}">Add Property</a></li>
-                  <li><a href="{{url('property')}}">All Properties</a></li>
+                  <li><a href="{{url('property')}}">List Properties</a></li>
                 </ul>
               </li>
+              {{--
+              @php $class = (strpos($str_slug, "property") !== false) ? 'active' : ''; @endphp
+              <li class="treeview menu-item {{$class}}">
+                <a href="#">
+                  <i class="fa fa-home"></i><span>Bookings</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{url('property/create')}}">Reservations</a></li>
+                  <li><a href="{{url('property/create')}}">Check In</a></li>
+                  <li><a href="{{url('property')}}">Check Out</a></li>
+                </ul>
+              </li>
+              @php $class = (strpos($str_slug, "property") !== false) ? 'active' : ''; @endphp
+              <li class="treeview menu-item {{$class}}">
+                <a href="#">
+                  <i class="fa fa-home"></i><span>Services</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{url('property/create')}}">Add Service</a></li>
+                  <li><a href="{{url('property')}}">List Services</a></li>
+                </ul>
+              </li>
+              --}}
             </ul>
           </div>
           <!-- /.sidebar -->

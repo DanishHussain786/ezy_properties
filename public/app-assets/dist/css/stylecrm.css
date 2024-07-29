@@ -404,12 +404,20 @@ hr {
   padding: 0;
 }
 
+.p-l-15 {
+  padding-left: 15px;
+}
+
 .p-l-20 {
   padding-left: 20px;
 }
 
 .p-l-30 {
   padding-left: 30px;
+}
+
+.p-r-10 {
+  padding-right: 10px;
 }
 
 .p-r-30 {
@@ -1253,7 +1261,7 @@ a.sidebar-toggle .pe-7s-angle-left-circle {
 }
 
 .sidebar-menu>li>a {
-  padding: 12px 5px 12px 15px;
+  padding: 8px 5px 8px 15px;
   display: block;
   color: #fefefe;
   position: relative;
@@ -1326,7 +1334,7 @@ a.sidebar-toggle .pe-7s-angle-left-circle {
   position: relative;
   display: none;
   list-style: none;
-  padding: 5px 0 10px;
+  padding: 5px 0px 5px 0px;
   margin: 0;
   padding-left: 35px;
   background-color: #07161e;
@@ -6196,11 +6204,12 @@ table.text-center th {
 .left-align {
   display: flex;
   width: 50%;
-  margin-right: 1%;
 }
 
 .right-align {
-  width: 20%;
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 /* ---------- START CUSTOM PADDINGS ---------- */
@@ -6222,6 +6231,22 @@ table.text-center th {
 .form-horizontal .form-group,
 .modal-header > h3 {
   margin: 0px;
+}
+
+.dropdown-menu-right li a .ti-pencil,
+.dropdown-menu-right li a .ti-move,
+.dropdown-menu-right li a .ti-reload {
+  display: none;
+}
+
+.no-border {
+  border: none !important;
+}
+
+.wrap-label{
+  max-width: 10ch;
+  white-space: normal;
+  word-break: break-word;
 }
 
 /* ---------- END CUSTOM PADDINGS ---------- */

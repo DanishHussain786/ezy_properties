@@ -1,11 +1,11 @@
-// $(window).on("load", function() {
-//   if (feather) {
-//     feather.replace({
-//       width: 14,
-//       height: 14,
-//     });
-//   }
-// });
+$(window).on("load", function() {
+  // if (feather) {
+  //   feather.replace({
+  //     width: 14,
+  //     height: 14,
+  //   });
+  // }
+});
 
 jQuery(document).ready(function() {
   $('.skin-minimal .i-check input').iCheck({
@@ -37,6 +37,37 @@ jQuery(document).ready(function() {
       insert: '<div class="icheck_line-icon"></div>' + label_text
     })
   })
+
+  var currentStep = 0;
+  var steps = $(".step-form");
+  var indicators = $(".step-indicators .step");
+
+  $(".next-btn").on("click", function() {
+    if (currentStep < steps.length - 1) {
+      currentStep++;
+      showStep(currentStep);
+    }
+  });
+
+  $(".prev-btn").on("click", function() {
+    if (currentStep > 0) {
+      currentStep--;
+      showStep(currentStep);
+    }
+  });
+
+  function showStep(step) {
+    steps.removeClass("active").eq(step).addClass("active");
+    indicators.removeClass("active").removeClass("completed");
+    indicators.slice(0, step).addClass("completed");
+    indicators.eq(step).addClass("active");
+  }
+
+  $("#multiStepForm").on("submit", function(event) {
+    event.preventDefault();
+    alert("Form submitted!");
+    // Handle form submission here
+  });
 });
 
 function showModal(src) {

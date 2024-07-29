@@ -1,3 +1,12 @@
+$(window).on("load", function() {
+  // if (feather) {
+  //   feather.replace({
+  //     width: 14,
+  //     height: 14,
+  //   });
+  // }
+});
+
 jQuery(document).ready(function() {
   setTimeout(function() {
     $(".alert-success").hide();
@@ -89,8 +98,8 @@ $(document).on("click", "#property_btn", function(event) {
 
 $(document).on("click", ".update_property_btn", function(event) {
   event.preventDefault();
-  var update_id = $(this).data("update_id");
-  var url = $(this).data("update_url");
+  var update_id = $(this).data("prop_id");
+  var url = $(this).data("action_url");
   $('.update_popup').attr("action", url);
 
   dynamicAjaxGetRequest('/property/'+update_id+'/edit', { 'update_id': update_id, 'return_to': 'model_update_prop' }, function(response) {
@@ -103,6 +112,28 @@ $(document).on("click", ".update_property_btn", function(event) {
   }, function(xhr, status, error) {
     console.error('Error:', status, error);
   });
+});
+
+$(document).on("click", ".checkin_btn", function(event) {
+  event.preventDefault();
+  var prop_id = $(this).data("prop_id");
+  var url = $(this).data("action_url");
+  $('.update_popup').attr("action", url);
+
+  dynamicAjaxGetRequest('/property/'+prop_id, { 'prop_id': prop_id, 'return_to': 'model_checkin' }, function(response) {
+    try {
+      $(".model-ajax").html(response);
+      $("#checkin_popup").modal("show");
+    } catch (e) {
+      console.error('Error parsing response:', e);
+    }
+  }, function(xhr, status, error) {
+    console.error('Error:', status, error);
+  });
+});
+
+$('#checkin_popup').on('shown.bs.modal', function () {
+  $('.select2_field').select2();
 });
 
 

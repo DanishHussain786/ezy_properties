@@ -21,6 +21,7 @@ use App\Http\Controllers\PropertyController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('test', [UserController::class, 'test_function']);
 
 Route::get('/clear-cache', function() {
     // Artisan::call('optimize');

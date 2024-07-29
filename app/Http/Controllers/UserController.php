@@ -12,6 +12,12 @@ class UserController extends Controller
 	private $route_name = "user";
 	private $model_name = "users";
 
+	public function test_function(Request $request)
+	{
+		$data = [];
+		return view("property.sliders_add_edit", compact('data'));
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 */
