@@ -15,77 +15,81 @@ jQuery(document).ready(function() {
   $('.select2_field').select2();
 
   $('.dy_prop_number, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
+});
 
-  $(document).on("change", "#prop_type", function(event) { 
-    // Clear values of form fields
-    $('#prop_number, #room_no, #prop_floor, #prop_rent, #prop_address, #bs_level').each(function() {
-      if ($(this).is('select')) {
-        $(this).val('').trigger("change"); // Reset select to first option
-      } else {
-        $(this).val(''); // Clear input field value
-      }
-    });
-
-    $('.dy_prop_number, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
-
-    var val = $(this).val();
-    $("#property_type").text(val ? val + " No." : "Property No.");  
-
-
-    if (val === "Villa" || val === "Appartment" || val === "Studio" || val === "Room") {
-      $('.dy_prop_number, .dy_floor, .dy_rent, .dy_prop_add').css('display', 'block');
+$(document).on("change", "#prop_type", function(event) { 
+  // Clear values of form fields
+  $('#prop_number, #room_no, #prop_floor, #prop_rent, #prop_address, #bs_level').each(function() {
+    if ($(this).is('select')) {
+      $(this).val('').trigger("change"); // Reset select to first option
+    } else {
+      $(this).val(''); // Clear input field value
     }
-    else if (val === "Bed Space") {
-      $('.dy_room_no, .dy_rent, .dy_bs_level').css('display', 'block');
-    }   
+  });
 
-    // var btn_txt = $(this).text().trim();
-    // var form = $(this).closest("form");
-    // var name = $(this).data("name");
-    // event.preventDefault();
+  $('.dy_prop_number, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
+
+  var val = $(this).val();
+  $("#property_type").text(val ? val + " No." : "Property No.");  
 
 
-    // swal({
-    //     title: `Are you sure you want to delete this record?`,
-    //     icon: "warning",
-    //     buttons: ["No", "Yes"],
-    //     dangerMode: true,
-    // })
-    //     .then((willDelete) => {
-    //         if (willDelete) {
-    //             form.submit();
-    //         }
-    //     });
+  if (val === "Villa" || val === "Appartment" || val === "Studio" || val === "Room") {
+    $('.dy_prop_number, .dy_floor, .dy_rent, .dy_prop_add').css('display', 'block');
+  }
+  else if (val === "Bed Space") {
+    $('.dy_room_no, .dy_rent, .dy_bs_level').css('display', 'block');
+  }   
 
-    // if (btn_txt === "Block" || btn_txt === "Unblock") {
-    //   swal({
-    //     title: `Are you sure you want to update this record?`,
-    //     icon: "warning",
-    //     buttons: ["No", "Yes"],
-    //     dangerMode: true,
-    //   }).then((willDelete) => {
-    //     if (willDelete) {
-    //       form.submit();
-    //     }
-    //   });
-    // }
+  // var btn_txt = $(this).text().trim();
+  // var form = $(this).closest("form");
+  // var name = $(this).data("name");
+  // event.preventDefault();
 
-    // if (btn_txt === "Payment Status") {
-    //   swal({
-    //     title: `Are you sure you want to update payment status?`,
-    //     icon: "warning",
-    //     buttons: ["Reject", "Approve"],
-    //     dangerMode: true,
-    //   }).then((approve) => {
-    //     if (approve) {
-    //       form.append(
-    //         '<input type="hidden" name="manual_payment" value="1" /> '
-    //       );
-    //       form.submit();
-    //     }
-    //   });
-    // }
-  })
+
+  // swal({
+  //     title: `Are you sure you want to delete this record?`,
+  //     icon: "warning",
+  //     buttons: ["No", "Yes"],
+  //     dangerMode: true,
+  // })
+  //     .then((willDelete) => {
+  //         if (willDelete) {
+  //             form.submit();
+  //         }
+  //     });
+
+  // if (btn_txt === "Block" || btn_txt === "Unblock") {
+  //   swal({
+  //     title: `Are you sure you want to update this record?`,
+  //     icon: "warning",
+  //     buttons: ["No", "Yes"],
+  //     dangerMode: true,
+  //   }).then((willDelete) => {
+  //     if (willDelete) {
+  //       form.submit();
+  //     }
+  //   });
+  // }
+
+  // if (btn_txt === "Payment Status") {
+  //   swal({
+  //     title: `Are you sure you want to update payment status?`,
+  //     icon: "warning",
+  //     buttons: ["Reject", "Approve"],
+  //     dangerMode: true,
+  //   }).then((approve) => {
+  //     if (approve) {
+  //       form.append(
+  //         '<input type="hidden" name="manual_payment" value="1" /> '
+  //       );
+  //       form.submit();
+  //     }
+  //   });
+  // }
+});
+
+$(document).on("change", "#other_charges", function(event) { 
+  alert('deeee');
 });
 
 $(document).on("click", "#property_btn", function(event) {
