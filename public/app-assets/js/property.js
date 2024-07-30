@@ -118,16 +118,16 @@ $(document).on("click", ".update_property_btn", function(event) {
   });
 });
 
-$(document).on("click", ".checkin_btn", function(event) {
+$(document).on("click", ".reservation_btn", function(event) {
   event.preventDefault();
   var prop_id = $(this).data("prop_id");
   var url = $(this).data("action_url");
   $('.update_popup').attr("action", url);
 
-  dynamicAjaxGetRequest('/property/'+prop_id, { 'prop_id': prop_id, 'return_to': 'model_checkin' }, function(response) {
+  dynamicAjaxGetRequest('/property/'+prop_id, { 'prop_id': prop_id, 'return_to': 'model_reservation' }, function(response) {
     try {
       $(".model-ajax").html(response);
-      $("#checkin_popup").modal("show");
+      $("#reservation_popup").modal("show");
     } catch (e) {
       console.error('Error parsing response:', e);
     }
@@ -136,7 +136,7 @@ $(document).on("click", ".checkin_btn", function(event) {
   });
 });
 
-$('#checkin_popup').on('shown.bs.modal', function () {
+$('#reservation_popup').on('shown.bs.modal', function () {
   $('.select2_field').select2();
 });
 
