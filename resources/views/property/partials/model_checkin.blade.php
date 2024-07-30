@@ -1,18 +1,18 @@
 {{--
-<div class="col-md-6 form-group">
+<div class="form-group col-md-4">
   <label class="control-label">Property Type</label>
   <select class="form-control full_width" id="prop_type" name="prop_type">
     <option value="{{$data['prop_type']}}" selected> {{$data['prop_type']}} </option>
   </select>
 </div>
 
-<div class="col-md-6 form-group">
+<div class="form-group col-md-4">
   <label class="control-label">{{$data['prop_type']}} No.</label>
   <input type="number" value="{{$data['prop_number']}}" name="prop_number" placeholder="Enter property number here" class="form-control full_width">
 </div>
 --}}
 
-<div class="col-md-6 form-group">
+<div class="form-group col-md-4">
   <label class="control-label wrap-labels">Select Guest</label>
   <select class="select2_field form-control full_width" id="users" name="users">
     <option value=""> ---- Choose any user ---- </option>
@@ -24,7 +24,7 @@
   </select>
 </div>
 
-<div class="col-md-6 form-group">
+<div class="form-group col-md-4">
   <label class="control-label wrap-label">Rent (AED)</label>
   <input type="number" value="{{$data['prop_rent']}}" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width">
 </div>
@@ -32,7 +32,7 @@
 {{--
 @php $all_floors = get_floors(); @endphp
 @if ($data['prop_type'] != 'Bed Space')
-<div class="col-md-6 form-group">
+<div class="form-group col-md-4">
   <label class="control-label">Floor No.</label>
   <select class="form-control full_width" id="prop_floor" name="prop_floor">
     <option value=""> ---- Choose any option ---- </option>
@@ -46,7 +46,7 @@
 @endif
 
 @if ($data['prop_type'] != 'Bed Space')
-<div class="col-md-6 form-group">
+<div class="form-group col-md-4">
   <label class="control-label">Property Address</label>
   <input type="text" value="{{$data['prop_address']}}" name="prop_address" placeholder="Enter property address" class="form-control full_width">
 </div>
@@ -142,34 +142,31 @@
 --}}
 
 <div class="clearfix"></div>
-<div class="form-group col-md-6">
+<div class="form-group col-md-4">
   <label class="control-label wrap-label" for="label1">Label 1</label>
   <input type="number" class="form-control" id="label1" name="label1" value="0">
 </div>
-<div class="form-group col-md-6">
+<div class="form-group col-md-4">
   <label class="control-label wrap-label" for="label2">Label 2</label>
   <input type="number" class="form-control" id="label2" name="label2" value="0">
 </div>
-<div class="form-group col-md-6">
+<div class="form-group col-md-4">
   <label class="control-label wrap-label" for="label3">Label 3</label>
   <input type="number" class="form-control" id="label3" name="label3" value="0">
 </div>
-<div class="form-group col-md-6">
+<div class="form-group col-md-4">
   <label class="control-label wrap-label" for="label4">Label 4</label>
   <input type="number" class="form-control" id="label4" name="label4" value="0">
 </div>
-<div class="form-group col-md-6">
+<div class="form-group col-md-4">
   <label class="control-label wrap-label" for="label5">Label 5</label>
   <input type="number" class="form-control" id="label5" name="label5" value="0">
 </div>
-<div class="form-group col-md-6">
+<div class="form-group col-md-4">
   <label class="control-label wrap-label" for="label6">Label 6</label>
   <input type="number" class="form-control" id="label6" name="label6" value="0">
 </div>
-<div class="form-group col-md-6">
-  <label class="control-label wrap-label" for="label7">Label 7 (Total)</label>
+<div class="form-group col-md-4">
+  <label class="control-label wrap-label" for="label7">Net. Total</label>
   <input type="number" class="form-control" id="label7" name="label7" value="0" readonly>
-</div>
-<div class="form-group col-md-6">
-  <button type="button" class="form-control btn btn-primary" id="calculateTotal">Calculate Total</button>
 </div>

@@ -4,45 +4,6 @@
 @extends('master')
 @section('content-view')
 
-<style>
-  .form-group {
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .form-group label {
-    margin-right: 10px;
-    white-space: normal;
-    word-break: break-word;
-  }
-  .form-group input, .form-group select {
-    flex-grow: 1;
-    text-align: right;
-  }
-  @media (max-width: 767px) {
-    .form-group {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .form-group label {
-      margin-right: 0;
-      margin-bottom: 5px;
-    }
-    .form-group input {
-      width: 100%;
-      text-align: left;
-    }
-  }
-  .modal-dialog {
-    max-width: 800px;
-    margin: 30px auto;
-  }
-  .modal-content {
-    padding: 20px;
-  }
-</style>
-
 <section class="content-header">
   <div class="header-icon">
     <i class="fa fa-dashboard"></i>
