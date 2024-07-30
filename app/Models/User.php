@@ -113,6 +113,9 @@ class User extends Authenticatable
     if (isset($posted_data['status'])) {
       $query = $query->where('users.status', $posted_data['status']);
     }
+    if (isset($posted_data['role'])) {
+      $query = $query->where('users.role', $posted_data['role']);
+    }
 
     // if (isset($posted_data['email_verification_code'])) {
     //   $query = $query->where('users.email_verification_code', $posted_data['email_verification_code']);

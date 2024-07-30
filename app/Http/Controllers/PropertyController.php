@@ -97,8 +97,8 @@ class PropertyController extends Controller
 		$data['users'] = $this->UserObj->getUser(['role' => 'Guest']);
 		$data['route_name'] = $this->route_name;
 
-		if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_checkin') {
-			$data['html'] = view("{$this->route_name}.partials.model_checkin", compact('data'));
+		if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_reservation') {
+			$data['html'] = view("{$this->route_name}.partials.model_reservation", compact('data'));
 		}
 
 		if ($request->ajax()) {
