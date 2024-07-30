@@ -5880,7 +5880,7 @@ table.text-center th {
   }
 }
 
-.is-hide {
+.d-none {
   display: none;
 }
 
