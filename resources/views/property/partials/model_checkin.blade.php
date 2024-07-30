@@ -29,119 +29,14 @@
   <input type="number" value="{{$data['prop_rent']}}" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width">
 </div>
 
-{{--
-@php $all_floors = get_floors(); @endphp
-@if ($data['prop_type'] != 'Bed Space')
 <div class="form-group col-md-4">
-  <label class="control-label">Floor No.</label>
-  <select class="form-control full_width" id="prop_floor" name="prop_floor">
-    <option value=""> ---- Choose any option ---- </option>
-    @if (isset($all_floors) && count($all_floors) > 0 )
-      @foreach ($all_floors as $key => $prop_floor)
-        <option {{ old('prop_floor') == $prop_floor || (isset($data->prop_floor) && $data->prop_floor == $prop_floor) ? 'selected': '' }} value="{{$prop_floor}}"> {{$prop_floor}} </option>
-      @endforeach
-    @endif
+  <label class="control-label">Adittional Charges</label>
+  <select class="form-control full_width" id="other_charges" name="other_charges">
+    <option value="No" selected> No </option>
+    <option value="Yes"> Yes </option>
   </select>
 </div>
-@endif
 
-@if ($data['prop_type'] != 'Bed Space')
-<div class="form-group col-md-4">
-  <label class="control-label">Property Address</label>
-  <input type="text" value="{{$data['prop_address']}}" name="prop_address" placeholder="Enter property address" class="form-control full_width">
-</div>
-@endif
---}}
-
-{{--
-<div class="container-fluid">
-  <h2 style="color: white; font-size: 4px;" class="text-center">Excel-like Form</h2>
-  <form>
-    <div class="table-responsive">
-      <table class="table table-bordered excel-table no-border">
-        --}}
-        {{--
-        <thead>
-          <tr>
-            <th>Label 1</th>
-            <th>Field 1</th>
-            <th>Label 2</th>
-            <th>Field 2</th>
-          </tr>
-        </thead>
-        --}}
-        {{--
-        <tbody>
-          <tr>
-            <div class="col-md-4">
-              <td class="no-borders">
-                <label for="field1">Label 1</label>
-              </td>
-              <td class="no-border">
-                <input type="text" class="form-control full_width" id="field1" name="field1" />
-              </td>
-            </div>
-            <div class="col-md-4">
-              <td class="no-borders">
-                <label for="field2">Label 2</label>
-              </td>
-              <td class="no-border">
-                <input type="text" class="form-control full_width" id="field2" name="field2" />
-              </td>
-            </div>
-            <div class="col-md-4">
-              <td class="no-border">
-                <label for="field3">Label 3</label>
-              </td>
-              <td class="no-border">
-                <input type="text" class="form-control full_width" id="field3" name="field3" />
-              </td>
-            </div>
-          </tr>
-          <tr>
-            <div class="col-md-4">
-              <td class="no-border">
-                <label for="field4">Label 4</label>
-              </td>
-              <td class="no-border">
-                <input type="text" class="form-control full_width" id="field4" name="field4" />
-              </td>
-            </div>
-            <div class="col-md-4">
-              <td class="no-border">
-                <label for="field5">Label 5</label>
-              </td>
-              <td class="no-border">
-                <input type="text" class="form-control full_width" id="field5" name="field5" />
-              </td>
-            </div>
-            <div class="col-md-4">
-              <td class="no-border">
-                <label for="field6">Label 6</label>
-              </td>
-              <td class="no-border">
-                <input type="text" class="form-control full_width" id="field6" name="field6" />
-              </td>
-            </div>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="form-group no-margin">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-  </form>
-</div>
-
-<div class="col-md-12 form-group user-form-group">
-  <div class="pull-right m-t-20">
-    <button type="button" class="btn btn-danger btn-sm">Cancel</button>
-    <button type="submit" class="btn btn-add btn-sm">Update</button>
-  </div>
-</div>
---}}
-
-<div class="clearfix"></div>
 <div class="form-group col-md-4">
   <label class="control-label wrap-label" for="label1">Label 1</label>
   <input type="number" class="form-control" id="label1" name="label1" value="0">

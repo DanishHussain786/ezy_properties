@@ -46,6 +46,8 @@
     <link href="{{ asset('app-assets/plugins/icheck/skins/all.css') }}" rel="stylesheet" type="text/css">
     <!-- Select2 Library -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <!-- Bootstrap toggle css -->
+    <link href="{{ asset('app-assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css') }}" rel="stylesheet" type="text/css"/>
     
     <!-- End Theme Layout Style
     =====================================================================-->
@@ -482,6 +484,8 @@
       <script src="{{ asset('app-assets/plugins/monthly/monthly.js') }}" type="text/javascript"></script>
       <!-- iCheck js -->
       <script src="{{ asset('app-assets/plugins/icheck/icheck.min.js') }}" type="text/javascript"></script>
+      <!-- Bootstrap toggle -->
+      <script src="{{ asset('app-assets/plugins/bootstrap-toggle/bootstrap-toggle.min.js') }}" type="text/javascript"></script>
       <!-- Dashboard js -->
       <script src="{{ asset('app-assets/dist/js/dashboard.js') }}" type="text/javascript"></script>
       <!-- END: Page JS-->
