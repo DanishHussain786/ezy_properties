@@ -1,18 +1,4 @@
-{{--
-<div class="form-group col-md-4">
-  <label class="control-label">Property Type</label>
-  <select class="form-control full_width" id="prop_type" name="prop_type">
-    <option value="{{$data['prop_type']}}" selected> {{$data['prop_type']}} </option>
-  </select>
-</div>
-
-<div class="form-group col-md-4">
-  <label class="control-label">{{$data['prop_type']}} No.</label>
-  <input type="number" value="{{$data['prop_number']}}" name="prop_number" placeholder="Enter property number here" class="form-control full_width">
-</div>
---}}
-
-<div class="form-group col-md-4">
+<div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Select Guest</label>
   <select class="select2_field form-control full_width" id="users" name="users">
     <option value=""> ---- Choose any user ---- </option>
@@ -24,12 +10,12 @@
   </select>
 </div>
 
-<div class="form-group col-md-4">
+<div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Rent (AED)</label>
-  <input type="number" value="{{$data['prop_rent']}}" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width">
+  <input type="number" value="{{$data['prop_rent']}}" id="prop_rent" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width">
 </div>
 
-<div class="form-group col-md-4">
+<div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Adittional Charges</label>
   <select class="form-control full_width" id="other_charges" name="other_charges">
     <option value="No" selected> No </option>
@@ -37,31 +23,23 @@
   </select>
 </div>
 
-<div class="form-group col-md-4">
-  <label class="control-label" for="label1">DEWA Charges</label>
-  <input type="number" class="form-control" id="dewa_ch" name="dewa_ch" value="0">
+<div class="form-group d-none hidden_charges col-md-4 col-sm-6 col-xs-12">
+  <label class="control-label" for="dewa_ch">DEWA Charges</label>
+  <input type="number" class="form-control full_width" placeholder="0" id="dewa_ch" name="dewa_ch">
 </div>
-<div class="form-group col-md-4">
-  <label class="control-label" for="label2">Wifi Charges</label>
-  <input type="number" class="form-control" id="wifi_ch" name="wifi_ch" value="0">
+<div class="form-group d-none hidden_charges col-md-4 col-sm-6 col-xs-12">
+  <label class="control-label" for="wifi_ch">Wifi Charges</label>
+  <input type="number" class="form-control full_width" placeholder="0" id="wifi_ch" name="wifi_ch">
 </div>
-<div class="form-group col-md-4">
-  <label class="control-label" for="label3">Admin Fee</label>
-  <input type="number" class="form-control" id="admin_ch" name="admin_ch" value="0">
+<div class="form-group d-none hidden_charges col-md-4 col-sm-6 col-xs-12">
+  <label class="control-label" for="admin_ch">Admin Fee</label>
+  <input type="number" class="form-control full_width" placeholder="0" id="admin_ch" name="admin_ch">
 </div>
-<div class="form-group col-md-4">
-  <label class="control-label" for="label4">Security Charges</label>
-  <input type="number" class="form-control" id="label4" name="label4" value="0">
+<div class="form-group d-none hidden_charges col-md-4 col-sm-6 col-xs-12">
+  <label class="control-label" for="sec_ch">Security Charges</label>
+  <input type="number" class="form-control full_width" placeholder="0" id="sec_ch" name="sec_ch">
 </div>
-<div class="form-group col-md-4">
-  <label class="control-label" for="label5">Label 5</label>
-  <input type="number" class="form-control" id="label5" name="label5" value="0">
-</div>
-<div class="form-group col-md-4">
-  <label class="control-label" for="label6">Label 6</label>
-  <input type="number" class="form-control" id="label6" name="label6" value="0">
-</div>
-<div class="form-group col-md-4">
-  <label class="control-label" for="label7">Net. Total</label>
-  <input type="number" class="form-control" id="label7" name="label7" value="0" readonly>
+<div class="form-group col-md-12 col-sm-12 col-xs-12">
+  <label class="control-label" for="net_total">Net. Total</label>
+  <input type="number" class="form-control full_width" placeholder="0" id="net_total" name="net_total" readonly>
 </div>
