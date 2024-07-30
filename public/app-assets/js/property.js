@@ -15,6 +15,28 @@ jQuery(document).ready(function() {
   $('.select2_field').select2();
 
   $('.dy_prop_number, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
+  // Function to calculate and update the total
+  function calculateTotal() {
+    var dewa = parseFloat($('input[name="dewa_ch"]').val()) || 0;
+    var wifi = parseFloat($('input[name="wifi_ch"]').val()) || 0;
+    var admin = parseFloat($('input[name="admin_ch"]').val()) || 0;
+    var security = parseFloat($('input[name="sec_ch"]').val()) || 0;
+  
+    var total = dewa + wifi + admin + security;
+    console.log('total ' + total);
+  
+    $('input[name="net_total"]').val(total);
+  }
+});
+
+$(document).on('input', '#dewa_ch, #wifi_ch, #admin_ch, #sec_ch', function() {
+// $(document).on("input", "input[name='dewa_ch'], input[name='wifi_ch'], input[name='admin_ch'], input[name='sec_ch']", function(event) { 
+
+  console.log($("#dewa_ch").val());
+  // console.log($("#wifi_ch").val());
+  // console.log($("#admin_ch").val());
+  // console.log($("#sec_ch").val());
+  // calculateTotal();
 });
 
 $(document).on("change", "#prop_type", function(event) { 
@@ -88,8 +110,12 @@ $(document).on("change", "#prop_type", function(event) {
   // }
 });
 
-$(document).on("change", "#other_charges", function(event) { 
-  alert('deeee');
+$(document).on("change", "#other_charges", function(event) {
+  if ($(this).val() === 'Yes') {
+    $('.hidden_charges').removeClass('d-none');
+  } else {
+    $('.hidden_charges').addClass('d-none');
+  }
 });
 
 $(document).on("click", "#property_btn", function(event) {
