@@ -11,7 +11,24 @@
 </div>
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
-  <label class="control-label">Rent (AED)</label>
+  <label class="control-label">Check-In Date</label>
+  <input type="date" value="{{isset($data['check_in'])? $data['check_in'] : ''}}" id="check_in" name="check_in" placeholder="Select check-in date" class="form-control full_width">
+</div>
+
+<div class="form-group col-md-4 col-sm-6 col-xs-12">
+  <label class="control-label">Expected Stay</label>
+  <select class="form-control full_width" id="stay_time" name="stay_time">
+    <option value="1_mon" selected> 1 Month </option>
+    <option value="2_mon"> 2 Month </option>
+    <option value="3_mon"> 3 Month </option>
+    <option value="4_mon"> 4 Month </option>
+    <option value="5_mon"> 5 Month </option>
+    <option value="6_mon"> 6 Month </option>
+  </select>
+</div>
+
+<div class="form-group col-md-4 col-sm-6 col-xs-12">
+  <label class="control-label">Monthly Rent (AED)</label>
   <input type="number" value="{{$data['prop_rent']}}" id="prop_rent" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width">
 </div>
 
