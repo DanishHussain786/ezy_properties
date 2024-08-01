@@ -1,6 +1,6 @@
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Select Guest</label>
-  <select class="select2_field form-control full_width" id="users" name="users">
+  <select class="select2_field form-control full_width" id="user_id" name="user_id">
     <option value=""> ---- Choose any user ---- </option>
     @if (isset($data['users']) && count($data['users']) > 0 )
       @foreach ($data['users'] as $key => $user)
