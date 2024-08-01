@@ -93,6 +93,10 @@ $(document).on("change", "#other_charges", function(event) {
     $('.hidden_charges').removeClass('d-none');
   } else {
     $('.hidden_charges').addClass('d-none');
+    $("input[name='dewa_ch']").val('');
+    $("input[name='wifi_ch']").val('');
+    $("input[name='admin_ch']").val('');
+    $("input[name='sec_ch']").val('');
   }
 });
 
@@ -165,12 +169,13 @@ $(document).on("input", "input[name='sec_ch']", function(event) {
 });
 
 function calculateTotal() {
+  var rent = parseFloat($('input[name="prop_rent"]').val()) || 0;
   var dewa = parseFloat($('input[name="dewa_ch"]').val()) || 0;
   var wifi = parseFloat($('input[name="wifi_ch"]').val()) || 0;
   var admin = parseFloat($('input[name="admin_ch"]').val()) || 0;
   var security = parseFloat($('input[name="sec_ch"]').val()) || 0;
 
-  var total = dewa + wifi + admin + security;
+  var total = rent + dewa + wifi + admin + security;
   $('input[name="net_total"]').val(total);
 }
 
