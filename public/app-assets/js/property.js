@@ -45,7 +45,6 @@ $(document).on("change", "#prop_type", function(event) {
   // var name = $(this).data("name");
   // event.preventDefault();
 
-
   // swal({
   //     title: `Are you sure you want to delete this record?`,
   //     icon: "warning",
