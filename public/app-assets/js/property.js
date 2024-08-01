@@ -89,12 +89,9 @@ $(document).on("change", "#prop_type", function(event) {
 });
 
 $(document).on("change", "#stay_months", function(event) {
-  if ($(this).val() !== '') {
-    var rent = parseFloat($('input[name="prop_rent"]').val()) || 0;
-    var expected_rent = ($(this).val() * rent) - rent;
-    
-    calculateTotal({'long_stay': expected_rent});
-  }
+  $('#stay_months').val($(this).val());
+  if ($(this).val() !== '')
+    calculateTotal();
 });
 
 $(document).on("change", "#other_charges", function(event) {
@@ -160,39 +157,78 @@ $('#reservation_popup').on('shown.bs.modal', function () {
 
 $(document).on("input", "input[name='dewa_ch']", function(event) { 
   $("input[name='dewa_ch']").val($(this).val());
-  calculateTotal();
+  // var rent = parseFloat($('input[name="stay_months"]').val()) || 0;
+  // var expected_rent = ($(this).val() * rent) - rent;
+      
+  // if (expected_rent != 0)
+    calculateTotal();
 });
 
 $(document).on("input", "input[name='wifi_ch']", function(event) { 
   $("input[name='wifi_ch']").val($(this).val());
-  calculateTotal();
+  // var rent = parseFloat($('input[name="stay_months"]').val()) || 0;
+  // var expected_rent = ($(this).val() * rent) - rent;
+      
+  // if (expected_rent != 0)
+    calculateTotal();
 });
 
 $(document).on("input", "input[name='admin_ch']", function(event) { 
   $("input[name='admin_ch']").val($(this).val());
-  calculateTotal();
+  // var rent = parseFloat($('input[name="stay_months"]').val()) || 0;
+  // var expected_rent = ($(this).val() * rent) - rent;
+      
+  // if (expected_rent != 0)
+    calculateTotal();
 });
 
 $(document).on("input", "input[name='sec_ch']", function(event) { 
   $("input[name='sec_ch']").val($(this).val());
-  calculateTotal();
+  // var rent = parseFloat($('input[name="stay_months"]').val()) || 0;
+  // var expected_rent = ($(this).val() * rent) - rent;
+      
+  // if (expected_rent != 0)
+    calculateTotal();
 });
 
-function calculateTotal(params = {}) {
+function calculateTotal() {
+  var stay = $('#stay_months').val();
   var rent = parseFloat($('input[name="prop_rent"]').val()) || 0;
   var dewa = parseFloat($('input[name="dewa_ch"]').val()) || 0;
   var wifi = parseFloat($('input[name="wifi_ch"]').val()) || 0;
   var admin = parseFloat($('input[name="admin_ch"]').val()) || 0;
   var security = parseFloat($('input[name="sec_ch"]').val()) || 0;
+  var extra_rent = 0;
 
-  var total = rent + dewa + wifi + admin + security;
+  if (stay > 1)
+    extra_rent = (rent * stay) - rent;
+  
+  var total = rent + extra_rent + dewa + wifi + admin + security;
 
-  if (params.long_stay != null && params.long_stay) {
-    total += params.long_stay;
-  }
+  // if (params.long_stay != null && params.long_stay) {
+  //   total += params.long_stay;
+  // }
 
   $('input[name="net_total"]').val(total);
 }
+
+// function getBillingValues(params = {}) {
+//   var stay = parseFloat($('input[name="stay_months"]').val()) || 0;
+//   var rent = parseFloat($('input[name="prop_rent"]').val()) || 0;
+//   var dewa = parseFloat($('input[name="dewa_ch"]').val()) || 0;
+//   var wifi = parseFloat($('input[name="wifi_ch"]').val()) || 0;
+//   var admin = parseFloat($('input[name="admin_ch"]').val()) || 0;
+//   var security = parseFloat($('input[name="sec_ch"]').val()) || 0;
+  
+//   return {
+//     'stay_months' : stay,
+//     'monthly_rent' : rent,
+//     'dewa_charges' : dewa,
+//     'wifi_charges' : wifi,
+//     'admin_charges' : admin,
+//     'security_charges' : security,
+//   }
+// }
 
 
 /*
