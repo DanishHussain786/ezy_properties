@@ -147,7 +147,7 @@
           <div class="row">
             <div class="col-md-12">
               <form class="form-horizontal" id="create_reservation" action="" method="">
-                @method('GET')
+                @method('POST')
                 @csrf
                 <fieldset class="model-ajax">
                 </fieldset>
