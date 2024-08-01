@@ -13,10 +13,17 @@ jQuery(document).ready(function() {
   }, 4000);
 
   $('.select2_field').select2();
-
   $('.dy_prop_number, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
 });
 
+$(document).on("click", "#add_res_btn", function(event) {
+  event.preventDefault();
+  
+  var data = $("#create_reservation").serializeArray();
+  console.log('  ========>> data <<========  ');
+  console.log(JSON.stringify(data, null, 4));
+});
+  
 $(document).on("change", "#prop_type", function(event) { 
   // Clear values of form fields
   $('#prop_number, #room_no, #prop_floor, #prop_rent, #prop_address, #bs_level').each(function() {
