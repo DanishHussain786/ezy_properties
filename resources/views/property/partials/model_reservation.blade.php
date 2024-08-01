@@ -17,19 +17,26 @@
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Expected Stay</label>
-  <select class="form-control full_width" id="stay_time" name="stay_time">
-    <option value="1_mon" selected> 1 Month </option>
-    <option value="2_mon"> 2 Month </option>
-    <option value="3_mon"> 3 Month </option>
-    <option value="4_mon"> 4 Month </option>
-    <option value="5_mon"> 5 Month </option>
-    <option value="6_mon"> 6 Month </option>
+  <select class="form-control full_width" id="stay_months" name="stay_months">
+    <option value=""> ---- Choose any option ---- </option>
+    <option value="1" selected> 1 Month </option>
+    <option value="2"> 2 Month </option>
+    <option value="3"> 3 Month </option>
+    <option value="4"> 4 Month </option>
+    <option value="5"> 5 Month </option>
+    <option value="6"> 6 Month </option>
+    <option value="7"> 7 Month </option>
+    <option value="8"> 8 Month </option>
+    <option value="9"> 9 Month </option>
+    <option value="10"> 10 Month </option>
+    <option value="11"> 11 Month </option>
+    <option value="12"> 12 Month </option>
   </select>
 </div>
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Monthly Rent (AED)</label>
-  <input type="number" value="{{$data['prop_rent']}}" id="prop_rent" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width">
+  <input type="number" value="{{$data['prop_rent']}}" id="prop_rent" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width" readonly>
 </div>
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
