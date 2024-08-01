@@ -40,6 +40,11 @@
 </div>
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
+  <label class="control-label">Grace Rent (AED)</label>
+  <input type="number" value="{{isset($data['grace_rent'])? $data['grace_rent'] : ''}}" id="grace_rent" name="grace_rent" placeholder="Enter grace rent" class="form-control full_width">
+</div>
+
+<div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Adittional Charges</label>
   <select class="form-control full_width" id="other_charges" name="other_charges">
     <option value="No" selected> No </option>
