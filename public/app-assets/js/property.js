@@ -88,6 +88,15 @@ $(document).on("change", "#prop_type", function(event) {
   // }
 });
 
+$(document).on("change", "#stay_months", function(event) {
+  if ($(this).val() !== '') {
+    var rent = parseFloat($('input[name="prop_rent"]').val()) || 0;
+    var expected_rent = ($(this).val() * rent) - rent;
+    
+    calculateTotal({'long_stay': expected_rent});
+  }
+});
+
 $(document).on("change", "#other_charges", function(event) {
   if ($(this).val() === 'Yes') {
     $('.hidden_charges').removeClass('d-none');
@@ -169,7 +178,7 @@ $(document).on("input", "input[name='sec_ch']", function(event) {
   calculateTotal();
 });
 
-function calculateTotal() {
+function calculateTotal(params = {}) {
   var rent = parseFloat($('input[name="prop_rent"]').val()) || 0;
   var dewa = parseFloat($('input[name="dewa_ch"]').val()) || 0;
   var wifi = parseFloat($('input[name="wifi_ch"]').val()) || 0;
@@ -177,6 +186,11 @@ function calculateTotal() {
   var security = parseFloat($('input[name="sec_ch"]').val()) || 0;
 
   var total = rent + dewa + wifi + admin + security;
+
+  if (params.long_stay != null && params.long_stay) {
+    total += params.long_stay;
+  }
+
   $('input[name="net_total"]').val(total);
 }
 
