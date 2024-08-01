@@ -12,7 +12,7 @@
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Check-In Date</label>
-  <input type="date" value="{{isset($data['check_in'])? $data['check_in'] : ''}}" id="check_in" name="check_in" placeholder="Select check-in date" class="form-control full_width">
+  <input type="date" value="{{isset($data['checkin_date'])? $data['checkin_date'] : ''}}" id="checkin_date" name="checkin_date" min="{{date('Y-m-d')}}" placeholder="Select check-in date" class="form-control full_width">
 </div>
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
