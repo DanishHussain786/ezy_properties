@@ -355,8 +355,7 @@ function dynamicAjaxPostRequest(url, data, successCallback, errorCallback) {
   $.ajax({
     url: url,
     type: 'POST',
-    data: JSON.stringify(data),
-    contentType: 'application/json; charset=utf-8',
+    data: data,
     dataType: 'json',
     success: function(response) {
       if (typeof successCallback === 'function') {
