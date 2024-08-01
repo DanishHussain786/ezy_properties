@@ -146,7 +146,7 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-12">
-              <form class="form-horizontal update_popup" action="" method="">
+              <form class="form-horizontal" id="create_reservation" action="" method="">
                 @method('GET')
                 @csrf
                 <fieldset class="model-ajax">
@@ -156,7 +156,10 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+          <div class="pull-right">
+            <button type="submit" id="add_res_btn" class="btn btn-add">Save</button>
+            <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
     </div>
