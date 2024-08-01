@@ -92,9 +92,6 @@ function showModal(src) {
   }
 }
 
-
-
-
 //   setTimeout(function() {
 //     $(".alert-success").hide();
 //   }, 4000);
