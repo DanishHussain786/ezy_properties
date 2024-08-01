@@ -189,4 +189,15 @@ class PropertyController extends Controller
 		\Session::flash($flash_data[0], $flash_data[1]);
 		return redirect("/{$this->route_name}");
 	}
+
+	public function manage_booking(Request $request)
+	{
+		$request_data = $request->all();
+		
+		echo "<pre>";
+		echo " request_data"."<br>";
+		print_r($request_data);
+		echo "</pre>";
+		exit("@@@@");
+	}
 }

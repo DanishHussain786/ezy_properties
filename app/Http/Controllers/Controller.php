@@ -7,6 +7,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\User;
 use App\Models\Property;
+use App\Models\Booking;
 
 class Controller extends BaseController
 {
@@ -14,11 +15,13 @@ class Controller extends BaseController
 
   public $UserObj;
   public $PropertyObj;
+  public $BookingObj;
 
   public function __construct()
   {
     $this->UserObj = new User();
     $this->PropertyObj = new Property();
+    $this->BookingObj = new Booking();
   }
 
   /**
