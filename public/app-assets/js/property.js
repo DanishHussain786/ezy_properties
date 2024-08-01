@@ -18,10 +18,18 @@ jQuery(document).ready(function() {
 
 $(document).on("click", "#add_res_btn", function(event) {
   event.preventDefault();
-  
   var data = $("#create_reservation").serializeArray();
-  console.log('  ========>> data <<========  ');
-  console.log(JSON.stringify(data, null, 4));
+  dynamicAjaxPostRequest('/manage_booking', data, function(response) {
+    try {
+      console.log(response);
+      // $(".model-ajax").html(response);
+      // $("#update_property_popup").modal("show");
+    } catch (e) {
+      console.error('Error parsing response:', e);
+    }
+  }, function(xhr, status, error) {
+    console.error('Error:', status, error);
+  });
 });
   
 $(document).on("change", "#prop_type", function(event) { 
