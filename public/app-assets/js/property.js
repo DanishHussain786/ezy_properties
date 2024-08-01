@@ -144,6 +144,26 @@ $('#reservation_popup').on('shown.bs.modal', function () {
   $('.select2_field').select2();
 });
 
+$(document).on("input", "input[name='dewa_ch']", function(event) { 
+  $("input[name='dewa_ch']").val($(this).val());
+  calculateTotal();
+});
+
+$(document).on("input", "input[name='wifi_ch']", function(event) { 
+  $("input[name='wifi_ch']").val($(this).val());
+  calculateTotal();
+});
+
+$(document).on("input", "input[name='admin_ch']", function(event) { 
+  $("input[name='admin_ch']").val($(this).val());
+  calculateTotal();
+});
+
+$(document).on("input", "input[name='sec_ch']", function(event) { 
+  $("input[name='sec_ch']").val($(this).val());
+  calculateTotal();
+});
+
 function calculateTotal() {
   var dewa = parseFloat($('input[name="dewa_ch"]').val()) || 0;
   var wifi = parseFloat($('input[name="wifi_ch"]').val()) || 0;
