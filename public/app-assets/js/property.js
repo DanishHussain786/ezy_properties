@@ -97,6 +97,7 @@ $(document).on("change", "#other_charges", function(event) {
     $("input[name='wifi_ch']").val('');
     $("input[name='admin_ch']").val('');
     $("input[name='sec_ch']").val('');
+    calculateTotal();
   }
 });
 
