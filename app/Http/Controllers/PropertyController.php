@@ -193,11 +193,45 @@ class PropertyController extends Controller
 	public function manage_booking(Request $request)
 	{
 		$request_data = $request->all();
+		$rules = array(
+			'update_id'			=> ['required', 'exists:' . $this->model_name . ',id'],
+			'prop_type'     => ['nullable', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
+			'prop_rent'     => ['nullable'],
+		);
 		
-		echo "<pre>";
-		echo " request_data"."<br>";
-		print_r($request_data);
-		echo "</pre>";
-		exit("@@@@");
+		if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
+			$rules['prop_number'] = ['nullable'];
+			$rules['prop_floor'] = ['nullable'];
+			$rules['prop_address'] = ['nullable', 'max:400'];
+		}
+		else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
+			$rules['room_no'] = ['nullable'];
+			$rules['bs_level'] = ['nullable', 'in:1,2,3'];
+		}
+
+		$messages = array(
+			'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
+		);
+
+		$validator = \Validator::make($request_data, $rules, $messages);
+
+		if ($validator->fails()) {
+			return redirect()->back()->withErrors($validator)->withInput();
+		}
+
+		if ($validator->fails()) {
+			return $this->sendError($validator->errors()->first(), ["error" => $validator->errors()->first()]);
+		}
+
+		return response()->json(['status' => true, 'data' => $request_data]);
+
+
+
+
+		// echo "<pre>";
+		// echo " request_data"."<br>";
+		// print_r($request_data);
+		// echo "</pre>";
+		// exit("@@@@");
 	}
 }
