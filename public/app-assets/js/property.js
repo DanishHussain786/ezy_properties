@@ -21,7 +21,16 @@ $(document).on("click", "#add_res_btn", function(event) {
   var data = $("#create_reservation").serializeArray();
   dynamicAjaxPostRequest('/manage_booking', data, function(response) {
     try {
+
+      // var resp_text = response.text();
+      // var data = resp_text.json();
+      // var data = JSON.parse(response);
+
+      console.log('  ========>> response <<========  ');
       console.log(response);
+
+      toastr.success('Dee Deeeee...');
+      // console.log(response);
       // $(".model-ajax").html(response);
       // $("#update_property_popup").modal("show");
     } catch (e) {
