@@ -48,6 +48,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <!-- Bootstrap toggle css -->
     <link href="{{ asset('app-assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css') }}" rel="stylesheet" type="text/css"/>
+    <!-- toastr -->
+    <link href="{{ asset('app-assets/plugins/toaster/toastr.min.css') }}?v={{ time() }}" rel="stylesheet">
     
     <!-- End Theme Layout Style
     =====================================================================-->
@@ -490,6 +492,8 @@
       <script src="{{ asset('app-assets/dist/js/dashboard.js') }}" type="text/javascript"></script>
       <!-- END: Page JS-->
       <script src="{{ asset('app-assets/js/main.js') }}"></script>
+      <!-- Toastr JS-->
+      <script src="{{ asset('app-assets/plugins/toaster/toastr.js') }}?v={{ time() }}" type="text/javascript"></script>
       <!-- End Theme label Script
          =====================================================================-->
       
