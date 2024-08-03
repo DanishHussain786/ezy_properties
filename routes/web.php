@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\InformationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,7 @@ Route::post('booking/payments', [BookingController::class, 'payments']);
 Route::resource('user', UserController::class);
 Route::resource('property', PropertyController::class);
 Route::resource('booking', BookingController::class);
+Route::resource('info', InformationController::class);
 // Route::get('/booking_listings', [BookingController::class, 'manage']);
 
 Route::get('/storage-link', function() {
