@@ -10,6 +10,7 @@ use App\Models\Property;
 use App\Models\Booking;
 use App\Models\Service;
 use App\Models\Transaction;
+use App\Models\Information;
 
 class Controller extends BaseController
 {
@@ -20,6 +21,7 @@ class Controller extends BaseController
   public $BookingObj;
   public $ServiceObj;
   public $TransactionObj;
+  public $InformationObj;
 
   public function __construct()
   {
@@ -28,6 +30,7 @@ class Controller extends BaseController
     $this->BookingObj = new Booking();
     $this->ServiceObj = new Service();
     $this->TransactionObj = new Transaction();
+    $this->InformationObj = new Information();
   }
 
   /**
