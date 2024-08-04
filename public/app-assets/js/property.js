@@ -21,22 +21,18 @@ $(document).on("click", "#add_res_btn", function(event) {
   var data = $("#create_reservation").serializeArray();
   dynamicAjaxPostRequest('/manage_booking', data, function(response) {
     try {
-
-      // var resp_text = response.text();
-      // var data = resp_text.json();
-      // var data = JSON.parse(response);
-
-      console.log('  ========>> response <<========  ');
-      console.log(response);
-
-      toastr.success('Dee Deeeee...');
-      // console.log(response);
-      // $(".model-ajax").html(response);
-      // $("#update_property_popup").modal("show");
+      toastr.success(response.message);
+      $('#add_res_btn').prop('disabled', true);
+      if (response.records.redirect_url) {
+        setTimeout(function() {
+          window.location.href = response.records.redirect_url; // Replace with your desired route
+        }, 2000);
+      }
     } catch (e) {
       console.error('Error parsing response:', e);
     }
   }, function(xhr, status, error) {
+    toastr.error(xhr.responseJSON.message);
     console.error('Error:', status, error);
   });
 });
@@ -214,9 +210,11 @@ function calculateTotal() {
   var advance_rent = 0;
 
   if (stay > 1)
-    advance_rent = (rent * stay) - rent;
+    advance_rent = ((rent * stay) + (grace_rent * stay)) - rent;
+  else 
+    advance_rent = (rent * stay) + grace_rent - rent;
 
-  var total = rent + advance_rent + grace_rent + dewa + wifi + admin + security;
+  var total = rent + advance_rent + dewa + wifi + admin + security;
   $('input[name="net_total"]').val(total);
 }
 
