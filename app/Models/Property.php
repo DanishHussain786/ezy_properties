@@ -13,43 +13,14 @@ class Property extends Model
   use HasFactory, SoftDeletes;
   protected $table = 'properties';
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
-  protected $fillable = [
-    // 'name',
-    // 'email',
-    // 'password',
-  ];
 
-  /**
-   * The attributes that should be hidden for serialization.
-   *
-   * @var array<int, string>
-   */
-  protected $hidden = [
-    'password',
-    'remember_token',
-  ];
-
-  /**
-   * The attributes that should be cast.
-   *
-   * @var array<string, string>
-   */
-  protected $casts = [
-    'email_verified_at' => 'datetime',
-    'password' => 'hashed',
-  ];
-
-  // public function skills() {
-  //   return $this->hasMany(PropertyInformation::class, 'user_id', 'id')->with('skill_data')
-  //     ->where([
-  //         ['info_status', '=' ,'Skill'],
-  //     ])->select(['id', 'user_id', 'info_status', 'skill_id', 'created_at', 'updated_at']);
-  // }
+  public function reservations_data()
+  {
+    return $this->hasOne(Booking::class, 'property_id')
+      ->where([
+        ['status', '=', 'Reservation']
+      ]);
+  }
 
   public function getProperty($posted_data = array())
   {
@@ -57,12 +28,9 @@ class Property extends Model
     $select_columns = array_merge($columns, []);
     $query = Property::latest();
 
-    // if (isset($posted_data['without_with']) && $posted_data['without_with']) {
-    // } else {
-      // $query = $query;
-        // ->with('skills')
-        // ->with('profile_reviews');
-    // }
+    if (isset($posted_data['relations']) && $posted_data['relations']) {
+      $query = $query->with('reservations_data');
+    }
 
     if (isset($posted_data['id'])) {
       $query = $query->where('properties.id', $posted_data['id']);
