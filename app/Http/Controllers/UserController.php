@@ -14,6 +14,16 @@ class UserController extends Controller
 
 	public function test_function(Request $request)
 	{
+
+		$dee = add_to_datetime('2024-08-04', ['months' => 2, 'hours' => '19']);
+
+		echo "<pre>";
+		echo " dee"."<br>";
+		print_r($dee);
+		echo "</pre>";
+		exit("@@@@");
+
+
 		$data = [];
 		return view("property.sliders_add_edit", compact('data'));
 	}
