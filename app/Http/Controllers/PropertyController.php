@@ -19,6 +19,7 @@ class PropertyController extends Controller
 	{
 		$request_data = $request->all();
 		$request_data['paginate'] = 10;
+		$request_data['relations'] = true;
 		$data['records'] = $this->PropertyObj->getProperty($request_data);
 		$data['route_name'] = $this->route_name;
 		$data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
@@ -201,17 +202,7 @@ class PropertyController extends Controller
 			'grace_rent'    => ['nullable'],
 			'other_charges' => ['required', 'in:Yes,No'],
 		);
-		
-		// if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
-		// 	$rules['prop_number'] = ['nullable'];
-		// 	$rules['prop_floor'] = ['nullable'];
-		// 	$rules['prop_address'] = ['nullable', 'max:400'];
-		// }
-		// else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
-		// 	$rules['room_no'] = ['nullable'];
-		// 	$rules['bs_level'] = ['nullable', 'in:1,2,3'];
-		// }
-
+	
 		$messages = array(
 			'user_id.required' => 'Please select guest from list.',
 			'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
@@ -241,9 +232,9 @@ class PropertyController extends Controller
 
 		$tot_rent = $rent + $adv_rent + $dewa + $wifi + $admin + $sec;
 
-		// $booking_data['booked_by'] = '';
-		// $booking_data['booked_for'] = '';
-		// $booking_data['property_id'] = '';
+		// $booking_data['booked_by'] = \Auth::user()->id;
+		$booking_data['booked_for'] = $request_data['user_id'];
+		$booking_data['property_id'] = $request_data['property_id'];
 		$booking_data['status'] = 'Reservation';
 		$booking_data['checkin_date'] = $request_data['checkin_date'];
 		$booking_data['checkout_date'] = add_to_datetime($request_data['checkin_date'], ['months' => $stay]);
@@ -257,9 +248,6 @@ class PropertyController extends Controller
 		$booking_data['admin_charges'] = $admin;
 		$booking_data['security_charges'] = $sec;
 		$booking_data['net_total'] = $tot_rent;
-		// $booking_data['deleted_at'] = '';
-		// $booking_data['created_at'] = '';
-		// $booking_data['updated_at'] = '';
 
 		$data = $this->BookingObj->saveUpdateBooking($booking_data);
 		$data['redirect_url'] = url('property');
