@@ -1,3 +1,4 @@
+<input type="hidden" value="{{isset($data['id'])? $data['id'] : ''}}" id="property_id" name="property_id">
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Select Guest</label>
   <select class="select2_field form-control full_width" id="user_id" name="user_id">
@@ -18,8 +19,8 @@
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Expected Stay</label>
   <select class="form-control full_width" id="stay_months" name="stay_months">
-    <option value=""> ---- Choose any option ---- </option>
-    <option value="1" selected> 1 Month </option>
+    <option value="" selected> ---- Choose any option ---- </option>
+    <option value="1"> 1 Month </option>
     <option value="2"> 2 Month </option>
     <option value="3"> 3 Month </option>
     <option value="4"> 4 Month </option>
