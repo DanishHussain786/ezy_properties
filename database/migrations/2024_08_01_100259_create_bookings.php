@@ -22,9 +22,11 @@ return new class extends Migration
       $table->enum('status', ['Reservation','CheckIn','CheckOut','OverStay'])->default('Reservation');
       $table->date('checkin_date');
       $table->date('checkout_date');
-      $table->integer('no_of_days')->nullable();
+      $table->integer('for_days')->nullable();
+      $table->integer('for_months')->nullable();
       $table->double('rent')->nullable();
       $table->double('grace_rent')->nullable();
+      $table->enum('other_charges', ['No','Yes'])->default('No');
       $table->double('dewa_charges')->nullable();
       $table->double('wifi_charges')->nullable();
       $table->double('admin_charges')->nullable();
