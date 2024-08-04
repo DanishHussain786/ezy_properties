@@ -161,11 +161,20 @@ class Booking extends Model
     if (isset($posted_data['checkout_date'])) {
       $data->checkout_date = $posted_data['checkout_date'];
     }
+    if (isset($posted_data['for_days'])) {
+      $data->for_days = $posted_data['for_days'];
+    }
+    if (isset($posted_data['for_months'])) {
+      $data->for_months = $posted_data['for_months'];
+    }
     if (isset($posted_data['rent'])) {
       $data->rent = $posted_data['rent'];
     }
     if (isset($posted_data['grace_rent'])) {
       $data->grace_rent = $posted_data['grace_rent'];
+    }
+    if (isset($posted_data['other_charges'])) {
+      $data->other_charges = $posted_data['other_charges'];
     }
     if (isset($posted_data['dewa_charges'])) {
       $data->dewa_charges = $posted_data['dewa_charges'];
