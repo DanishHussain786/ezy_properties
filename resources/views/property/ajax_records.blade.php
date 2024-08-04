@@ -7,7 +7,7 @@
         <th>Property No.</th>
         <th>Floor</th>
         <th>Rent</th>
-        {{--<th>Status</th>--}}
+        <th>Status</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -23,10 +23,10 @@
       @foreach ($data['records'] as $key => $item)
         @php
           $sr_no = $key + 1;
-          if ($item['status'] == 'Active')
-            $status_class = 'label-custom';
-          else if ($item['status'] == 'Block')
-            $status_class = 'label-danger';
+          //if ($item['status'] == 'Active')
+          //  $status_class = 'label-custom';
+          //else if ($item['status'] == 'Block')
+          //  $status_class = 'label-danger';
           if ($data['records']->currentPage()>1) {
             $sr_no = ($data['records']->currentPage()-1)*$data['records']->perPage();
             $sr_no = $sr_no + $key + 1;
@@ -38,11 +38,17 @@
           <td>{{ isset($item['prop_number']) ? $item['prop_number'] : "N/A" }}</td>
           <td>{{ $item['prop_floor'] }}</td>
           <td>{{ $item['prop_rent'] }}</td>
-          {{--<td><span class="{{$status_class}} label label-default">{{ $item['status'] }}</span></td>--}}
+          @if (!$item->reservations_data()->exists())
+          <td><span class="label-custom label label-default">{{'Available'}}</span></td>
+          @else
+          <td><span class="label-danger label label-default">{{$item['reservations_data']['status']}}</span></td>
+          @endif
           <td>
             <button type="button" class="btn btn-add btn-sm m-1 update_property_btn" title="Update Property" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
             <button type="button" class="btn btn-danger btn-sm m-1 delete_btn" title="Delete Property" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_property_popup"><i class="fa fa-trash-o"></i> </button>
-            <button type="button" class="btn btn-violet btn-sm m-1 reservation_btn" title="Reservation" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-calendar-check-o"></i> </button>
+            @if (!$item->reservations_data()->exists())
+              <button type="button" class="btn btn-violet btn-sm m-1 reservation_btn" title="Reservation" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-calendar-check-o"></i> </button>
+            @endif
           </td>
         </tr>
       @endforeach
