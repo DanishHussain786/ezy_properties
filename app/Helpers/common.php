@@ -148,3 +148,62 @@ if (!function_exists('get_floors')) {
     return $floors;
   }
 }
+
+if (!function_exists('convert_timestamp_to_specific_format')) {
+  function convert_timestamp_to_specific_format($time = false, $mode = '12_hour')
+  {
+    if (!$time) {
+      return "";
+    }
+
+    $new_time = new DateTime($time);
+    if ($mode == '12_hour') return $new_time->format('h:i A');
+    else if ($mode == 'Y-m-d') return $new_time->format('Y-m-d');
+    else if ($mode == 'm/d/Y') return $new_time->format('m/d/Y');
+    else if ($mode == '12_hour_with_time') return $new_time->format('Y-m-d h:i A');
+  }
+}
+
+if (!function_exists('datetime_difference')) {
+  function datetime_difference($start_date, $end_date)
+  {
+    $date1 = new DateTime($start_date);
+    $date2 = new DateTime($end_date);
+    
+    $diff = $date2->diff($date1);
+    
+    $days = $diff->days; // Total difference in days
+    $hours = $diff->h + ($days * 24);
+    $mins = $diff->i;
+    $secs = $diff->s;
+    
+    return [
+      'days' => $days,
+      'hours' => $hours,
+      'minutes' => $mins,
+      'seconds' => $secs,
+      'difference' => $hours . ":" . $mins . ":" . $secs,
+    ];
+  }
+}
+
+if (!function_exists('add_to_datetime')) {
+  function add_to_datetime($datetime, $options = [])
+  {
+    $date = Carbon::parse($datetime);
+
+    // Check if the options array contains specific keys and add them to the datetime
+    if (isset($options['months'])) {
+      $date->addMonths($options['months']);
+    }
+    if (isset($options['days'])) {
+      $date->addDays($options['days']);
+    }
+    if (isset($options['hours'])) {
+      $date->addHours($options['hours']);
+    }
+
+    // Return the modified datetime as a string or Carbon instance
+    return $date->toDateTimeString(); // or return $date for Carbon instance
+  }
+}
