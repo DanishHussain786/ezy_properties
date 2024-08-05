@@ -238,7 +238,7 @@ class PropertyController extends Controller
 		$booking_data['status'] = 'Reservation';
 		$booking_data['checkin_date'] = $request_data['checkin_date'];
 		$booking_data['checkout_date'] = add_to_datetime($request_data['checkin_date'], ['months' => $stay]);
-		// $booking_data['for_days'] = '';
+		$booking_data['for_days'] = datetime_difference($booking_data['checkin_date'], $booking_data['checkout_date'])['days'];
 		$booking_data['for_months'] = $stay;
 		$booking_data['rent'] = $rent;
 		$booking_data['grace_rent'] = $grace;
