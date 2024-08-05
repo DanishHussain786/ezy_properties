@@ -207,3 +207,15 @@ if (!function_exists('add_to_datetime')) {
     return $date->toDateTimeString(); // or return $date for Carbon instance
   }
 }
+
+if (!function_exists('default_value')) {
+  function default_value($value, $mode = "str")
+  {
+    if( (isset($value)) && $value != "") 
+      return $value;
+    else if ($mode == "str")  
+      return "N/A";
+    else if ($mode == "num")
+      return 0;
+  }
+}
