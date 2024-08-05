@@ -17,17 +17,18 @@ class BookingController extends Controller
 	 */
 	public function index(Request $request)
 	{
-		// $request_data = $request->all();
-		// $request_data['paginate'] = 10;
-		// $request_data['relations'] = true;
-		// $data['records'] = $this->BookingObj->getBooking($request_data);
-		// $data['route_name'] = $this->route_name;
-		// $data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
+		$request_data = $request->all();
+		$request_data['paginate'] = 10;
+		$request_data['relations'] = true;
+		$data['records'] = $this->BookingObj->getBooking($request_data);
+		$data['route_name'] = $this->route_name;
 
-		// if ($request->ajax()) {
-		// 	return $data['html'];
-		// }
-		// return view("{$this->route_name}.list", compact('data'));
+		$data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
+
+		if ($request->ajax()) {
+			return $data['html'];
+		}
+		return view("{$this->route_name}.list", compact('data'));
 	}
 
 	/**
