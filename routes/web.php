@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\BookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +43,8 @@ Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'i
 
 Route::resource('user', UserController::class);
 Route::resource('property', PropertyController::class);
-Route::post('/manage_booking', [PropertyController::class, 'manage_booking']);
+Route::resource('booking', BookingController::class);
+// Route::post('/manage_booking', [PropertyController::class, 'manage_booking']);
 
 Route::get('/storage-link', function() {
     Artisan::call("storage:link");
