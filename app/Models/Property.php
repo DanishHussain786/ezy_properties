@@ -13,7 +13,6 @@ class Property extends Model
   use HasFactory, SoftDeletes;
   protected $table = 'properties';
 
-
   public function reservations_data()
   {
     return $this->hasOne(Booking::class, 'property_id')
