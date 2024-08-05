@@ -403,8 +403,7 @@
                   <li><a href="{{url('property')}}">List Properties</a></li>
                 </ul>
               </li>
-              {{--
-              @php $class = (strpos($str_slug, "property") !== false) ? 'active' : ''; @endphp
+              @php $class = (strpos($str_slug, "booking") !== false) ? 'active' : ''; @endphp
               <li class="treeview menu-item {{$class}}">
                 <a href="#">
                   <i class="fa fa-home"></i><span>Bookings</span>
@@ -413,11 +412,12 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="{{url('property/create')}}">Reservations</a></li>
-                  <li><a href="{{url('property/create')}}">Check In</a></li>
-                  <li><a href="{{url('property')}}">Check Out</a></li>
+                  <li><a href="{{url('booking/reservations')}}">Check In / Out</a></li>
+                  <li><a href="{{url('booking/listings')}}">Check In / Out</a></li>
+                  <li><a href="{{url('booking')}}">Check Out</a></li>
                 </ul>
               </li>
+              {{--
               @php $class = (strpos($str_slug, "property") !== false) ? 'active' : ''; @endphp
               <li class="treeview menu-item {{$class}}">
                 <a href="#">
