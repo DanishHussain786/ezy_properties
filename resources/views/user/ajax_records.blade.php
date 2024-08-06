@@ -48,9 +48,9 @@
           <td>{{ $item['created_at'] }}</td>
           <td>{{ $item['created_at'] }}</td>
           <td>
-            <a href="{{ url($data['route_name'].'/'.$item['id'].'/edit') }}"> <button type="button" class="btn btn-add btn-sm" title="User Profile" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button></a>
-            <a href="{{ url($data['route_name'].'/'.$item['id']) }}"> <button type="button" class="btn btn-info btn-sm" title="User Profile" data-toggle="modal" data-target="#"><i class="fa fa-user-circle"></i> </button> </a>
-            <button type="button" class="btn btn-danger btn-sm delete_btn" title="User Profile" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_user_popup"><i class="fa fa-trash-o"></i> </button>
+            <a href="{{ url($data['route_name'].'/'.$item['id'].'/edit') }}"> <button type="button" class="btn btn-add btn-sm mb-3" title="User Profile" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button></a>
+            <a href="{{ url($data['route_name'].'/'.$item['id']) }}"> <button type="button" class="btn btn-info btn-sm mb-3" title="User Profile" data-toggle="modal" data-target="#"><i class="fa fa-user-circle"></i> </button> </a>
+            <button type="button" class="btn btn-danger btn-sm mb-3 delete_btn" title="User Profile" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_user_popup"><i class="fa fa-trash-o"></i> </button>
           </td>
         </tr>
       @endforeach
