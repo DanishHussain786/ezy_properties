@@ -25,10 +25,10 @@
         @php
           $sr_no = $key + 1;
           $label_class = get_label_class($item['status']);
-          if ($item->reservations_data()->exists())
-            $reservations = true;
-          else
-            $reservations = false;
+          //if ($item->reservations_data()->exists())
+          //  $reservations = true;
+          //else
+          //  $reservations = false;
 
           if ($data['records']->currentPage()>1) {
             $sr_no = ($data['records']->currentPage()-1)*$data['records']->perPage();
@@ -43,7 +43,7 @@
           <td>{{ $item['prop_rent'] }}</td>
           <td><span class="{{$label_class}} label label-pill">{{$item['status']}}</span></td>
           <td>
-            @if (!$reservations)
+            @if (in_array($item['status'], ['Available']))
               <button type="button" class="btn btn-add btn-sm update_property_btn mb-3" title="Update Property" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
               <button type="button" class="btn btn-danger btn-sm delete_btn mb-3" title="Delete Property" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_property_popup"><i class="fa fa-trash-o"></i> </button>
               <button type="button" class="btn btn-violet btn-sm reservation_btn mb-3" title="Reservation" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-calendar-check-o"></i> </button>
