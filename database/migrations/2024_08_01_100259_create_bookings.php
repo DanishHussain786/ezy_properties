@@ -31,7 +31,6 @@ return new class extends Migration
       $table->double('wifi_charges')->nullable();
       $table->double('admin_charges')->nullable();
       $table->double('security_charges')->nullable();
-      $table->double('initial_deposit')->nullable();
       $table->double('net_total')->nullable();
       $table->softDeletes('deleted_at');
       $table->timestamps();
