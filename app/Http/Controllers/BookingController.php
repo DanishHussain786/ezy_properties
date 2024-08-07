@@ -217,7 +217,6 @@ class BookingController extends Controller
 		// $booking_data['booked_by'] = \Auth::user()->id;
 		$booking_data['booked_for'] = $request_data['user_id'];
 		$booking_data['property_id'] = $request_data['property_id'];
-		$booking_data['status'] = ($deposit > 0) ? 'Reserved' : 'Pre-Reserve';
 		$booking_data['checkin_date'] = $request_data['checkin_date'];
 		$booking_data['checkout_date'] = add_to_datetime($request_data['checkin_date'], ['months' => $stay]);
 		$booking_data['for_days'] = datetime_difference($booking_data['checkin_date'], $booking_data['checkout_date'])['days'];
@@ -229,11 +228,14 @@ class BookingController extends Controller
 		$booking_data['wifi_charges'] = $wifi;
 		$booking_data['admin_charges'] = $admin;
 		$booking_data['security_charges'] = $sec;
-		$booking_data['initial_deposit'] = $deposit;
 		$booking_data['net_total'] = $tot_rent;
 
 		$data = $this->BookingObj->saveUpdateBooking($booking_data);
 		$data['redirect_url'] = url('property');
+
+		$property = $this->PropertyObj->getProperty(['id' => $request_data['property_id'], 'detail' => true]);
+		$property->status = ($deposit > 0) ? 'Reserved' : 'Pre-Reserve';
+		$property->save();
 
 		if ($deposit > 0) {
 			$deposit_data['property_id'] = $request_data['property_id'];
