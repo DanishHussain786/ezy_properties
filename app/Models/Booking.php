@@ -13,23 +13,23 @@ class Booking extends Model
   use HasFactory, SoftDeletes;
   protected $table = 'bookings';
 
-  public function booked_by_user()
-  {
+  public function booked_by_user() {
     return $this->belongsTo(User::class, 'booked_by');
   }
 
-  public function booked_for_user()
-  {
+  public function booked_for_user() {
     return $this->belongsTo(User::class, 'booked_for');
   }
 
-  public function property_data()
-  {
+  public function property_data() {
     return $this->belongsTo(Property::class, 'property_id');
   }
 
-  public function transaction_data()
-  {
+  public function service_data() {
+    return $this->belongsTo(Service::class, 'service_id');
+  }
+
+  public function transaction_data() {
     return $this->hasOne(Transaction::class, 'booking_id');
       // ->where([
       //   ['status', '=', 'Reservation']
@@ -53,6 +53,7 @@ class Booking extends Model
       $query = $query->with('booked_by_user')
         ->with('booked_for_user')
         ->with('property_data')
+        ->with('service_data')
         ->with('transaction_data');
     }
 
