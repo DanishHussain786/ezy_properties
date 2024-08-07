@@ -134,9 +134,6 @@ class Booking extends Model
     if (isset($posted_data['property_id'])) {
       $data->property_id = $posted_data['property_id'];
     }
-    if (isset($posted_data['status'])) {
-      $data->status = $posted_data['status'];
-    }
     if (isset($posted_data['checkin_date'])) {
       $data->checkin_date = $posted_data['checkin_date'];
     }
@@ -172,9 +169,6 @@ class Booking extends Model
     }
     if (isset($posted_data['security_charges'])) {
       $data->security_charges = $posted_data['security_charges'];
-    }
-    if (isset($posted_data['initial_deposit'])) {
-      $data->initial_deposit = $posted_data['initial_deposit'];
     }
     if (isset($posted_data['net_total'])) {
       $data->net_total = $posted_data['net_total'];
