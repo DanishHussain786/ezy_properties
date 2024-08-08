@@ -219,3 +219,11 @@ if (!function_exists('default_value')) {
       return 0;
   }
 }
+
+if (!function_exists('generate_unique_id')) {
+  function generate_unique_id()
+  {
+    // It will always return a 9 digit unique string
+    return floor(time()-999999999);
+  }
+}
