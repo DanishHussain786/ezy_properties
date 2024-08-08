@@ -501,6 +501,8 @@
         <script src="{{ asset('app-assets/js/user.js') }}"></script>
       @elseif (preg_match('/\bproperty\b/', Request::path() ))
         <script src="{{ asset('app-assets/js/property.js') }}"></script>
+      @elseif (preg_match('/\bbooking\b/', Request::path() ))
+        <script src="{{ asset('app-assets/js/booking.js') }}"></script>
       @endif
    </body>
 </html>
