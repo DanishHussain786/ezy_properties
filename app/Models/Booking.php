@@ -13,6 +13,16 @@ class Booking extends Model
   use HasFactory, SoftDeletes;
   protected $table = 'bookings';
 
+  public function booked_by_user()
+  {
+    return $this->belongsTo(User::class, 'booked_by');
+  }
+
+  public function booked_for_user()
+  {
+    return $this->belongsTo(User::class, 'booked_for');
+  }
+
   public function property_data()
   {
     return $this->belongsTo(Property::class, 'property_id');
@@ -32,7 +42,9 @@ class Booking extends Model
     $query = Booking::latest();
 
     if (isset($posted_data['relations']) && $posted_data['relations']) {
-      $query = $query->with('property_data');
+      $query = $query->with('booked_by_user')
+        ->with('booked_for_user')
+        ->with('property_data');
     }
 
     if (isset($posted_data['id'])) {
