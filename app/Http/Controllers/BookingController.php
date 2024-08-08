@@ -177,25 +177,25 @@ class BookingController extends Controller
 	 */
 	public function edit(Request $request, $id = 0)
 	{
-		// $request_data = $request->all();		
-		// $posted_data = array();
-		// $posted_data['id'] = $id;
-		// $posted_data['detail'] = true;
-		// $request_data = array_merge($request_data,$posted_data);
+		$request_data = $request->all();		
+		$posted_data = array();
+		$posted_data['id'] = $id;
+		$posted_data['detail'] = true;
+		$request_data = array_merge($request_data,$posted_data);
 
-		// $data = $this->BookingObj->getBooking($request_data);
-		// $data['route_name'] = $this->route_name;
+		$data = $this->BookingObj->getBooking($request_data);
+		$data['route_name'] = $this->route_name;
 
-		// if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_update_prop')
-		// 	$data['html'] = view("{$this->route_name}.partials.model_update_prop", compact('data'));
-		// else
-		// 	$data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
+		if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_reservation')
+			$data['html'] = view("property.partials.model_reservation", compact('data'));
+		else
+			$data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
 
-		// if ($request->ajax()) {
-		// 	return $data['html'];
-		// }
+		if ($request->ajax()) {
+			return $data['html'];
+		}
 
-		// return view("{$this->route_name}.add_edit", compact('data'));
+		return view("{$this->route_name}.add_edit", compact('data'));
 	}
 
 	/**
