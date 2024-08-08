@@ -1,4 +1,4 @@
-@php $title = 'List Properties' @endphp
+@php $title = 'List Bookings' @endphp
 
 @section('title', $title)
 @extends('master')
@@ -9,7 +9,7 @@
     <i class="fa fa-dashboard"></i>
   </div>
   <div class="header-title">
-    <h1>Properties Panel</h1>
+    <h1>Bookings Panel</h1>
     <small>{{ $title }}</small>
   </div>
 </section>
@@ -20,7 +20,7 @@
       <div class="panel panel-bd lobidrag">
         <div class="panel-heading">
           <div class="btn-group">
-            <a class="btn btn-add m-r-5" href="{{ url($data['route_name'] . '/create') }}"> <i class="fa fa-plus"></i> Add Property </a>
+            {{--<a class="btn btn-add m-r-5" href="{{ url($data['route_name'] . '/create') }}"> <i class="fa fa-plus"></i> Add Property </a>--}}
             <a class="btn btn-add formReset" href="#"> <i class="fa fa-refresh"></i> Reset Filters </a>
           </div>
         </div>
@@ -71,12 +71,12 @@
   </div>
 
   <!-- Modal -->
-  <div class="modal fade" id="update_property_popup" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
+  <div class="modal fade" id="update_reservation_popup" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header modal-header-primary">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3><i class="fa fa-user m-r-5"></i> Update Property Details</h3>
+          <h3><i class="fa fa-user m-r-5"></i> Update Reservation Details</h3>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -99,7 +99,7 @@
   <!-- /.Modal -->
 
   <!-- Modal -->
-  <div class="modal fade" id="del_property_popup" role="dialog" aria-hidden="true">
+  <div class="modal fade" id="del_reservation_popup" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header modal-header-primary">
@@ -114,7 +114,7 @@
                 @csrf
                 <fieldset>
                   <div class="col-md-12 form-group user-form-group">
-                    <label style="font-weight: 500;" class="control-label">Are you sure to delete property?</label>
+                    <label style="font-weight: 500;" class="control-label">Are you sure to delete reservation?</label>
                     <div class="pull-right">
                       <button type="button" class="btn btn-danger btn-sm">No</button>
                       <button type="submit" class="btn btn-add btn-sm">Yes</button>
@@ -136,7 +136,7 @@
   <!-- /.modal -->
    
   <!-- Modal -->
-  <div class="modal fade" id="reservation_popup" role="dialog" aria-hidden="true">
+  <!-- <div class="modal fade" id="reservation_popup" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header modal-header-primary">
@@ -163,7 +163,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- /.Modal -->
 
 </section>
