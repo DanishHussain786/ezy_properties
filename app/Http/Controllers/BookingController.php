@@ -182,12 +182,14 @@ class BookingController extends Controller
 		$posted_data['id'] = $id;
 		$posted_data['detail'] = true;
 		$request_data = array_merge($request_data,$posted_data);
+		$request_data['relations'] = true;
 
 		$data = $this->BookingObj->getBooking($request_data);
+		$data['users'] = $this->UserObj->getUser(['role' => 'Guest']);
 		$data['route_name'] = $this->route_name;
 
-		if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_reservation')
-			$data['html'] = view("property.partials.model_reservation", compact('data'));
+		if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_upd_reservation')
+			$data['html'] = view("{$this->route_name}.partials.model_upd_reservation", compact('data'));
 		else
 			$data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
 
@@ -203,53 +205,74 @@ class BookingController extends Controller
 	 */
 	public function update(Request $request, $id = 0)
 	{
-		// $request_data = $request->all();
-		// $request_data['update_id'] = $id;
-		// $rules = array(
-		// 	'update_id'			=> ['required', 'exists:' . $this->model_name . ',id'],
-		// 	'prop_type'     => ['nullable', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
-		// 	'prop_rent'     => ['nullable'],
-		// );
+		$request_data = $request->all();
+		$request_data['update_id'] = $id;
+		$rules = array(
+			'update_id'			=> ['required', 'exists:' . $this->model_name . ',id'],
+			'user_id'				=> ['required', 'exists:users,id'],
+			'checkin_date' 	=> ['required', 'date_format:Y-m-d'],
+			'stay_months' 	=> ['required', 'numeric', 'min:1', 'max:12'],
+			'prop_rent'     => ['required'],
+			'other_charges' => ['required', 'in:Yes,No'],
+		);
 		
-		// if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
-		// 	$rules['prop_number'] = ['nullable'];
-		// 	$rules['prop_floor'] = ['nullable'];
-		// 	$rules['prop_address'] = ['nullable', 'max:400'];
-		// }
-		// else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
-		// 	$rules['room_no'] = ['nullable'];
-		// 	$rules['bs_level'] = ['nullable', 'in:1,2,3'];
-		// }
+		$messages = array(
+			'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
+		);
 
-		// $messages = array(
-		// 	'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
-		// );
+		$validator = \Validator::make($request_data, $rules, $messages);
 
-		// $validator = \Validator::make($request_data, $rules, $messages);
+		if ($validator->fails()) {
+			return redirect()->back()->withErrors($validator)->withInput();
+		}
 
-		// if ($validator->fails()) {
-		// 	return redirect()->back()->withErrors($validator)->withInput();
-		// }
+		$bookings_data = $this->BookingObj->getBooking(['id' => $request_data['update_id'], 'detail' => true]);
 
-		// $data = $this->BookingObj->saveUpdateBooking($request_data);
-		// if ($data->id)
-		// 	$flash_data = ['message', $this->controller_name_single.' is updated successfully.'];
-		// else 
-		// 	$flash_data = ['error_message', 'Something went wrong during update '.$this->controller_name_single];
+		$grace = $request->input('grace_rent');
+		if ($request->has('grace_rent') && $grace === '')
+			$bookings_data->grace_rent = null;
 
-		// \Session::flash($flash_data[0], $flash_data[1]);
-		// return redirect("/{$this->route_name}");
+		$dewa = $request->input('dewa_ch');
+		if ($request->has('dewa_ch') && $dewa === '')
+			$bookings_data->dewa_charges = null;
+
+		$wifi = $request->input('wifi_ch');
+		if ($request->has('wifi_ch') && $wifi === '')
+			$bookings_data->wifi_charges = null;
+
+		$admin = $request->input('admin_ch');
+		if ($request->has('admin_ch') && $admin === '')
+			$bookings_data->admin_charges = null;
+
+		$sec = $request->input('sec_ch');
+		if ($request->has('sec_ch') && $sec === '')
+			$bookings_data->security_charges = null;
+
+		$total = $request->input('net_total');
+		if ($request->has('net_total') && $total === '')
+			$bookings_data->net_total = null;
+
+		$bookings_data->save();
+
+		$data = $this->BookingObj->saveUpdateBooking($request_data);
+		if ($data->id)
+			$flash_data = ['message', $this->controller_name_single.' is updated successfully.'];
+		else 
+			$flash_data = ['error_message', 'Something went wrong during update '.$this->controller_name_single];
+
+		\Session::flash($flash_data[0], $flash_data[1]);
+		return redirect("/{$this->route_name}");
 	}
 
 	/**
 	 * Remove the specified resource from storage.
 	 */
-	public function destroy(Booking $item)
+	public function destroy($id = 0)
 	{
-		// $item->delete();
+		$this->BookingObj->deleteBooking($id);
 
-		// $flash_data = ['message', $this->controller_name_single.' is deleted successfully.'];
-		// \Session::flash($flash_data[0], $flash_data[1]);
-		// return redirect("/{$this->route_name}");
+		$flash_data = ['message', $this->controller_name_single.' is deleted successfully.'];
+		\Session::flash($flash_data[0], $flash_data[1]);
+		return redirect("/{$this->route_name}");
 	}
 }

@@ -182,9 +182,9 @@ class PropertyController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 */
-	public function destroy(Property $user)
+	public function destroy($id = 0)
 	{
-		$user->delete();
+		$this->PropertyObj->deleteProperty($id);
 
 		$flash_data = ['message', $this->controller_name_single.' is deleted successfully.'];
 		\Session::flash($flash_data[0], $flash_data[1]);
