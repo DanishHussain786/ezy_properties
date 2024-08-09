@@ -104,7 +104,7 @@
       <div class="modal-content">
         <div class="modal-header modal-header-primary">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3><i class="fa fa-user m-r-5"></i> Delete Property</h3>
+          <h3><i class="fa fa-user m-r-5"></i> Delete Reservation</h3>
         </div>
         <div class="modal-body">
           <div class="row">
