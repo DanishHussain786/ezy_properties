@@ -49,7 +49,6 @@ class Booking extends Model
 
     if (isset($posted_data['id'])) {
       $query = $query->where('bookings.id', $posted_data['id']);
-      $posted_data['detail'] = true;
     }
     if (isset($posted_data['first_name'])) {
       $query = $query->where('bookings.first_name', 'like', '%' . $posted_data['first_name'] . '%');
