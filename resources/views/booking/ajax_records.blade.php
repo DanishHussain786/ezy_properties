@@ -46,21 +46,21 @@
           <td>{{ $sr_no }}</td>
           <td>{{ $item->booked_for_user->first_name }} {{ $item->booked_for_user->last_name }}</td>
           <td>
-            <strong>Check In: </strong>{{ $item['checkin_date'] }}<br>
-            <strong>Check Out: </strong>{{ $item['checkout_date'] }}
+            <strong class="font-wgt">Check In: </strong>{{ $item['checkin_date'] }}<br>
+            <strong class="font-wgt">Check Out: </strong>{{ $item['checkout_date'] }}
           </td>
           <td>
-            <strong>Type: </strong>{{ default_value($item->property_data->prop_type, "str") }}<br>
-            <strong>No: </strong>{{ default_value($item->property_data->prop_number, "str") }}<br>
-            <strong>Floor: </strong>{{ default_value($item->property_data->prop_floor, "str") }}<br>
-            <strong>Rent: </strong>{{ default_value($item->property_data->prop_rent, "str") }}
+            <strong class="font-wgt">Type: </strong>{{ default_value($item->property_data->prop_type, "str") }}<br>
+            <strong class="font-wgt">No: </strong>{{ default_value($item->property_data->prop_number, "str") }}<br>
+            <strong class="font-wgt">Floor: </strong>{{ default_value($item->property_data->prop_floor, "str") }}<br>
+            <strong class="font-wgt">Rent: </strong>{{ default_value($item->property_data->prop_rent, "str") }}
           </td>
           <td>
-            <strong>Grace Rent: </strong>{{ default_value($item['grace_rent'], "str") }}<br>
-            <strong>Dewa Charges: </strong>{{ default_value($item['dewa_charges'], "str") }}<br>
-            <strong>Wifi Charges: </strong>{{ default_value($item['wifi_charges'], "str") }}<br>
-            <strong>Admin Charges: </strong>{{ default_value($item['admin_charges'], "str") }}<br>
-            <strong>Security Charges: </strong>{{ default_value($item['security_charges'], "str") }}
+            <strong class="font-wgt">Grace Rent: </strong>{{ default_value($item['grace_rent'], "str") }}<br>
+            <strong class="font-wgt">Dewa Charges: </strong>{{ default_value($item['dewa_charges'], "str") }}<br>
+            <strong class="font-wgt">Wifi Charges: </strong>{{ default_value($item['wifi_charges'], "str") }}<br>
+            <strong class="font-wgt">Admin Charges: </strong>{{ default_value($item['admin_charges'], "str") }}<br>
+            <strong class="font-wgt">Security Charges: </strong>{{ default_value($item['security_charges'], "str") }}
           </td>
           <td>{{ $item['net_total'] }}</td>
           {{--<td>{{ $item['prop_rent'] }}</td>
@@ -72,8 +72,8 @@
           --}}
           <td>
             {{-- @if (!$reservations) --}}
-              <button type="button" class="btn btn-add btn-sm m-1 update_reservation_btn" title="Update Reservation" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
-              <button type="button" class="btn btn-danger btn-sm m-1 delete_btn" title="Delete Reservation" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_property_popup"><i class="fa fa-trash-o"></i> </button>
+              <button type="button" class="btn btn-add btn-sm m-1 update_reservation_btn" title="Update Reservation" data-item_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
+              <button type="button" class="btn btn-danger btn-sm m-1 delete_btn" title="Delete Reservation" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_reservation_popup"><i class="fa fa-trash-o"></i> </button>
               {{-- <button type="button" class="btn btn-violet btn-sm m-1 reservation_btn" title="Reservation" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-calendar-check-o"></i> </button> --}}
             {{--@else
               {{'N/A'}}
