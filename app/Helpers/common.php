@@ -209,7 +209,7 @@ if (!function_exists('add_to_datetime')) {
 }
 
 if (!function_exists('default_value')) {
-  function default_value($value, $mode = "str")
+  function default_value($value, $mode = "blank")
   {
     if( (isset($value)) && $value != "") 
       return $value;
@@ -217,6 +217,8 @@ if (!function_exists('default_value')) {
       return "N/A";
     else if ($mode == "num")
       return 0;
+    else if ($mode == "blank")
+      return "";
   }
 }
 
