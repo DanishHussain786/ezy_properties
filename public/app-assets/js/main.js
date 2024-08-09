@@ -272,6 +272,69 @@ function showModal(src) {
 });
 */
 
+$(document).on("change", "#stay_months", function(event) {
+  $('#stay_months').val($(this).val());
+  if ($(this).val() !== '')
+    calculateTotal();
+});
+
+$(document).on("change", "#other_charges", function(event) {
+  if ($(this).val() === 'Yes') {
+    $('.hidden_charges').removeClass('d-none');
+  } else {
+    $('.hidden_charges').addClass('d-none');
+    $("input[name='dewa_ch']").val('');
+    $("input[name='wifi_ch']").val('');
+    $("input[name='admin_ch']").val('');
+    $("input[name='sec_ch']").val('');
+    calculateTotal();
+  }
+});
+
+$(document).on("input", "input[name='dewa_ch']", function(event) { 
+  $("input[name='dewa_ch']").val($(this).val());
+  calculateTotal();
+});
+
+$(document).on("input", "input[name='wifi_ch']", function(event) { 
+  $("input[name='wifi_ch']").val($(this).val());
+  calculateTotal();
+});
+
+$(document).on("input", "input[name='admin_ch']", function(event) { 
+  $("input[name='admin_ch']").val($(this).val());
+  calculateTotal();
+});
+
+$(document).on("input", "input[name='sec_ch']", function(event) { 
+  $("input[name='sec_ch']").val($(this).val());
+  calculateTotal();
+});
+
+$(document).on("input", "input[name='grace_rent']", function(event) { 
+  $("input[name='grace_rent']").val($(this).val());
+  calculateTotal();
+});
+
+function calculateTotal() {
+  var stay = $('#stay_months').val();
+  var rent = parseFloat($('input[name="prop_rent"]').val()) || 0;
+  var grace_rent = parseFloat($('input[name="grace_rent"]').val()) || 0;
+  var dewa = parseFloat($('input[name="dewa_ch"]').val()) || 0;
+  var wifi = parseFloat($('input[name="wifi_ch"]').val()) || 0;
+  var admin = parseFloat($('input[name="admin_ch"]').val()) || 0;
+  var security = parseFloat($('input[name="sec_ch"]').val()) || 0;
+  var advance_rent = 0;
+
+  if (stay > 1)
+    advance_rent = ((rent * stay) + (grace_rent * stay)) - rent;
+  else 
+    advance_rent = (rent * stay) + grace_rent - rent;
+
+  var total = rent + advance_rent + dewa + wifi + admin + security;
+  $('input[name="net_total"]').val(total);
+}
+
 // delay ajax request call on keypress, keyup, keydown, change event etc.
 function throttle(f, delay) {
   var timer = null;
@@ -325,7 +388,7 @@ function getAjaxData(data) {
  * @param {function} successCallback - A function to be called if the request succeeds
  * @param {function} errorCallback - A function to be called if the request fails
  */
-function dynamicAjaxGetRequest(url, data, successCallback, errorCallback) {
+function dynamicAjaxGetRequest(url, data, successCallback, errorCallback, extraParam) {
   $.ajax({
     url: url,
     type: 'GET',
@@ -333,7 +396,7 @@ function dynamicAjaxGetRequest(url, data, successCallback, errorCallback) {
     // dataType: 'json',
     success: function(response) {
       if (typeof successCallback === 'function') {
-        successCallback(response);
+        successCallback(response, extraParam);
       }
     },
     error: function(xhr, status, error) {
