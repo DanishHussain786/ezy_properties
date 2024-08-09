@@ -6249,6 +6249,15 @@ table.text-center th {
   word-break: break-word;
 }
 
+.label {
+  vertical-align: middle;
+  display: inline-grid;
+}
+
+.font-wgt{
+  font-weight: 600;  
+}
+
 /* ---------- END CUSTOM PADDINGS ---------- */
 
 @media (max-width: 768px) {
