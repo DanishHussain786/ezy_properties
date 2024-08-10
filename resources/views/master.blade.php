@@ -412,12 +412,25 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="{{url('booking')}}">Check In / Out</a></li>
-                  <li><a href="{{url('booking/services')}}">Add Services</a></li>
+                  <li><a href="{{url('booking')}}">Reservations</a></li>
+                  <li><a href="{{url('booking/services')}}">Other Services</a></li>
                 </ul>
               </li>
-              {{--
-              @php $class = (strpos($str_slug, "property") !== false) ? 'active' : ''; @endphp
+              @php $class = (strpos($str_slug, "accounts") !== false) ? 'active' : ''; @endphp
+              <li class="treeview menu-item {{$class}}">
+                <a href="#">
+                  <i class="fa fa-home"></i><span>Accounts</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{url('property/create')}}">Payment In</a></li>
+                  <li><a href="{{url('property')}}">Payment Out</a></li>
+                  <li><a href="{{url('property')}}">Guest Services</a></li>
+                </ul>
+              </li>
+              @php $class = (strpos($str_slug, "services") !== false) ? 'active' : ''; @endphp
               <li class="treeview menu-item {{$class}}">
                 <a href="#">
                   <i class="fa fa-home"></i><span>Services</span>
@@ -430,7 +443,6 @@
                   <li><a href="{{url('property')}}">List Services</a></li>
                 </ul>
               </li>
-              --}}
             </ul>
           </div>
           <!-- /.sidebar -->
