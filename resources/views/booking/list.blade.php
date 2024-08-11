@@ -14,6 +14,24 @@
   </div>
 </section>
 
+<style>
+  .summary-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+  }
+
+  .summary-label {
+    text-align: left;
+    margin-bottom: 3px;
+  }
+
+  .summary-value {
+    text-align: right;
+    margin-bottom: 3px;
+  }
+</style>
+
 <section class="content">
   <div class="row">
     <div class="col-sm-12">
@@ -55,10 +73,10 @@
           </form>
 
           @if (Session::has('message'))
-            <div class="alert alert-success"><b>Success: </b>{{ Session::get('message') }}</div>
+          <div class="alert alert-success"><b>Success: </b>{{ Session::get('message') }}</div>
           @endif
           @if (Session::has('error_message'))
-            <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
+          <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
           @endif
 
           <div id="table_data">
@@ -134,22 +152,86 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
-   
+
   <!-- Modal -->
-  <!-- <div class="modal fade" id="reservation_popup" role="dialog" aria-hidden="true">
+  <div class="modal fade" id="checkin_popup" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header modal-header-primary">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3><i class="fa fa-user m-r-5"></i> Reservation Details</h3>
+          <h3><i class="fa fa-user m-r-5"></i> Check-In Details</h3>
         </div>
         <div class="modal-body">
           <div class="row">
             <div class="col-md-12">
-              <form class="form-horizontal" id="create_reservation" action="" method="">
-                @method('POST')
+              <form class="form-horizontal" id="create_checkin" action="" method="">
                 @csrf
-                <fieldset class="model-ajax">
+                <fieldset>
+                  <input type="hidden" value="" id="book_id" name="book_id">
+                  <input type="hidden" value="" id="prop_id" name="prop_id">
+                  <input type="hidden" value="" id="user_id" name="user_id">
+                  <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                    <label class="control-label">Charges</label>
+                    <input type="number" value="" name="tot_payable" placeholder="Enter payable charges" class="form-control full_width tot_payable" readonly>
+                  </div>
+                  <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                    <label class="control-label">VAT (5%)</label>
+                    <select class="form-control full_width" id="vat_apply" name="vat_apply">
+                      <option value="No" selected> No </option>
+                      <option value="Inclusive"> Inclusive </option>
+                      <option value="Exclusive"> Exclusive </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                    <label class="control-label">Discount</label>
+                    <input type="text" value="" id="discount" name="discount" placeholder="Enter discount amount" class="form-control full_width only_numbers">
+                  </div>
+                  <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                    <label class="control-label">Pay Method</label>
+                    <select class="form-control full_width" id="pay_with" name="pay_with">
+                      <option value="Cash" selected> Cash </option>
+                      <option value="Online"> Online </option>
+                      <option value="Credit-Card"> Credit Card </option>
+                      <option value="Bank-Transfer"> Bank Transfer </option>
+                      <option value="Cheque"> Cheque </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                    <label class="control-label">Amount Paid</label>
+                    <input type="text" value="" id="amt_pay" name="amt_pay" placeholder="Enter total amount paid" class="form-control full_width only_numbers">
+                  </div>
+                  <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                    <label class="control-label">Any comments</label>
+                    <input type="text" value="" id="comments" name="comments" placeholder="Enter any description or comments" class="form-control full_width">
+                  </div>
+
+                  <div class="col-md-7"></div>
+                  <div class="col-md-5 text-right" style="padding-top: 15px; display: grid;">
+                    <div class="summary-row">
+                      <p class="summary-label"><strong>Sub Total:</strong></p>
+                      <p class="summary-value" id="sum_st">0</p>
+                    </div>
+                    <div class="summary-row">
+                      <p class="summary-label"><strong>VAT (5%):</strong></p>
+                      <p class="summary-value" id="sum_vat">0</p>
+                    </div>
+                    <div class="summary-row">
+                      <p class="summary-label"><strong>Discount:</strong></p>
+                      <p class="summary-value" id="sum_disc">0</p>
+                    </div>
+                    <div class="summary-row">
+                      <p class="summary-label"><strong>Grand Total:</strong></p>
+                      <p class="summary-value" id="sum_gt">0</p>
+                    </div>
+                    <div class="summary-row">
+                      <p class="summary-label"><strong>Total Paid:</strong></p>
+                      <p class="summary-value" id="sum_tp">0</p>
+                    </div>
+                    <div class="summary-row">
+                      <p class="summary-label"><strong>Balance:</strong></p>
+                      <p class="summary-value" id="sum_bal">0</p>
+                    </div>
+                  </div>
                 </fieldset>
               </form>
             </div>
@@ -157,13 +239,68 @@
         </div>
         <div class="modal-footer">
           <div class="pull-right">
-            <button type="submit" id="add_res_btn" class="btn btn-add">Save</button>
+            <button type="submit" id="do_checkin_btn" class="btn btn-add">Save</button>
             <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
+  <!-- /.Modal -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="payment_popup" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header modal-header-primary">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3><i class="fa fa-user m-r-5"></i> Add Payment</h3>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <form class="form-horizontal" id="add_payment_form" action="{{ url('booking/payments') }}" method="POST">
+                @csrf
+                <fieldset>
+                  <input type="hidden" value="initial_dep" id="paying_for" name="paying_for">
+                  <!-- <input type="hidden" value="" id="prop_id" name="prop_id">
+                  <input type="hidden" value="" id="user_id" name="user_id"> -->
+                  <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label class="control-label">Charges</label>
+                    <input type="number" value="" name="tot_payable" placeholder="Enter payable charges" class="form-control full_width tot_payable" readonly>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label class="control-label">Pay Method</label>
+                    <select class="form-control full_width" id="pay_with" name="pay_with">
+                      <option value="Cash" selected> Cash </option>
+                      <option value="Online"> Online </option>
+                      <option value="Credit-Card"> Credit Card </option>
+                      <option value="Bank-Transfer"> Bank Transfer </option>
+                      <option value="Cheque"> Cheque </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label class="control-label">Initial Deposit</label>
+                    <input type="text" value="" id="amt_pay" name="amt_pay" placeholder="Enter total amount paid" class="form-control full_width only_numbers">
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label class="control-label">Any comments</label>
+                    <input type="text" value="" id="comments" name="comments" placeholder="Enter any description or comments" class="form-control full_width">
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="pull-right">
+            <button type="submit" id="add_payment_btn" class="btn btn-add">Save</button>
+            <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- /.Modal -->
 
 </section>
