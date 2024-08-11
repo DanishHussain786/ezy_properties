@@ -37,12 +37,17 @@
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Monthly Rent (AED)</label>
-  <input type="number" value="{{$data['prop_rent']}}" id="prop_rent" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width" readonly>
+  <input type="text" value="{{$data['prop_rent']}}" id="prop_rent" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width only_numbers" readonly>
 </div>
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Grace Rent (AED)</label>
-  <input type="number" value="{{isset($data['grace_rent'])? $data['grace_rent'] : ''}}" id="grace_rent" name="grace_rent" placeholder="Enter grace rent" class="form-control full_width">
+  <input type="text" value="{{isset($data['grace_rent'])? $data['grace_rent'] : ''}}" id="grace_rent" name="grace_rent" placeholder="Enter grace rent" class="form-control full_width only_numbers">
+</div>
+
+<div class="form-group col-md-4 col-sm-6 col-xs-12">
+  <label class="control-label">Initial Deposit (AED)</label>
+  <input type="text" id="init_deposit" name="init_deposit" placeholder="Enter initial deposit amount" class="form-control full_width only_numbers">
 </div>
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
@@ -55,21 +60,21 @@
 
 <div class="form-group d-none hidden_charges col-md-4 col-sm-6 col-xs-12">
   <label class="control-label" for="dewa_ch">DEWA Charges</label>
-  <input type="number" class="form-control full_width" placeholder="0" id="dewa_ch" name="dewa_ch">
+  <input type="text" class="form-control full_width only_numbers" placeholder="Enter dewa charges" id="dewa_ch" name="dewa_ch">
 </div>
 <div class="form-group d-none hidden_charges col-md-4 col-sm-6 col-xs-12">
   <label class="control-label" for="wifi_ch">Wifi Charges</label>
-  <input type="number" class="form-control full_width" placeholder="0" id="wifi_ch" name="wifi_ch">
+  <input type="text" class="form-control full_width only_numbers" placeholder="Enter wifi charges" id="wifi_ch" name="wifi_ch">
 </div>
 <div class="form-group d-none hidden_charges col-md-4 col-sm-6 col-xs-12">
   <label class="control-label" for="admin_ch">Admin Fee</label>
-  <input type="number" class="form-control full_width" placeholder="0" id="admin_ch" name="admin_ch">
+  <input type="text" class="form-control full_width only_numbers" placeholder="Enter admin charges" id="admin_ch" name="admin_ch">
 </div>
 <div class="form-group d-none hidden_charges col-md-4 col-sm-6 col-xs-12">
   <label class="control-label" for="sec_ch">Security Charges</label>
-  <input type="number" class="form-control full_width" placeholder="0" id="sec_ch" name="sec_ch">
+  <input type="text" class="form-control full_width only_numbers" placeholder="Enter security charges" id="sec_ch" name="sec_ch">
 </div>
 <div class="form-group col-md-12 col-sm-12 col-xs-12">
   <label class="control-label" for="net_total">Net. Total</label>
-  <input type="number" class="form-control full_width" placeholder="0" id="net_total" name="net_total" readonly>
+  <input type="text" class="form-control full_width only_numbers" placeholder="0" id="net_total" name="net_total" readonly>
 </div>
