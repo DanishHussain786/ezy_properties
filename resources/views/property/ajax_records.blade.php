@@ -24,14 +24,11 @@
       
         @php
           $sr_no = $key + 1;
-          if ($item->reservations_data()->exists()) {
+          $label_class = get_label_class($item['status']);
+          if ($item->reservations_data()->exists())
             $reservations = true;
-            $label_class = get_label_class($item['reservations_data']['status']);
-          }
-          else {
+          else
             $reservations = false;
-            $label_class = get_label_class();
-          }
 
           if ($data['records']->currentPage()>1) {
             $sr_no = ($data['records']->currentPage()-1)*$data['records']->perPage();
@@ -44,11 +41,7 @@
           <td>{{ isset($item['prop_number']) ? $item['prop_number'] : "N/A" }}</td>
           <td>{{ $item['prop_floor'] }}</td>
           <td>{{ $item['prop_rent'] }}</td>
-          @if (!$reservations)
-          <td><span class="{{$label_class}} label label-pill">{{'Available'}}</span></td>
-          @else
-          <td><span class="{{$label_class}} label label-pill">{{$item['reservations_data']['status']}}</span></td>
-          @endif
+          <td><span class="{{$label_class}} label label-pill">{{$item['status']}}</span></td>
           <td>
             @if (!$reservations)
               <button type="button" class="btn btn-add btn-sm update_property_btn mb-3" title="Update Property" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
