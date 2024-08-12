@@ -41,10 +41,12 @@ Route::get('/', function () {
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 
+Route::get('booking/manage', [BookingController::class, 'manage']);
+
 Route::resource('user', UserController::class);
 Route::resource('property', PropertyController::class);
 Route::resource('booking', BookingController::class);
-// Route::post('/manage_booking', [PropertyController::class, 'manage_booking']);
+// Route::get('/booking_listings', [BookingController::class, 'manage']);
 
 Route::get('/storage-link', function() {
     Artisan::call("storage:link");
