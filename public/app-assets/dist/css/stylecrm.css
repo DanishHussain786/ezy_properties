@@ -6254,8 +6254,8 @@ table.text-center th {
   display: inline-grid;
 }
 
-.font-wgt{
-  font-weight: 600;  
+.font-sm{
+  font-size: small;
 }
 
 /* ---------- END CUSTOM PADDINGS ---------- */
