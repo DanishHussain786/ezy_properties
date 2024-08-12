@@ -19,7 +19,7 @@ return new class extends Migration
       $table->foreign('booked_for')->references('id')->constrained()->on('users')->onUpdate('cascade')->onDelete('cascade');
       $table->unsignedBigInteger('property_id')->nullable();
       $table->foreign('property_id')->references('id')->constrained()->on('properties')->onUpdate('cascade')->onDelete('cascade');
-      $table->enum('status', ['Reservation','CheckIn','CheckOut','OverStay'])->default('Reservation');
+      $table->enum('status', ['Reservation','Check-In','Check-Out','Over-Stay'])->default('Reservation');
       $table->date('checkin_date');
       $table->date('checkout_date');
       $table->integer('for_days')->nullable();
