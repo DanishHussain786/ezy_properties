@@ -19,7 +19,7 @@ jQuery(document).ready(function() {
 $(document).on("click", "#add_res_btn", function(event) {
   event.preventDefault();
   var data = $("#create_reservation").serializeArray();
-  dynamicAjaxPostRequest('/booking', data, function(response) {
+  dynamicAjaxRequest('/booking', 'POST', data, function(response) {
     try {
       toastr.success(response.message);
       $('#add_res_btn').prop('disabled', true);

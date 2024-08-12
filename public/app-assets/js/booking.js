@@ -34,6 +34,31 @@ $(document).on("click", ".update_reservation_btn", function(event) {
   });
 });
 
+$(document).on("click", ".update_reserv_submit", function(event) {
+  event.preventDefault();
+
+  let url = $('.update_popup').attr("action");
+  var data = $("#upd_reservation").serializeArray();
+  dynamicAjaxRequest(url, 'PUT', data, function(response) {
+    try {
+      toastr.success(response.message);
+      $('.update_reserv_submit').prop('disabled', true);
+      if (response.records.redirect_url) {
+        setTimeout(function() {
+          window.location.href = response.records.redirect_url; // Replace with your desired route
+        }, 2000);
+      }
+    } catch (e) {
+      console.error('Error parsing response:', e);
+    }
+  }, function(xhr, status, error) {
+    toastr.error(xhr.responseJSON.message);
+    console.error('Error:', status, error);
+  });
+});
+
+
+
 $('#update_reservation_popup').on('shown.bs.modal', function () {
   $('.select2_field').select2();
 });
