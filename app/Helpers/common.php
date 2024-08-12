@@ -229,3 +229,16 @@ if (!function_exists('generate_unique_id')) {
     return floor(time()-999999999);
   }
 }
+
+if (!function_exists('get_label_class')) {
+  function get_label_class($status = "")
+  {
+    if ($status == 'Reservation') $label_class = "label-primary";
+    else if ($status == 'Check-In') $label_class = "label-warning";
+    else if ($status == 'Check-Out') $label_class = "label-custom";
+    else if ($status == 'Over-Stay') $label_class = "label-danger";
+    else $label_class = "label-success";
+
+    return $label_class;
+  }
+}
