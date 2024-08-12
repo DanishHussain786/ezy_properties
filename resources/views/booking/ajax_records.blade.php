@@ -7,11 +7,9 @@
         <th>Check In/Out</th>
         <th>Property</th>
         <th>Others</th>
+        <th>Status</th>
         <th>Charges</th>
         <th>Action</th>
-        {{--
-        <th>Check-Out</th>
-        --}}
       </tr>
     </thead>
     <tbody>
@@ -21,22 +19,8 @@
       
         @php
           $sr_no = $key + 1;
-          //if ($item->reservations_data()->exists()) {
-            //$reservations = true;
-            //if ($item['reservations_data']['status'] == 'Reservation')
-            //  $label_class = "label-primary";
-            //else if ($item['reservations_data']['status'] == 'CheckIn')
-            //  $label_class = "label-warning";
-            //else if ($item['reservations_data']['status'] == 'CheckOut')
-            //  $label_class = "label-custom";
-            //else if ($item['reservations_data']['status'] == 'OverStay')
-            //  $label_class = "label-danger";
-          //}
-          //else {
-            //$label_class = "label-success";
-            //$reservations = false;
-          //}
-
+          $label_class = get_label_class($item['status']);
+          
           if ($data['records']->currentPage()>1) {
             $sr_no = ($data['records']->currentPage()-1)*$data['records']->perPage();
             $sr_no = $sr_no + $key + 1;
@@ -46,35 +30,30 @@
           <td>{{ $sr_no }}</td>
           <td>{{ $item->booked_for_user->first_name }} {{ $item->booked_for_user->last_name }}</td>
           <td>
-            <strong class="font-wgt">Check In: </strong>{{ $item['checkin_date'] }}<br>
-            <strong class="font-wgt">Check Out: </strong>{{ $item['checkout_date'] }}
+            <strong class="font-sm">Check In: </strong>{{ $item['checkin_date'] }}<br>
+            <strong class="font-sm">Check Out: </strong>{{ $item['checkout_date'] }}
           </td>
           <td>
-            <strong class="font-wgt">Type: </strong>{{ default_value($item->property_data->prop_type, "str") }}<br>
-            <strong class="font-wgt">No: </strong>{{ default_value($item->property_data->prop_number, "str") }}<br>
-            <strong class="font-wgt">Floor: </strong>{{ default_value($item->property_data->prop_floor, "str") }}<br>
-            <strong class="font-wgt">Rent: </strong>{{ default_value($item->property_data->prop_rent, "str") }}
+            <strong class="font-sm">Type: </strong>{{ default_value($item->property_data->prop_type, "str") }}<br>
+            <strong class="font-sm">No: </strong>{{ default_value($item->property_data->prop_number, "str") }}<br>
+            <strong class="font-sm">Floor: </strong>{{ default_value($item->property_data->prop_floor, "str") }}<br>
+            <strong class="font-sm">Rent: </strong>{{ default_value($item->property_data->prop_rent, "str") }}
           </td>
           <td>
-            <strong class="font-wgt">Grace Rent: </strong>{{ default_value($item['grace_rent'], "str") }}<br>
-            <strong class="font-wgt">Dewa Charges: </strong>{{ default_value($item['dewa_charges'], "str") }}<br>
-            <strong class="font-wgt">Wifi Charges: </strong>{{ default_value($item['wifi_charges'], "str") }}<br>
-            <strong class="font-wgt">Admin Charges: </strong>{{ default_value($item['admin_charges'], "str") }}<br>
-            <strong class="font-wgt">Security Charges: </strong>{{ default_value($item['security_charges'], "str") }}
+            <strong class="font-sm">Grace Rent: </strong>{{ default_value($item['grace_rent'], "num") }}<br>
+            <strong class="font-sm">Dewa Charges: </strong>{{ default_value($item['dewa_charges'], "num") }}<br>
+            <strong class="font-sm">Wifi Charges: </strong>{{ default_value($item['wifi_charges'], "num") }}<br>
+            <strong class="font-sm">Admin Charges: </strong>{{ default_value($item['admin_charges'], "num") }}<br>
+            <strong class="font-sm">Security Charges: </strong>{{ default_value($item['security_charges'], "num") }}
           </td>
+          <td><span class="{{$label_class}} label label-pill">{{$item['status']}}</span></td>
           <td>{{ $item['net_total'] }}</td>
-          {{--<td>{{ $item['prop_rent'] }}</td>
-          @if (!$reservations)
-          <td><span class="{{$label_class}} label label-pill">{{'Available'}}</span></td>
-          @else
-          <td><span class="{{$label_class}} label label-pill">{{$item['reservations_data']['status']}}</span></td>
-          @endif
-          --}}
           <td>
             {{-- @if (!$reservations) --}}
-              <button type="button" class="btn btn-add btn-sm m-1 update_reservation_btn" title="Update Reservation" data-item_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
-              <button type="button" class="btn btn-danger btn-sm m-1 delete_btn" title="Delete Reservation" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_reservation_popup"><i class="fa fa-trash-o"></i> </button>
-              {{-- <button type="button" class="btn btn-violet btn-sm m-1 reservation_btn" title="Reservation" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-calendar-check-o"></i> </button> --}}
+              <button type="button" class="btn btn-add btn-sm update_reservation_btn" title="Update Reservation" data-item_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
+              <button type="button" class="btn btn-danger btn-sm delete_btn" title="Delete Reservation" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_reservation_popup"><i class="fa fa-trash-o"></i> </button>
+              <button type="button" class="btn btn-danger btn-sm delete_btn" title="Check In" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_reservation_popup"><i class="fa fa-calendar-plus-o"></i> </button>
+              {{-- <button type="button" class="btn btn-violet btn-sm reservation_btn" title="Reservation" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-calendar-check-o"></i> </button> --}}
             {{--@else
               {{'N/A'}}
             @endif

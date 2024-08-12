@@ -81,7 +81,7 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-12">
-              <form class="form-horizontal update_popup" action="" method="POST">
+              <form class="form-horizontal update_popup" id="upd_reservation" action="" method="POST">
                 @method('PUT')
                 @csrf
                 <fieldset class="model-ajax">
