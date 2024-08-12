@@ -109,37 +109,6 @@ class BookingController extends Controller
 		$data['redirect_url'] = url('property');
 		
 		return $this->sendResponse($data, 'Booking is created successfully.');
-
-		// $request_data = $request->all();
-		// $rules = array(
-		// 	'prop_type'     => ['required', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
-		// 	'prop_rent'     => ['required'],
-		// );
-		
-		// if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
-		// 	$rules['prop_number'] = ['required'];
-		// 	$rules['prop_floor'] = ['required'];
-		// 	$rules['prop_address'] = ['required', 'max:400'];
-		// }
-		// else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
-		// 	$rules['room_no'] = ['required'];
-		// 	$rules['bs_level'] = ['required', 'in:1,2,3'];
-		// }
-
-		// $messages = array(
-		// 	'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
-		// );
-
-		// $validator = \Validator::make($request_data, $rules, $messages);
-
-		// if ($validator->fails()) {
-		// 	return redirect()->back()->withErrors($validator)->withInput();
-		// }
-
-		// $this->BookingObj->saveUpdateBooking($request_data);
-		// $flash_data = ['message', $this->controller_name_single . ' is created successfully.'];
-		// \Session::flash($flash_data[0], $flash_data[1]);
-		// return redirect("/{$this->route_name}");
 	}
 
 	/**
@@ -209,13 +178,13 @@ class BookingController extends Controller
 		$request_data['update_id'] = $id;
 		$rules = array(
 			'update_id'			=> ['required', 'exists:' . $this->model_name . ',id'],
-			'user_id'				=> ['required', 'exists:users,id'],
+			'booked_for'		=> ['required', 'exists:users,id'],
 			'checkin_date' 	=> ['required', 'date_format:Y-m-d'],
 			'stay_months' 	=> ['required', 'numeric', 'min:1', 'max:12'],
 			'prop_rent'     => ['required'],
 			'other_charges' => ['required', 'in:Yes,No'],
 		);
-		
+
 		$messages = array(
 			'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
 		);
@@ -223,45 +192,58 @@ class BookingController extends Controller
 		$validator = \Validator::make($request_data, $rules, $messages);
 
 		if ($validator->fails()) {
-			return redirect()->back()->withErrors($validator)->withInput();
+			return $this->sendError($validator->errors()->first(), ["error" => $validator->errors()->first()]);
 		}
 
 		$bookings_data = $this->BookingObj->getBooking(['id' => $request_data['update_id'], 'detail' => true]);
 
 		$grace = $request->input('grace_rent');
-		if ($request->has('grace_rent') && $grace === '')
+		if ($request->has('grace_rent') && ($grace == '' || $grace == 0) )
 			$bookings_data->grace_rent = null;
 
 		$dewa = $request->input('dewa_ch');
-		if ($request->has('dewa_ch') && $dewa === '')
+		if ($request->has('dewa_ch') && ($dewa == '' || $dewa == 0) )
 			$bookings_data->dewa_charges = null;
 
 		$wifi = $request->input('wifi_ch');
-		if ($request->has('wifi_ch') && $wifi === '')
+		if ($request->has('wifi_ch') && ($wifi == '' || $wifi == 0) )
 			$bookings_data->wifi_charges = null;
 
 		$admin = $request->input('admin_ch');
-		if ($request->has('admin_ch') && $admin === '')
+		if ($request->has('admin_ch') && ($admin == '' || $admin == 0) )
 			$bookings_data->admin_charges = null;
 
 		$sec = $request->input('sec_ch');
-		if ($request->has('sec_ch') && $sec === '')
+		if ($request->has('sec_ch') && ($sec == '' || $sec == 0) )
 			$bookings_data->security_charges = null;
 
 		$total = $request->input('net_total');
-		if ($request->has('net_total') && $total === '')
+		if ($request->has('net_total') && ($total == '' || $total == 0) )
 			$bookings_data->net_total = null;
 
 		$bookings_data->save();
 
-		$data = $this->BookingObj->saveUpdateBooking($request_data);
-		if ($data->id)
-			$flash_data = ['message', $this->controller_name_single.' is updated successfully.'];
-		else 
-			$flash_data = ['error_message', 'Something went wrong during update '.$this->controller_name_single];
+		$bookings['update_id'] = $request_data['update_id'];
+		$bookings['booked_for'] = $request_data['booked_for'];
+		$bookings['property_id'] = $request_data['property_id'];
+		$bookings['status'] = 'Reservation';
+		$bookings['checkin_date'] = $request_data['checkin_date'];
+		$bookings['checkout_date'] = add_to_datetime($request_data['checkin_date'], ['months' => $request_data['stay_months']]);
+		$bookings['for_days'] = datetime_difference($bookings['checkin_date'], $bookings['checkout_date'])['days'];
+		$bookings['for_months'] = $request_data['stay_months'];
+		$bookings['rent'] = $request_data['prop_rent'];
+		$bookings['grace_rent'] = $request_data['grace_rent'];
+		$bookings['other_charges'] = $request_data['other_charges'];
+		$bookings['dewa_charges'] = $request_data['dewa_ch'];
+		$bookings['wifi_charges'] = $request_data['wifi_ch'];
+		$bookings['admin_charges'] = $request_data['admin_ch'];
+		$bookings['security_charges'] = $request_data['sec_ch'];
+		$bookings['net_total'] = $request_data['net_total'];
 
-		\Session::flash($flash_data[0], $flash_data[1]);
-		return redirect("/{$this->route_name}");
+		$data = $this->BookingObj->saveUpdateBooking($bookings);
+		$data['redirect_url'] = url("{$this->route_name}");
+		
+		return $this->sendResponse($data, $this->controller_name_single.' is updated successfully.');
 	}
 
 	/**
@@ -274,5 +256,16 @@ class BookingController extends Controller
 		$flash_data = ['message', $this->controller_name_single.' is deleted successfully.'];
 		\Session::flash($flash_data[0], $flash_data[1]);
 		return redirect("/{$this->route_name}");
+	}
+
+	public function manage(Request $request, $id = 0)
+	{
+		$request_data = $request->all();
+
+		echo "<pre>";
+		echo " request_data"."<br>";
+		print_r($request_data);
+		echo "</pre>";
+		exit("@@@@");
 	}
 }
