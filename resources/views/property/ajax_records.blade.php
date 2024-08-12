@@ -26,18 +26,11 @@
           $sr_no = $key + 1;
           if ($item->reservations_data()->exists()) {
             $reservations = true;
-            if ($item['reservations_data']['status'] == 'Reservation')
-              $label_class = "label-primary";
-            else if ($item['reservations_data']['status'] == 'CheckIn')
-              $label_class = "label-warning";
-            else if ($item['reservations_data']['status'] == 'CheckOut')
-              $label_class = "label-custom";
-            else if ($item['reservations_data']['status'] == 'OverStay')
-              $label_class = "label-danger";
+            $label_class = get_label_class($item['reservations_data']['status']);
           }
           else {
-            $label_class = "label-success";
             $reservations = false;
+            $label_class = get_label_class();
           }
 
           if ($data['records']->currentPage()>1) {
@@ -58,9 +51,9 @@
           @endif
           <td>
             @if (!$reservations)
-              <button type="button" class="btn btn-add btn-sm m-1 update_property_btn" title="Update Property" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
-              <button type="button" class="btn btn-danger btn-sm m-1 delete_btn" title="Delete Property" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_property_popup"><i class="fa fa-trash-o"></i> </button>
-              <button type="button" class="btn btn-violet btn-sm m-1 reservation_btn" title="Reservation" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-calendar-check-o"></i> </button>
+              <button type="button" class="btn btn-add btn-sm update_property_btn" title="Update Property" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
+              <button type="button" class="btn btn-danger btn-sm delete_btn" title="Delete Property" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_property_popup"><i class="fa fa-trash-o"></i> </button>
+              <button type="button" class="btn btn-violet btn-sm reservation_btn" title="Reservation" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-calendar-check-o"></i> </button>
             @else
               {{'N/A'}}
             @endif
