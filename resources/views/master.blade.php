@@ -412,8 +412,7 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="{{url('booking')}}">Reservations</a></li>
-                  <li><a href="{{url('booking/listings')}}">Check In / Out</a></li>
+                  <li><a href="{{url('booking')}}">Check In / Out</a></li>
                   <li><a href="{{url('booking/services')}}">Add Services</a></li>
                 </ul>
               </li>
