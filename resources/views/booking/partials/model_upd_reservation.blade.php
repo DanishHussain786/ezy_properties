@@ -1,7 +1,7 @@
-<input type="hidden" value="{{isset($data['id'])? $data['id'] : ''}}" id="property_id" name="property_id">
+<input type="hidden" value="{{isset($data['property_id'])? $data['property_id'] : ''}}" id="property_id" name="property_id">
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Select Guest</label>
-  <select class="select2_field form-control full_width" id="select2-user_id" name="user_id">
+  <select class="select2_field form-control full_width" id="booked_for" name="booked_for">
     <option value=""> ---- Choose any user ---- </option>
     @if (isset($data['users']) && count($data['users']) > 0 )
       @foreach ($data['users'] as $key => $user)
@@ -77,6 +77,6 @@
 <div class="col-md-12 form-group user-form-group">
   <div class="pull-right m-t-20">
     <button type="button" class="btn btn-danger btn-sm">Cancel</button>
-    <button type="submit" class="btn btn-add btn-sm">Update</button>
+    <button type="submit" class="btn btn-add btn-sm update_reserv_submit">Update</button>
   </div>
 </div>
