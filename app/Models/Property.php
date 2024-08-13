@@ -15,10 +15,10 @@ class Property extends Model
 
   public function reservations_data()
   {
-    return $this->hasOne(Booking::class, 'property_id')
-      ->where([
-        ['status', '=', 'Reservation']
-      ]);
+    return $this->hasOne(Booking::class, 'property_id');
+      // ->where([
+      //   ['status', '=', 'Reservation']
+      // ]);
   }
 
   public function getProperty($posted_data = array())
