@@ -233,12 +233,12 @@ if (!function_exists('generate_unique_id')) {
 if (!function_exists('get_label_class')) {
   function get_label_class($status = "")
   {
-    if ($status == 'Reservation') $label_class = "label-primary";
-    else if ($status == 'Check-In') $label_class = "label-warning";
-    else if ($status == 'Check-Out') $label_class = "label-custom";
-    else if ($status == 'Over-Stay') $label_class = "label-danger";
-    else $label_class = "label-success";
-
-    return $label_class;
+    if ($status == 'Pre-Reserve') return $label_class = "label-warning";
+    else if ($status == 'Reserved') return $label_class = "label-primary";
+    else if ($status == 'Checked-In') return $label_class = "label-custom";
+    else if ($status == 'Checked-Out') return $label_class = "label-info";
+    else if ($status == 'Over-Stay') return $label_class = "label-danger";
+    else if ($status == 'Maintenance') return $label_class = "label-default";
+    else return $label_class = "label-success";
   }
 }
