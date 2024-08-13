@@ -152,6 +152,9 @@ class Booking extends Model
     if (isset($posted_data['rent'])) {
       $data->rent = $posted_data['rent'];
     }
+    if (isset($posted_data['adjust_rent'])) {
+      $data->adjust_rent = $posted_data['adjust_rent'];
+    }
     if (isset($posted_data['grace_rent'])) {
       $data->grace_rent = $posted_data['grace_rent'];
     }
@@ -169,6 +172,9 @@ class Booking extends Model
     }
     if (isset($posted_data['security_charges'])) {
       $data->security_charges = $posted_data['security_charges'];
+    }
+    if (isset($posted_data['initial_deposit'])) {
+      $data->initial_deposit = $posted_data['initial_deposit'];
     }
     if (isset($posted_data['net_total'])) {
       $data->net_total = $posted_data['net_total'];
