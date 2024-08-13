@@ -133,6 +133,12 @@ class Transaction extends Model
     if (isset($posted_data['amount'])) {
       $data->amount = $posted_data['amount'];
     }
+    if (isset($posted_data['balance'])) {
+      $data->balance = $posted_data['balance'];
+    }
+    if (isset($posted_data['paid_for'])) {
+      $data->paid_for = $posted_data['paid_for'];
+    }
     if (isset($posted_data['type'])) {
       $data->type = $posted_data['type'];
     }
