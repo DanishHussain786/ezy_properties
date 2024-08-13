@@ -99,7 +99,7 @@ $(document).on("click", "#do_checkin_btn", function(event) {
   dynamicAjaxGetRequest('/booking/create', data, function(response) {
     try {
       toastr.success(response.message);
-      $('#add_res_btn').prop('disabled', true);
+      // $('#add_res_btn').prop('disabled', true);
       if (response.records.redirect_url) {
         setTimeout(function() {
           window.location.href = response.records.redirect_url; // Replace with your desired route
