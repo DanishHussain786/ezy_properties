@@ -8,6 +8,8 @@ use Illuminate\Routing\Controller as BaseController;
 use App\Models\User;
 use App\Models\Property;
 use App\Models\Booking;
+use App\Models\Service;
+use App\Models\Transaction;
 
 class Controller extends BaseController
 {
@@ -16,12 +18,16 @@ class Controller extends BaseController
   public $UserObj;
   public $PropertyObj;
   public $BookingObj;
+  public $ServiceObj;
+  public $TransactionObj;
 
   public function __construct()
   {
     $this->UserObj = new User();
     $this->PropertyObj = new Property();
     $this->BookingObj = new Booking();
+    $this->ServiceObj = new Service();
+    $this->TransactionObj = new Transaction();
   }
 
   /**

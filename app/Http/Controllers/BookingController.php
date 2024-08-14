@@ -36,12 +36,137 @@ class BookingController extends Controller
 	 */
 	public function create(Request $request)
 	{		
-		// $data['prop_types'] = Config::get('constants.propertyTypes.all_keys_arr');
-		// $data['route_name'] = $this->route_name;
-		// if ($request->ajax()) {
-		// 	return $data['html'];
-		// }
-		// return view("{$this->route_name}.add_edit", compact('data'));
+		$request_data = $request->all();
+		$rules = array(
+			'_token'				=> ['required'],
+			'book_id'				=> ['required', 'exists:bookings,id'],
+			'prop_id'				=> ['required', 'exists:properties,id'],
+			'user_id'				=> ['required', 'exists:users,id'],
+			'tot_payable' 	=> ['required'],
+			'vat_apply' 		=> ['required', 'in:No,Inclusive,Exclusive'],
+			'discount' 			=> ['nullable'],
+			'pay_with'     	=> ['required', 'in:Cash,Online,Credit-Card,Bank-Transfer,Cheque'],
+			'amt_pay'    		=> ['required', 'min:1'],
+			'comments'    	=> ['nullable', 'max:250'],
+		);
+	
+		$messages = array(
+			'user_id.required' => 'Please select guest from list.',
+			'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
+		);
+
+		$validator = \Validator::make($request_data, $rules, $messages);
+
+		if ($validator->fails()) {
+			return $this->sendError($validator->errors()->first(), ["error" => $validator->errors()->first()]);
+		}
+
+		$val_sub_tot = $request->input('tot_payable');
+		$val_is_vat = $request->input('vat_apply');
+		$val_disc = $request->input('discount');
+		$val_method = $request->input('pay_with');
+		$val_tot_pay = $request->input('amt_pay');
+		$val_comments = $request->input('comments');
+
+		$discount = $val_disc == "" ? 0 : $val_disc;
+		$vat_amount = round($val_sub_tot * .05, 2);
+
+		if ($val_is_vat == 'No') {
+			$sub_total = round(($val_sub_tot - $discount), 2);
+			$vat_amt = 0;
+			$grand_total = round($sub_total, 2);
+			$tot_paid = round($val_tot_pay, 2);
+			$balance = round(($sub_total - $tot_paid), 2);
+		}
+		else if ($val_is_vat == 'Inclusive') {
+			$sub_total = round(($val_sub_tot - $vat_amount), 2);
+			$vat_amt = $vat_amount;
+			$grand_total = round(($sub_total + $vat_amt - $discount), 2);
+			$tot_paid = round($val_tot_pay, 2);
+			$balance = round(($val_sub_tot - $val_tot_pay - $discount), 2);
+		}
+		else if ($val_is_vat == 'Exclusive') {
+			$sub_total = round($val_sub_tot, 2);
+			$vat_amt = $vat_amount;
+			$grand_total = round(($sub_total - $discount + $vat_amt), 2);
+			$tot_paid = round($val_tot_pay, 2);
+			$balance = round(($val_sub_tot - $val_tot_pay + $vat_amt - $discount), 2);
+		}
+
+		if ($request_data['discount'] > $request_data['tot_payable'])
+			return $this->sendError("Please enter valid discount amount.", ["error" => "Please enter valid discount amount."]);
+		if ($balance < 0)
+			return $this->sendError("Please enter valid paid amount.", ["error" => "Please enter valid paid amount."]);
+
+		$cals['cals_sub_total'] = $sub_total;
+		$cals['cals_vat_amt'] = $vat_amt;
+		$cals['cals_grand_total'] = $grand_total;
+		$cals['cals_tot_paid'] = $tot_paid;
+		$cals['cals_balance'] = $balance;
+		$cals['cals_discount'] = $discount;
+
+		$tranac_data['property_id'] = $request_data['prop_id'];
+		$tranac_data['booking_id'] = $request_data['book_id'];
+		$tranac_data['paid_by'] = $request_data['user_id'];
+		$tranac_data['amount'] = $grand_total;
+		$tranac_data['type'] = 'Property';
+		$data = $this->TransactionObj->saveUpdateTransaction($tranac_data);
+
+		$bookings_object = $this->BookingObj->getBooking(['id' => $request_data['book_id'], 'detail' => true]);
+		$bookings_object->status = 'Check-In';
+		$bookings_object->save();
+		
+		// $data = $this->BookingObj->saveUpdateBooking($booking_data);
+		$data['redirect_url'] = url("{$this->route_name}");
+		
+		return $this->sendResponse($data, 'User is checked-in successfully.');
+		/*
+			request_data
+			Array
+			(
+					[_token] => vDJGNmYykWxvpPEvfFlCycre1SkTzD5SOEbdRNP6
+					[booking_id] => 9
+					[tot_payable] => 11850
+					[vat_apply] => Exclusive
+					[discount] => 657.5
+					[pay_with] => Cash
+					[amt_pay] => 6785
+					[comments] => paid some amount.
+					[sub_total] => 11850
+					[vat_amt] => 592.5
+					[grand_tot] => 11785
+					[total_paid] => 6785
+					[balance] => 5000
+			)
+			cals
+
+
+			Array
+			(
+					[cals_sub_total] => 11850
+					[cals_vat_amt] => 592.5
+					[cals_grand_total] => 11785
+					[cals_tot_paid] => 6785
+					[cals_balance] => 5000
+					[cals_discount] => 657.5
+			)
+			@@@@
+		*/
+
+		// echo "<pre>";
+		// echo " request_data"."<br>";
+		// print_r($request_data);
+		// echo " cals"."<br><br><br>";
+		// print_r($cals);
+		// echo "</pre>";
+		// exit("@@@@");
+
+		// $trans_data['property_id'] = $request_data['Dee'];
+		// $trans_data['booking_id'] = $request_data['booking_id'];
+		// $trans_data['service_id'] = $request_data['Dee'];
+		// $trans_data['paid_by'] = $request_data['Dee'];
+		// $trans_data['amount'] = $request_data['grand_tot'];
+		// $trans_data['type'] = 'Property';
 	}
 
 	/**
@@ -77,6 +202,7 @@ class BookingController extends Controller
 		$wifi = isset($request_data['wifi_ch']) ? $request_data['wifi_ch'] : 0;
 		$admin = isset($request_data['admin_ch']) ? $request_data['admin_ch'] : 0;
 		$sec = isset($request_data['sec_ch']) ? $request_data['sec_ch'] : 0;
+		$deposit = isset($request_data['init_deposit']) ? $request_data['init_deposit'] : 0;
 
 		$tot_rent = $stay * $rent;
 		
@@ -91,7 +217,7 @@ class BookingController extends Controller
 		// $booking_data['booked_by'] = \Auth::user()->id;
 		$booking_data['booked_for'] = $request_data['user_id'];
 		$booking_data['property_id'] = $request_data['property_id'];
-		$booking_data['status'] = 'Reservation';
+		$booking_data['status'] = ($deposit > 0) ? 'Reserved' : 'Pre-Reserve';
 		$booking_data['checkin_date'] = $request_data['checkin_date'];
 		$booking_data['checkout_date'] = add_to_datetime($request_data['checkin_date'], ['months' => $stay]);
 		$booking_data['for_days'] = datetime_difference($booking_data['checkin_date'], $booking_data['checkout_date'])['days'];
@@ -103,12 +229,23 @@ class BookingController extends Controller
 		$booking_data['wifi_charges'] = $wifi;
 		$booking_data['admin_charges'] = $admin;
 		$booking_data['security_charges'] = $sec;
+		$booking_data['initial_deposit'] = $deposit;
 		$booking_data['net_total'] = $tot_rent;
 
 		$data = $this->BookingObj->saveUpdateBooking($booking_data);
 		$data['redirect_url'] = url('property');
+
+		if ($deposit > 0) {
+			$deposit_data['property_id'] = $request_data['property_id'];
+			$deposit_data['booking_id'] = $data->id;
+			$deposit_data['paid_by'] = $request_data['user_id'];
+			$deposit_data['amount'] = $deposit;
+			$deposit_data['paid_for'] = 'Property';
+			$deposit_data['type'] = 'Initial-Deposit';
+			$this->TransactionObj->saveUpdateTransaction($deposit_data);
+		}
 		
-		return $this->sendResponse($data, 'Booking is created successfully.');
+		return $this->sendResponse($data, $this->controller_name_single.' is created successfully.');
 	}
 
 	/**
@@ -258,7 +395,7 @@ class BookingController extends Controller
 		return redirect("/{$this->route_name}");
 	}
 
-	public function manage(Request $request, $id = 0)
+	public function payments(Request $request, $id = 0)
 	{
 		$request_data = $request->all();
 
@@ -267,5 +404,14 @@ class BookingController extends Controller
 		print_r($request_data);
 		echo "</pre>";
 		exit("@@@@");
+
+		// [_token] => 8nievg2gK8KAYxkieztvQNKdMF8IV8CFfrOSTupY
+    // [paying_for] => initial_dep
+    // [tot_payable] => 1050
+    // [pay_with] => Online
+    // [amt_pay] => 102.25
+    // [comments] => Praesentium in nobis
+
+
 	}
 }
