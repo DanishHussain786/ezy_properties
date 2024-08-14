@@ -41,7 +41,7 @@ Route::get('/', function () {
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 
-Route::get('booking/manage', [BookingController::class, 'manage']);
+Route::post('booking/payments', [BookingController::class, 'payments']);
 
 Route::resource('user', UserController::class);
 Route::resource('property', PropertyController::class);
