@@ -9,6 +9,7 @@
         <th>Others</th>
         <th>Status</th>
         <th>Charges</th>
+        <th>Deposit</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -48,12 +49,24 @@
           </td>
           <td><span class="{{$label_class}} label label-pill">{{$item['status']}}</span></td>
           <td>{{ $item['net_total'] }}</td>
+          <td>{{'0'}}</td>
           <td>
             {{-- @if (!$reservations) --}}
-              <button type="button" class="btn btn-add btn-sm update_reservation_btn" title="Update Reservation" data-item_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
-              <button type="button" class="btn btn-danger btn-sm delete_btn" title="Delete Reservation" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_reservation_popup"><i class="fa fa-trash-o"></i> </button>
-              <button type="button" class="btn btn-danger btn-sm delete_btn" title="Check In" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_reservation_popup"><i class="fa fa-calendar-plus-o"></i> </button>
-              {{-- <button type="button" class="btn btn-violet btn-sm reservation_btn" title="Reservation" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-calendar-check-o"></i> </button> --}}
+              @if (in_array($item['status'], ['Reservation']))
+              <button type="button" class="btn btn-add btn-sm update_reservation_btn mb-3" title="Update Reservation" data-item_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
+              @endif
+
+              @if (in_array($item['status'], ['Reservation']))
+              <button type="button" class="btn btn-danger btn-sm delete_btn mb-3" title="Delete Reservation" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_reservation_popup"><i class="fa fa-trash-o"></i> </button>
+              @endif
+
+              @if (in_array($item['status'], ['Reservation']))
+              <button type="button" class="btn btn-purple btn-sm checkin_btn mb-3" title="Check In" data-item_id="{{$item['id']}}" data-metadata="porp={{$item->property_data->id}},resu={{$item->booked_for_user->id}},latot={{$item['net_total']}}"  data-toggle="modal" data-target="#"><i class="fa fa-calendar-plus-o"></i> </button>
+              @endif
+
+              @if (in_array($item['status'], ['Reservation']))
+              <button type="button" class="btn btn-success btn-sm initial_deposit_btn mb-3" title="Add Payment" data-total="{{$item['net_total']}}" data-item_id="{{$item['id']}}" data-metadata="porp={{$item->property_data->id}},resu={{$item->booked_for_user->id}}"  data-toggle="modal" data-target="#"><i class="fa fa-money"></i> </button>
+              @endif
             {{--@else
               {{'N/A'}}
             @endif
