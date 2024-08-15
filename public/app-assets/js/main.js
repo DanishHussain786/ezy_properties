@@ -272,6 +272,29 @@ function showModal(src) {
 });
 */
 
+var prevKey, prevControl;
+$(document).on('keydown', '.only_numbers', function(event) {
+  // Allow special keys: backspace, tab, delete, home, end, arrow keys, ctrl+a
+  if (
+    event.keyCode == 8 ||   // backspace
+    event.keyCode == 9 ||   // tab
+    event.keyCode == 46 ||  // delete
+    (event.keyCode >= 35 && event.keyCode <= 40) ||  // arrow keys/home/end
+    (event.keyCode >= 48 && event.keyCode <= 57) ||  // numbers on keyboard
+    (event.keyCode >= 96 && event.keyCode <= 105) || // numbers on keypad
+    (event.keyCode == 65 && prevKey == 17 && prevControl == event.currentTarget.id) || // ctrl + a, on same control
+    (event.keyCode == 110 && !$(this).val().includes('.')) || // decimal point on keypad (only if not already present)
+    (event.keyCode == 190 && !$(this).val().includes('.'))    // decimal point on keyboard (only if not already present)
+  ) {
+    // If valid key, update prevKey and prevControl
+    prevKey = event.keyCode;
+    prevControl = event.currentTarget.id;
+  } else {
+    // Prevent invalid input
+    event.preventDefault();
+  }
+});
+
 $(document).on("change", "#stay_months", function(event) {
   $('#stay_months').val($(this).val());
   if ($(this).val() !== '')
@@ -346,6 +369,37 @@ function throttle(f, delay) {
       f.apply(context, args);
     }, delay || 800);
   };
+}
+
+function extract_key_and_values(metadata = "") {
+  // Check if metadata is retrieved successfully
+  if (metadata) {
+    // Remove any unwanted characters (e.g., '@')
+    metadata = metadata.replace('@', '');
+
+    // Split the string by commas to get key-value pairs
+    var pairs = metadata.split(',');
+
+    // Initialize an object to hold the extracted key-value pairs
+    var result = {};
+
+    // Loop through each pair
+    $.each(pairs, function (index, pair) {
+      // Split each pair by '=' to separate keys and values
+      var parts = pair.split('=');
+      if (parts.length === 2) {
+        var key = parts[0].trim();
+        var value = parts[1].trim();
+
+        // Convert value to a number (if necessary) and store it in the result object
+        result[key] = parseFloat(value);
+      }
+    });
+
+    // Output the result object to the console
+    // console.log(result);
+    return result;
+  }
 }
 
 function clearFormFields() {
