@@ -38,7 +38,7 @@
           <td>{{ $item['balance'] }}</td>
           <td>{{ $item['total_payable'] }}</td>
           <td>
-            <button type="button" class="btn btn-add btn-sm update_reservation_btn mb-3" title="Update Reservation" data-item_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-eye"></i></button>
+            <button type="button" class="btn btn-add btn-sm view_payables mb-3" title="View Payment Receipt" data-item_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-eye"></i></button>
 
             {{--@if ($init_dep == 0)--}}
             <button type="button" class="btn btn-danger btn-sm delete_btn mb-3" title="Delete Reservation" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_reservation_popup"><i class="fa fa-trash-o"></i> </button>
