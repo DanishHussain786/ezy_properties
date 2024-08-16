@@ -1,7 +1,7 @@
 @if (isset($data->id))
-  @php $title = 'Update Property' @endphp
+  @php $title = 'Update Accounts' @endphp
 @else
-  @php $title = 'Add Property' @endphp
+  @php $title = 'Add Accounts' @endphp
 @endif
 
 @section('title', $title)
@@ -12,7 +12,7 @@
       <i class="fa fa-dashboard"></i>
     </div>
     <div class="header-title">
-      <h1>Property Panel</h1>
+      <h1>Accounts Panel</h1>
       <small>{{ $title }}</small>
     </div>
   </section>
@@ -25,7 +25,13 @@
           <div class="panel-heading">
             <div class="btn-group"> 
               <a class="btn btn-add" href="{{url($data['route_name'])}}">
-                <i class="fa fa-list"></i> Properties List 
+                @php
+                  if(isset($_GET['mode']) && $_GET['mode'] == 'pay_in')
+                    $sub_title = 'Payments In';
+                  else if(isset($_GET['mode']) && $_GET['mode'] == 'pay_out')
+                    $sub_title = 'Payments Out';
+                @endphp
+                <i class="fa fa-list"></i> {{$sub_title}} 
               </a>
             </div>
           </div>
