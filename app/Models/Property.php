@@ -122,6 +122,18 @@ class Property extends Model
     if (isset($posted_data['prop_rent'])) {
       $data->prop_rent = $posted_data['prop_rent'];
     }
+    if (isset($posted_data['other_charges'])) {
+      $data->other_charges = $posted_data['other_charges'];
+    }
+    if (isset($posted_data['dewa_charges'])) {
+      $data->dewa_charges = $posted_data['dewa_charges'];
+    }
+    if (isset($posted_data['wifi_charges'])) {
+      $data->wifi_charges = $posted_data['wifi_charges'];
+    }
+    if (isset($posted_data['misc_charges'])) {
+      $data->misc_charges = $posted_data['misc_charges'];
+    }
     if (isset($posted_data['prop_address'])) {
       $data->prop_address = $posted_data['prop_address'];
     }
