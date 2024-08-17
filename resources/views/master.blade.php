@@ -527,6 +527,8 @@
         <script src="{{ asset('app-assets/js/property.js') }}"></script>
       @elseif (preg_match('/\bbooking\b/', Request::path() ))
         <script src="{{ asset('app-assets/js/booking.js') }}"></script>
+      @elseif (preg_match('/\baccount\b/', Request::path() ))
+        <script src="{{ asset('app-assets/js/account.js') }}"></script>
       @endif
    </body>
 </html>
