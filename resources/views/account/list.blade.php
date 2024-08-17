@@ -1,4 +1,9 @@
-@php $title = 'List Bookings' @endphp
+@php
+  if(isset($_GET['mode']) && $_GET['mode'] == 'pay_in')
+    $title = 'Payments In';
+  else if(isset($_GET['mode']) && $_GET['mode'] == 'pay_out')
+    $title = 'Payments Out';
+@endphp
 
 @section('title', $title)
 @extends('master')
@@ -9,7 +14,7 @@
     <i class="fa fa-dashboard"></i>
   </div>
   <div class="header-title">
-    <h1>Bookings Panel</h1>
+    <h1>Accounts Panel</h1>
     <small>{{ $title }}</small>
   </div>
 </section>
