@@ -386,23 +386,23 @@ class BookingController extends Controller
 		return redirect("/{$this->route_name}");
 	}
 
-	public function payments(Request $request, $id = 0)
-	{
-		$request_data = $request->all();
+	// public function payments(Request $request, $id = 0)
+	// {
+	// 	$request_data = $request->all();
 
-		echo "<pre>";
-		echo " request_data"."<br>";
-		print_r($request_data);
-		echo "</pre>";
-		exit("@@@@");
+	// 	echo "<pre>";
+	// 	echo " request_data"."<br>";
+	// 	print_r($request_data);
+	// 	echo "</pre>";
+	// 	exit("@@@@");
 
-		// [_token] => 8nievg2gK8KAYxkieztvQNKdMF8IV8CFfrOSTupY
-    // [paying_for] => initial_dep
-    // [tot_payable] => 1050
-    // [pay_with] => Online
-    // [amt_pay] => 102.25
-    // [comments] => Praesentium in nobis
+	// 	// [_token] => 8nievg2gK8KAYxkieztvQNKdMF8IV8CFfrOSTupY
+  //   // [paying_for] => initial_dep
+  //   // [tot_payable] => 1050
+  //   // [pay_with] => Online
+  //   // [amt_pay] => 102.25
+  //   // [comments] => Praesentium in nobis
 
 
-	}
+	// }
 }
