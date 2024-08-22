@@ -430,7 +430,7 @@
                   <li><a href="{{url('property')}}">Guest Services</a></li>
                 </ul>
               </li>
-              @php $class = (strpos($str_slug, "services") !== false) ? 'active' : ''; @endphp
+              @php $class = (strpos($str_slug, "service") !== false) ? 'active' : ''; @endphp
               <li class="treeview menu-item {{$class}}">
                 <a href="#">
                   <i class="fa fa-home"></i><span>Services</span>
@@ -439,8 +439,8 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="{{url('property/create')}}">Add Service</a></li>
-                  <li><a href="{{url('property')}}">List Services</a></li>
+                  <li><a href="{{url('service/create')}}">Add Service</a></li>
+                  <li><a href="{{url('service')}}">List Services</a></li>
                 </ul>
               </li>
               @php $class = (strpos($str_slug, "info") !== false) ? 'active' : ''; @endphp
@@ -476,7 +476,7 @@
         <!-- /.content-wrapper -->
           
         <footer class="main-footer">
-          <strong>Copyright &copy; 2023-2024 <a href="#">dansihhussain.com</a>.</strong> All rights reserved.
+          <strong>Copyright &copy; 2023-2024 <a href="#">danishhussain.com</a>.</strong> All rights reserved.
         </footer>
       </div>
       <!-- /.wrapper -->
