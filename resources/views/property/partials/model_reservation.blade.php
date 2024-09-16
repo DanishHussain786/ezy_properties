@@ -13,15 +13,12 @@
     </select>
   </div>
 
-  <div class="form-group col-md-4 col-sm-6 col-xs-12">
-    <label class="control-label">Check-In Date</label>
-    <input type="date" value="{{isset($data['checkin_date'])? $data['checkin_date'] : ''}}" id="checkin_date" name="checkin_date" min="{{date('Y-m-d')}}" placeholder="Select check-in date" class="form-control full_width">
-  </div>
-
+  {{--
   <div class="form-group col-md-4 col-sm-6 col-xs-12">
     <label class="control-label">Expected Stay</label>
     <select class="form-control full_width" id="stay_months" name="stay_months">
       <option value="" selected> ---- Choose any option ---- </option>
+      <option value="days"> Few Days </option>
       <option value="1"> 1 Month </option>
       <option value="2"> 2 Month </option>
       <option value="3"> 3 Month </option>
@@ -36,6 +33,17 @@
       <option value="12"> 12 Month </option>
     </select>
   </div>
+  --}}
+
+  <div class="form-group col-md-4 col-sm-6 col-xs-12">
+    <label class="control-label">Check-In Date</label>
+    <input type="date" value="{{isset($data['checkin_date'])? $data['checkin_date'] : ''}}" id="checkin_date" name="checkin_date" min="{{date('Y-m-d')}}" placeholder="Select check-in date" class="form-control full_width">
+  </div>
+
+  <div class="form-group col-md-4 col-sm-6 col-xs-12">
+    <label class="control-label">Check-Out Date</label>
+    <input type="date" value="{{isset($data['checkout_date'])? $data['checkout_date'] : ''}}" id="checkout_date" name="checkout_date" min="{{date('Y-m-d')}}" placeholder="Select check-in date" class="form-control full_width">
+  </div>
 
   <div class="form-group col-md-4 col-sm-6 col-xs-12">
     <label class="control-label">Monthly Rent (AED)</label>
@@ -48,9 +56,16 @@
   </div>
 
   <div class="form-group col-md-4 col-sm-6 col-xs-12">
+    <label class="control-label">Expected Rent (AED)</label>
+    <input type="text" value="{{isset($data['expected_rent'])? $data['expected_rent'] : '0'}}" id="expected_rent" name="expected_rent" placeholder="Enter expected rent" class="form-control full_width only_numbers" readonly>
+  </div>
+
+  {{--
+  <div class="form-group col-md-4 col-sm-6 col-xs-12">
     <label class="control-label">Discount Rent (AED)</label>
     <input type="text" value="{{isset($data['disc_rent'])? $data['disc_rent'] : ''}}" id="disc_rent" name="disc_rent" placeholder="Enter discount rent" class="form-control full_width only_numbers">
   </div>
+  --}}
 </fieldset>
 
 {{--
@@ -99,6 +114,7 @@
 </fieldset>
 --}}
 
+{{--
 <fieldset>
   <legend class="legend-padds">Other Charges</legend>
   <div class="form-group col-md-4 col-sm-6 col-xs-12">
@@ -108,6 +124,7 @@
       <option value="Yes"> Yes </option>
     </select>
   </div>
+--}}
 
   {{--
   <div class="form-group d-none hidden_charges col-md-4 col-sm-6 col-xs-12">
@@ -119,6 +136,8 @@
     <input type="text" class="form-control full_width only_numbers" placeholder="Enter wifi charges" id="wifi_ch" name="wifi_ch">
   </div>
   --}}
+
+  {{--
   <div class="form-group d-none hidden_charges col-md-4 col-sm-6 col-xs-12">
     <label class="control-label" for="admin_ch">Admin Fee</label>
     <input type="text" class="form-control full_width only_numbers" placeholder="Enter admin charges" id="admin_ch" name="admin_ch">
@@ -128,14 +147,16 @@
     <input type="text" class="form-control full_width only_numbers" placeholder="Enter security charges" id="sec_ch" name="sec_ch">
   </div>
 </fieldset>
+--}}
+
 <fieldset>
-  <legend class="legend-padds">Total Charges</legend>
-  <div class="form-group col-md-4 col-sm-6 col-xs-12">
-    <label class="control-label" for="net_total">Net. Discount</label>
+  <legend class="legend-padds">Gross Charges</legend>
+  {{--<div class="form-group col-md-4 col-sm-6 col-xs-12">
+    <label class="control-label" for="net_total">Total Discount</label>
     <input type="text" class="form-control full_width only_numbers" placeholder="0" id="net_disc" name="net_disc" readonly>
-  </div>
+  </div>--}}
   <div class="form-group col-md-4 col-sm-6 col-xs-12">
-    <label class="control-label" for="net_total">Net. Charges</label>
+    <label class="control-label" for="net_total">Total Charges</label>
     <input type="text" class="form-control full_width only_numbers" placeholder="0" id="net_total" name="net_total" readonly>
   </div>
 </fieldset>
