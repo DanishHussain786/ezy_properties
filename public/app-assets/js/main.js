@@ -150,84 +150,95 @@ $(document).on('keydown', '.only_numbers', function(event) {
   }
 });
 
-$(document).on("change", "#stay_months", function(event) {
-  $('#stay_months').val($(this).val());
-  if ($(this).val() !== '')
-    calculateTotal();
-});
+// $(document).on("change", "#stay_months", function(event) {
+//   let value = $(this).val();
+//   $('#stay_months').val(value);
+//   if (value !== '' && value !== 'days') {
+//     calculateTotal();
+//   }
+//   else if (value === 'days') {
+//     calculateTotal();
+//   }
+// });
 
-$(document).on("change", "#other_charges", function(event) {
-  if ($(this).val() === 'Yes') {
-    $('.hidden_charges').removeClass('d-none');
-  } else {
-    $('.hidden_charges').addClass('d-none');
-    // $("input[name='dewa_ch']").val('');
-    // $("input[name='wifi_ch']").val('');
-    $("input[name='admin_ch']").val('');
-    $("input[name='sec_ch']").val('');
-    calculateTotal();
-  }
-});
+// $(document).on("change", "#other_charges", function(event) {
+//   if ($(this).val() === 'Yes') {
+//     $('.hidden_charges').removeClass('d-none');
+//   } else {
+//     $('.hidden_charges').addClass('d-none');
+//     // $("input[name='dewa_ch']").val('');
+//     // $("input[name='wifi_ch']").val('');
+//     $("input[name='admin_ch']").val('');
+//     $("input[name='sec_ch']").val('');
+//     calculateTotal();
+//   }
+// });
 
-$(document).on("change", "#deposit_by", function(event) {
-  if ($(this).val() === 'Other') {
-    $('.depositor_data').removeClass('d-none');
-  } else {
-    $('.depositor_data').addClass('d-none');
-    $("input[name='dep_name']").val('');
-    $("input[name='dep_email']").val('');
-    $("input[name='dep_contact']").val('');
-  }
-});
+// $(document).on("change", "#deposit_by", function(event) {
+//   if ($(this).val() === 'Other') {
+//     $('.depositor_data').removeClass('d-none');
+//   } else {
+//     $('.depositor_data').addClass('d-none');
+//     $("input[name='dep_name']").val('');
+//     $("input[name='dep_email']").val('');
+//     $("input[name='dep_contact']").val('');
+//   }
+// });
 
-// $(document).on("input", "input[name='dewa_ch']", function(event) { 
-//   $("input[name='dewa_ch']").val($(this).val());
+// $(document).on("input", "input[name='admin_ch']", function(event) {
+//   $("input[name='admin_ch']").val($(this).val());
 //   calculateTotal();
 // });
 
-$(document).on("input", "input[name='disc_rent']", function(event) { 
-  $("input[name='disc_rent']").val($(this).val());
-  $("input[name='markup_rent']").val(0);
-  calculateTotal();
-});
+// $(document).on("input", "input[name='sec_ch']", function(event) {
+//   $("input[name='sec_ch']").val($(this).val());
+//   calculateTotal();
+// });
 
-$(document).on("input", "input[name='admin_ch']", function(event) { 
-  $("input[name='admin_ch']").val($(this).val());
-  calculateTotal();
-});
-
-$(document).on("input", "input[name='sec_ch']", function(event) { 
-  $("input[name='sec_ch']").val($(this).val());
-  calculateTotal();
-});
-
-$(document).on("input", "input[name='markup_rent']", function(event) { 
+$(document).on("input", "input[name='markup_rent']", function(event) {
   $("input[name='markup_rent']").val($(this).val());
-  $("input[name='disc_rent']").val(0);
   calculateTotal();
 });
 
-function calculateTotal() {
-  var stay = $('#stay_months').val();
+$(document).on("input", "input[name='checkin_date']", function(event) {
+  $("input[name='checkin_date']").val($(this).val());
+  calculateTotal();
+});
+
+$(document).on("input", "input[name='checkout_date']", function(event) {
+  $("input[name='checkout_date']").val($(this).val());
+  calculateTotal();
+});
+
+function calculateExpectedRent() {
+  var in_date = $('input[name="checkin_date"]').val();
+  var out_date = $('input[name="checkout_date"]').val();
   var rent = parseFloat($('input[name="prop_rent"]').val()) || 0;
   var markup_rent = parseFloat($('input[name="markup_rent"]').val()) || 0;
-  // var dewa = parseFloat($('input[name="dewa_ch"]').val()) || 0;
-  var discount = parseFloat($('input[name="disc_rent"]').val()) || 0;
+
+  if (in_date && out_date) {
+    diff_days = calc_datetime_difference(in_date, out_date).days;
+
+    if (diff_days <= 0) {
+      $('input[name="checkout_date"]').val('');
+      $('input[name="expected_rent"]').val(0);
+    }
+    else {
+      exp_rent = parseFloat((rent / 30) * (diff_days));
+      exp_rent = Math.round((exp_rent + markup_rent), 2);
+      $('input[name="expected_rent"]').val(exp_rent);
+    }
+  }
+}
+
+function calculateTotal() {
+  calculateExpectedRent();
+  var expected_rent = parseFloat($('input[name="expected_rent"]').val()) || 0;
   var admin = parseFloat($('input[name="admin_ch"]').val()) || 0;
   var security = parseFloat($('input[name="sec_ch"]').val()) || 0;
-  var advance_rent = 0;
-  var disc = discount;
 
-  if (stay > 1) {
-    disc = (discount * stay);
-    advance_rent = ((rent * stay) + (markup_rent * stay)) - disc - rent;
-  }
-  else {
-    advance_rent = (rent * stay) + markup_rent - rent - discount;
-  }
-
-  var total = rent + advance_rent + admin + security;
-  $('input[name="net_disc"]').val(disc);
+  var total = expected_rent + admin + security;
+  total = Math.ceil(total / 10) * 10;
   $('input[name="net_total"]').val(total);
 }
 
@@ -358,4 +369,37 @@ function dynamicAjaxRequest(url, method, data, successCallback, errorCallback) {
       }
     }
   });
+}
+
+function calc_datetime_difference(start, end) {
+  // Parse the date strings into Date objects
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  // Ensure the dates are valid
+  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      throw new Error("Invalid date format");
+  }
+
+  // Calculate the difference in milliseconds
+  const differenceInMillis = endDate - startDate;
+
+  // Convert milliseconds to days, hours, minutes, seconds
+  const millisPerSecond = 1000;
+  const millisPerMinute = millisPerSecond * 60;
+  const millisPerHour = millisPerMinute * 60;
+  const millisPerDay = millisPerHour * 24;
+
+  const dd = Math.floor(differenceInMillis / millisPerDay);
+  const hh = Math.floor((differenceInMillis % millisPerDay) / millisPerHour);
+  const mm = Math.floor((differenceInMillis % millisPerHour) / millisPerMinute);
+  const ss = Math.floor((differenceInMillis % millisPerMinute) / millisPerSecond);
+
+  return {
+      days: dd,
+      hours: hh,
+      minutes: mm,
+      seconds: ss,
+      difference: hh + ":" + mm + ":" + ss,
+  };
 }
