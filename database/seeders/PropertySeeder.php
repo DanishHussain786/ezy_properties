@@ -719,7 +719,7 @@ class PropertySeeder extends Seeder
 						"misc_charges" => 15,
 						"prop_net_rent" => 845,
 						"prop_address" => "Oval Towers, Business Bay, Suite",
-						"prop_status" => "Reserved",
+						"prop_status" => "Available",
 						"created_at" => "2024-08-19T08:46:15.181070",
 						"updated_at" => "2024-08-19T08:46:15.181072"
 					],
@@ -764,7 +764,7 @@ class PropertySeeder extends Seeder
 						"misc_charges" => 100,
 						"prop_net_rent" => 925,
 						"prop_address" => "Oval Towers, Business Bay, Suite",
-						"prop_status" => "Pre-Reserve",
+						"prop_status" => "Available",
 						"created_at" => "2024-08-19T08:46:15.181100",
 						"updated_at" => "2024-08-19T08:46:15.181102"
 					]
