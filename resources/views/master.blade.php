@@ -13,7 +13,7 @@
     <!-- jquery-ui css -->
     <link href="{{ asset('app-assets/plugins/jquery-ui-1.12.1/jquery-ui.min.css') }}" rel="stylesheet" type="text/css">
     <!-- Bootstrap -->
-    <link href="{{ asset('app-assets/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">    
+    <link href="{{ asset('app-assets/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
     <!-- Bootstrap rtl -->
     <!--<link href="assets/bootstrap-rtl/bootstrap-rtl.min.css" rel="stylesheet" type="text/css"/>-->
     <!-- Lobipanel css -->
@@ -28,13 +28,13 @@
     <link href="{{ asset('app-assets/themify-icons/themify-icons.css') }}" rel="stylesheet" type="text/css">
     <!-- End Global Mandatory Style
        =====================================================================-->
-    <!-- Start page Label Plugins 
+    <!-- Start page Label Plugins
        =====================================================================-->
     <!-- Emojionearea -->
     <link href="{{ asset('app-assets/plugins/emojionearea/emojionearea.min.css') }}" rel="stylesheet" type="text/css">
     <!-- Monthly css -->
-    <link href="{{ asset('app-assets/plugins/monthly/monthly.css') }}" rel="stylesheet" type="text/css">    
-    <!-- End page Label Plugins 
+    <link href="{{ asset('app-assets/plugins/monthly/monthly.css') }}" rel="stylesheet" type="text/css">
+    <!-- End page Label Plugins
     =====================================================================-->
     <!-- Start Theme Layout Style
     =====================================================================-->
@@ -50,7 +50,7 @@
     <link href="{{ asset('app-assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css') }}" rel="stylesheet" type="text/css"/>
     <!-- toastr -->
     <link href="{{ asset('app-assets/plugins/toaster/toastr.min.css') }}?v={{ time() }}" rel="stylesheet">
-    
+
     <!-- End Theme Layout Style
     =====================================================================-->
   </head>
@@ -360,7 +360,7 @@
             </div>
           </nav>
         </header>
-        
+
         <!-- =============================================== -->
         <!-- Left side column. contains the sidebar -->
 
@@ -403,6 +403,19 @@
                   <li><a href="{{url('property')}}">List Properties</a></li>
                 </ul>
               </li>
+              @php $class = (strpos($str_slug, "service") !== false) ? 'active' : ''; @endphp
+              <li class="treeview menu-item {{$class}}">
+                <a href="#">
+                  <i class="fa fa-home"></i><span>Services</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{url('service/create')}}">Add Service</a></li>
+                  <li><a href="{{url('service')}}">List Services</a></li>
+                </ul>
+              </li>
               @php $class = (strpos($str_slug, "booking") !== false) ? 'active' : ''; @endphp
               <li class="treeview menu-item {{$class}}">
                 <a href="#">
@@ -430,19 +443,6 @@
                   <li><a href="{{url('property')}}">Guest Services</a></li>
                 </ul>
               </li>
-              @php $class = (strpos($str_slug, "service") !== false) ? 'active' : ''; @endphp
-              <li class="treeview menu-item {{$class}}">
-                <a href="#">
-                  <i class="fa fa-home"></i><span>Services</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li><a href="{{url('service/create')}}">Add Service</a></li>
-                  <li><a href="{{url('service')}}">List Services</a></li>
-                </ul>
-              </li>
               @php $class = (strpos($str_slug, "info") !== false) ? 'active' : ''; @endphp
               <li class="treeview menu-item {{$class}}">
                 <a href="#">
@@ -463,7 +463,7 @@
 
         <!-- =============================================== -->
         <!-- Content Wrapper. Contains page content -->
-        
+
         <div class="content-wrapper">
 
           <div id="imageModal">
@@ -474,13 +474,13 @@
           @yield('content-view')
         </div>
         <!-- /.content-wrapper -->
-          
+
         <footer class="main-footer">
           <strong>Copyright &copy; 2023-2024 <a href="#">danishhussain.com</a>.</strong> All rights reserved.
         </footer>
       </div>
       <!-- /.wrapper -->
-      
+
       <!-- Start Core Plugins
          =====================================================================-->
       <!-- jQuery -->
@@ -520,7 +520,7 @@
       <script src="{{ asset('app-assets/plugins/toaster/toastr.js') }}?v={{ time() }}" type="text/javascript"></script>
       <!-- End Theme label Script
          =====================================================================-->
-      
+
       @if (preg_match('/\buser\b/', Request::path() ))
         <script src="{{ asset('app-assets/js/user.js') }}"></script>
       @elseif (preg_match('/\bproperty\b/', Request::path() ))
