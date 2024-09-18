@@ -64,6 +64,8 @@
             <button type="button" class="btn btn-danger btn-sm delete_btn mb-3" title="Delete Reservation" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_reservation_popup"><i class="fa fa-trash-o"></i> </button>
             {{-- @endif --}}
 
+            <button type="button" class="btn btn-warning btn-sm checkin_btn mb-3" title="Add Other Charges" data-item_id="{{$item['id']}}" data-metadata="porp={{$item->property_data->id}},resu={{$item->booked_for_user->id}},latot={{$item['total_payable']}}"  data-toggle="modal" data-target="#"><i class="fa fa-navicon"></i> </button>
+
             <button type="button" class="btn btn-purple btn-sm checkin_btn mb-3" title="Check In" data-item_id="{{$item['id']}}" data-metadata="porp={{$item->property_data->id}},resu={{$item->booked_for_user->id}},latot={{$item['total_payable']}}"  data-toggle="modal" data-target="#"><i class="fa fa-calendar-plus-o"></i> </button>
 
             <button type="button" class="btn btn-success btn-sm initial_deposit_btn mb-3" title="Add Payment" data-total="{{$item['total_payable']}}" data-item_id="{{$item['id']}}" data-metadata="porp={{$item->property_data->id}},resu={{$item->booked_for_user->id}}"  data-toggle="modal" data-target="#"><i class="fa fa-money"></i> </button>
