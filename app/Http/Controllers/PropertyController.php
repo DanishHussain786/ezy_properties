@@ -34,7 +34,7 @@ class PropertyController extends Controller
 	 * Show the form for creating a new resource.
 	 */
 	public function create(Request $request)
-	{		
+	{
 		$data['prop_types'] = Config::get('constants.propertyTypes.all_keys_arr');
 		$data['route_name'] = $this->route_name;
 		if ($request->ajax()) {
@@ -54,7 +54,7 @@ class PropertyController extends Controller
 			'prop_rent'     => ['required'],
 			'other_charges' => ['required', 'in:Yes,No'],
 		);
-		
+
 		if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
 			$rules['prop_number'] = ['required'];
 			$rules['prop_floor'] = ['required'];
@@ -105,8 +105,8 @@ class PropertyController extends Controller
 	 */
 	public function show(Request $request, $id = 0)
 	{
-		// $id = \Crypt::decrypt($id); 
-		$request_data = $request->all();		
+		// $id = \Crypt::decrypt($id);
+		$request_data = $request->all();
 		$posted_data = array();
 
 		if ($id != 0)
@@ -136,7 +136,7 @@ class PropertyController extends Controller
 	 */
 	public function edit(Request $request, $id = 0)
 	{
-		$request_data = $request->all();		
+		$request_data = $request->all();
 		$posted_data = array();
 		$posted_data['id'] = $id;
 		$posted_data['detail'] = true;
@@ -170,7 +170,7 @@ class PropertyController extends Controller
 			'prop_rent'     => ['nullable'],
 			'other_charges' => ['nullable', 'in:Yes,No'],
 		);
-		
+
 		if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
 			$rules['prop_number'] = ['nullable'];
 			$rules['prop_floor'] = ['nullable'];
@@ -206,21 +206,21 @@ class PropertyController extends Controller
 		$prop_data['prop_net_rent'] += $prop_data['prop_rent'];
 		if ( $prop_data['dewa_charges'] > 0 )
 			$prop_data['prop_net_rent'] += $prop_data['dewa_charges'];
-		else 
+		else
 			$prop_data['dewa_charges'] = 'set_null';
 		if ( $prop_data['wifi_charges'] > 0 )
 			$prop_data['prop_net_rent'] += $prop_data['wifi_charges'];
-		else 
+		else
 			$prop_data['wifi_charges'] = 'set_null';
 		if ( $prop_data['misc_charges'] > 0 )
 			$prop_data['prop_net_rent'] += $prop_data['misc_charges'];
-		else 
+		else
 			$prop_data['misc_charges'] = 'set_null';
 
 		$data = $this->PropertyObj->saveUpdateProperty($prop_data);
 		if ($data->id)
 			$flash_data = ['message', $this->controller_name_single.' is updated successfully.'];
-		else 
+		else
 			$flash_data = ['error_message', 'Something went wrong during update '.$this->controller_name_single];
 
 		\Session::flash($flash_data[0], $flash_data[1]);
