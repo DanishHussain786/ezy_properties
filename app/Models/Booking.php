@@ -173,10 +173,7 @@ class Booking extends Model
     }
     if (isset($posted_data['markup_rent'])) {
       $data->markup_rent = $posted_data['markup_rent'];
-    }    
-    if (isset($posted_data['exempt_rent'])) {
-      $data->exempt_rent = $posted_data['exempt_rent'];
-    }    
+    }
     if (isset($posted_data['other_charges'])) {
       $data->other_charges = $posted_data['other_charges'];
     }
