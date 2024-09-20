@@ -41,7 +41,7 @@ class BookingController extends Controller
 	 * Show the form for creating a new resource.
 	 */
 	public function create(Request $request)
-	{		
+	{
 		$request_data = $request->all();
 		$rules = array(
 			'_token'				=> ['required'],
@@ -55,7 +55,7 @@ class BookingController extends Controller
 			'amt_pay'    		=> ['required', 'min:1'],
 			'comments'    	=> ['nullable', 'max:250'],
 		);
-	
+
 		$messages = array(
 			'user_id.required' => 'Please select guest from list.',
 			'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
@@ -121,9 +121,9 @@ class BookingController extends Controller
 		$bookings_object = $this->BookingObj->getBooking(['id' => $request_data['book_id'], 'detail' => true]);
 		$bookings_object->status = 'Check-In';
 		$bookings_object->save();
-		
+
 		$data['redirect_url'] = url("{$this->route_name}");
-		
+
 		return $this->sendResponse($data, 'User is checked-in successfully.');
 	}
 
@@ -136,18 +136,15 @@ class BookingController extends Controller
 		$rules = array(
 			'user_id'				=> ['required', 'exists:users,id'],
 			'checkin_date' 	=> ['required', 'date_format:Y-m-d'],
-			'stay_months' 	=> ['required', 'numeric', 'min:1', 'max:12'],
+			'checkout_date' => ['required', 'date_format:Y-m-d'],
 			'prop_rent'     => ['required'],
-			'markup_rent'   => ['nullable'],
-			'other_charges' => ['required', 'in:Yes,No'],
+			'expected_rent' => ['required'],
 		);
-		
+
 		$messages = array(
 			'user_id.required' => 'Please select guest from list.',
-			// 'dep_name.required' => 'Depositor name is required.',
-			// 'dep_email.required' => 'Depositor email is required.',
-			// 'dep_contact.required' => 'Depositor contact is required.',
-			// 'dep_method.required' => 'Depositor pay method is required.',
+			'checkin_date.required' => 'Please select check-in date.',
+			'checkout_date.required' => 'Please select check-out date.',
 		);
 
 		$validator = \Validator::make($request_data, $rules, $messages);
@@ -163,53 +160,50 @@ class BookingController extends Controller
 		// }
 
 		$rent = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
-		$stay = isset($request_data['stay_months']) ? $request_data['stay_months'] : 1;
+		$expected_rent = isset($request_data['expected_rent']) ? $request_data['expected_rent'] : 0;
 		$markup = isset($request_data['markup_rent']) ? $request_data['markup_rent'] : 0;
-		// $dewa = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : 0;
-		$disc = isset($request_data['disc_rent']) ? $request_data['disc_rent'] : 0;
+		// $disc = isset($request_data['disc_rent']) ? $request_data['disc_rent'] : 0;
 		$admin = isset($request_data['admin_ch']) ? $request_data['admin_ch'] : 0;
 		$sec = isset($request_data['sec_ch']) ? $request_data['sec_ch'] : 0;
 		// $deposit = isset($request_data['init_deposit']) ? $request_data['init_deposit'] : 0;
 
-		$tot_rent = $stay * $rent;
-		$discount = $stay * $disc;
-		
-		$adv_rent = 0; $charge_rent = 0;
-		if ($stay > 1)
-			$adv_rent = (($rent * $stay) + ($markup * $stay) - $discount) - $rent;
-		else 
-			$adv_rent = ($rent * $stay) + $markup - $discount - $rent;
+		// $tot_rent = $expected_rent * $admin + $sec;
+		// $discount = $stay * $disc;
 
-		$tot_payable = $rent + $adv_rent + $admin + $sec;
+		// $adv_rent = 0; $charge_rent = 0;
+		// if ($stay > 1)
+		// 	$adv_rent = (($rent * $stay) + ($markup * $stay) - $discount) - $rent;
+		// else
+		// 	$adv_rent = ($rent * $stay) + $markup - $discount - $rent;
+
+		$tot_payable = $expected_rent + $admin + $sec;
 
 		$last_id = 0;
 		$last_data = $this->BookingObj->latest('id')->first();
 		if (isset($last_data->id))
 			$last_id = $last_data->id + 1;
-		else 
+		else
 			$last_id = 1;
 
 		$booking_data['booked_id'] = generate_random_key().$last_id;
 		// $booking_data['booked_by'] = \Auth::user()->id;
 		$booking_data['booked_for'] = $request_data['user_id'];
-		$booking_data['property_id'] = $request_data['property_id'];
-		$booking_data['checkin_date'] = $request_data['checkin_date'];
-		$booking_data['checkout_date'] = add_to_datetime($request_data['checkin_date'], ['months' => $stay]);
-		$booking_data['for_days'] = datetime_difference($booking_data['checkin_date'], $booking_data['checkout_date'])['days'];
-		$booking_data['for_months'] = $stay;
-		if ($discount > 0)
-			$charge_rent = $rent - $request_data['disc_rent'];
+
+
+		// if ($discount > 0)
+		// 	$charge_rent = $rent - $request_data['disc_rent'];
 		if ($markup > 0)
-			$charge_rent = $rent + $request_data['markup_rent'];
-		$booking_data['rent'] = $rent;
-		$booking_data['disc_rent'] = $disc;
-		$booking_data['charge_rent'] = $charge_rent;
+			$charge_rent = $expected_rent + $markup;
+		$booking_data['rent'] = $expected_rent;
 		$booking_data['markup_rent'] = $markup;
-		$booking_data['other_charges'] = $request_data['other_charges'];
-		$booking_data['admin_charges'] = $admin;
-		$booking_data['security_charges'] = $sec;
 		$booking_data['balance'] = $tot_payable;
 		$booking_data['total_payable'] = $tot_payable;
+
+    echo "<pre>";
+    echo " booking_data"."<br>";
+    print_r($booking_data);
+    echo "</pre>";
+    exit("@@@@");
 
 		$data = $this->BookingObj->saveUpdateBooking($booking_data);
 		$data['redirect_url'] = url('property');
@@ -218,25 +212,35 @@ class BookingController extends Controller
 		$property->prop_status = 'Pre-Reserve';
 		$property->save();
 
-		$book_log['booking_id'] = $data->id;
-		$book_log['amount'] = $charge_rent * $stay;
-		$book_log['purpose'] = 'Rent Charges';
-		$book_log['status'] = 'Unpaid';
-		$this->BookingLogObj->saveUpdateBookingLog($book_log);
-		
-		if ($admin > 0) {
-			$book_log['amount'] = $admin;
-			$book_log['purpose'] = 'Admin Fee';
-			$book_log['status'] = 'Unpaid';
-			$this->BookingLogObj->saveUpdateBookingLog($book_log);
-		}
-		
-		if ($sec > 0) {
-			$book_log['amount'] = $sec;
-			$book_log['purpose'] = 'Security Deposit';
-			$book_log['status'] = 'Unpaid';
-			$this->BookingLogObj->saveUpdateBookingLog($book_log);
-		}
+
+    $book_log['property_id'] = $request_data['property_id'];
+
+    $book_log['checkin_date'] = $request_data['checkin_date'];
+		$book_log['checkout_date'] = $request_data['checkout_date'];
+		// $book_log['checkout_date'] = add_to_datetime($request_data['checkin_date'], ['months' => $stay]);
+		$book_log['for_days'] = datetime_difference($book_log['checkin_date'], $book_log['checkout_date'])['days'];
+    $book_log['for_months'] = floor($book_log['for_days']/30);
+
+
+		// $book_log['booking_id'] = $data->id;
+		// $book_log['amount'] = $charge_rent * $stay;
+		// $book_log['purpose'] = 'Rent Charges';
+		// $book_log['status'] = 'Unpaid';
+		// $this->BookingLogObj->saveUpdateBookingLog($book_log);
+
+		// if ($admin > 0) {
+		// 	$book_log['amount'] = $admin;
+		// 	$book_log['purpose'] = 'Admin Fee';
+		// 	$book_log['status'] = 'Unpaid';
+		// 	$this->BookingLogObj->saveUpdateBookingLog($book_log);
+		// }
+
+		// if ($sec > 0) {
+		// 	$book_log['amount'] = $sec;
+		// 	$book_log['purpose'] = 'Security Deposit';
+		// 	$book_log['status'] = 'Unpaid';
+		// 	$this->BookingLogObj->saveUpdateBookingLog($book_log);
+		// }
 
 		// if ($deposit > 0) {
 		// 	$deposit_data['property_id'] = $request_data['property_id'];
@@ -253,7 +257,7 @@ class BookingController extends Controller
 		// 	$deposit_data['type'] = 'Initial-Deposit';
 		// 	$this->TransactionObj->saveUpdateTransaction($deposit_data);
 		// }
-		
+
 		return $this->sendResponse($data, $this->controller_name_single.' is created successfully.');
 	}
 
@@ -287,7 +291,7 @@ class BookingController extends Controller
 	 */
 	public function edit(Request $request, $id = 0)
 	{
-		$request_data = $request->all();		
+		$request_data = $request->all();
 		$posted_data = array();
 		$posted_data['id'] = $id;
 		$posted_data['detail'] = true;
@@ -400,14 +404,14 @@ class BookingController extends Controller
 			$book_log['purpose'] = 'Rent Charges';
 			$book_log['status'] = 'Unpaid';
 			$this->BookingLogObj->saveUpdateBookingLog($book_log);
-			
+
 			if ($request_data['admin_ch'] > 0) {
 				$book_log['amount'] = $request_data['admin_ch'];
 				$book_log['purpose'] = 'Admin Fee';
 				$book_log['status'] = 'Unpaid';
 				$this->BookingLogObj->saveUpdateBookingLog($book_log);
 			}
-			
+
 			if ($request_data['sec_ch'] > 0) {
 				$book_log['amount'] = $request_data['sec_ch'];
 				$book_log['purpose'] = 'Security Deposit';
@@ -434,18 +438,16 @@ class BookingController extends Controller
 	public function manage_services(Request $request, $id = 0)
 	{
 		$request_data = $request->all();
+		$request_data['paginate'] = 10;
+		$request_data['relations'] = true;
+		$data['records'] = $this->BookingObj->getBooking($request_data);
+		$data['route_name'] = $this->route_name;
 
-		echo "<pre>";
-		echo " request_data"."<br>";
-		print_r($request_data);
-		echo "</pre>";
-		exit("@@@@");
+		$data['html'] = view("{$this->route_name}.services_records", compact('data'));
 
-		// [_token] => 8nievg2gK8KAYxkieztvQNKdMF8IV8CFfrOSTupY
-    // [paying_for] => initial_dep
-    // [tot_payable] => 1050
-    // [pay_with] => Online
-    // [amt_pay] => 102.25
-    // [comments] => Praesentium in nobis
+		if ($request->ajax()) {
+			return $data['html'];
+		}
+		return view("{$this->route_name}.list", compact('data'));
 	}
 }
