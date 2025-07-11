@@ -73,7 +73,7 @@ $(document).on("click", "#add_payment_btn", function(event) {
 
 $(document).on("click", "#do_checkin_btn", function(event) {
   event.preventDefault();
-  var data = $("#create_checkin").serializeArray();  
+  var data = $("#create_checkin").serializeArray();
 
   var calculations = [
     { name: "sub_total", value: parseFloat($("#sum_st").text()) || 0 },
@@ -107,23 +107,23 @@ $(document).on("change", "#vat_apply", function(event) {
   calculateValues();
 });
 
-$(document).on("input", "input[name='amt_pay']", function(event) { 
+$(document).on("input", "input[name='amt_pay']", function(event) {
   $("input[name='amt_pay']").val($(this).val());
   calculateValues();
 });
 
-$(document).on("input", "input[name='discount']", function(event) { 
+$(document).on("input", "input[name='discount']", function(event) {
   $("input[name='discount']").val($(this).val());
   calculateValues();
 });
 
 function calculateValues() {
   var charges = parseFloat($('input[name="tot_payable"]').val()) || 0;
-  var vat_apply = $('#vat_apply').val();  
+  var vat_apply = $('#vat_apply').val();
   var discount = parseFloat($('input[name="discount"]').val()) || 0;
   var amt_paid = parseFloat($('input[name="amt_pay"]').val()) || 0;
   var vat_amt = charges * 0.05;
-  
+
   if (vat_apply === 'No') {
     let st = parseFloat(charges - discount) || 0;
     $('#sum_st').text(st);

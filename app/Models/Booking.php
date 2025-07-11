@@ -18,22 +18,21 @@ class Booking extends Model
   }
 
   public function booked_for_user() {
-    return $this->belongsTo(User::class, 'booked_for');
+    return $this->belongsTo(User::class, 'booked_for')
+      ->select(config('def_columns.users'));
   }
 
-  public function property_data() {
-    return $this->belongsTo(Property::class, 'property_id');
-  }
-
-  public function service_data() {
-    return $this->belongsTo(Service::class, 'service_id');
-  }
-
-  public function transaction_data() {
+  public function transactions() {
     return $this->hasOne(Transaction::class, 'booking_id');
       // ->where([
       //   ['status', '=', 'Reservation']
       // ]);
+  }
+
+  public function booking_logs() {
+    return $this->hasMany(BookingLog::class, 'booking_id', 'id')
+      ->with(['properties', 'services'])
+      ->select(config('def_columns.booking_logs'));
   }
 
   // public function skills() {
@@ -52,9 +51,8 @@ class Booking extends Model
     if (isset($posted_data['relations']) && $posted_data['relations']) {
       $query = $query->with('booked_by_user')
         ->with('booked_for_user')
-        ->with('property_data')
-        ->with('service_data')
-        ->with('transaction_data');
+        ->with('booking_logs')
+        ->with('transactions');
     }
 
     if (isset($posted_data['id'])) {
@@ -144,50 +142,14 @@ class Booking extends Model
     if (isset($posted_data['booked_for'])) {
       $data->booked_for = $posted_data['booked_for'];
     }
-    if (isset($posted_data['property_id'])) {
-      $data->property_id = $posted_data['property_id'];
-    }
-    if (isset($posted_data['service_id'])) {
-      $data->service_id = $posted_data['service_id'];
-    }
-    if (isset($posted_data['checkin_date'])) {
-      $data->checkin_date = $posted_data['checkin_date'];
-    }
-    if (isset($posted_data['checkout_date'])) {
-      $data->checkout_date = $posted_data['checkout_date'];
-    }
-    if (isset($posted_data['for_days'])) {
-      $data->for_days = $posted_data['for_days'];
-    }
-    if (isset($posted_data['for_months'])) {
-      $data->for_months = $posted_data['for_months'];
-    }
-    if (isset($posted_data['rent'])) {
-      $data->rent = $posted_data['rent'];
-    }
-    if (isset($posted_data['disc_rent'])) {
-      $data->disc_rent = $posted_data['disc_rent'];
-    }
-    if (isset($posted_data['charge_rent'])) {
-      $data->charge_rent = $posted_data['charge_rent'];
-    }
-    if (isset($posted_data['markup_rent'])) {
-      $data->markup_rent = $posted_data['markup_rent'];
-    }
-    if (isset($posted_data['other_charges'])) {
-      $data->other_charges = $posted_data['other_charges'];
-    }
-    if (isset($posted_data['admin_charges'])) {
-      $data->admin_charges = $posted_data['admin_charges'];
-    }
-    if (isset($posted_data['security_charges'])) {
-      $data->security_charges = $posted_data['security_charges'];
-    }
-    if (isset($posted_data['balance'])) {
-      $data->balance = $posted_data['balance'];
-    }
     if (isset($posted_data['total_payable'])) {
       $data->total_payable = $posted_data['total_payable'];
+    }
+    if (isset($posted_data['total_paid'])) {
+      $data->total_paid = $posted_data['total_paid'];
+    }
+    if (isset($posted_data['status'])) {
+      $data->status = $posted_data['status'];
     }
     if (isset($posted_data['deleted_at'])) {
       $data->deleted_at = $posted_data['deleted_at'];

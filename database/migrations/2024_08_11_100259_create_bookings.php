@@ -18,10 +18,6 @@ return new class extends Migration
       $table->foreign('booked_by')->references('id')->constrained()->on('users')->onUpdate('cascade')->onDelete('cascade');
       $table->unsignedBigInteger('booked_for')->nullable();
       $table->foreign('booked_for')->references('id')->constrained()->on('users')->onUpdate('cascade')->onDelete('cascade');
-
-      // $table->enum('other_charges', ['Yes','No'])->default('No');
-      // $table->double('admin_charges')->nullable();
-      // $table->double('security_charges')->nullable();
       $table->double('total_payable')->nullable();
       $table->double('total_paid')->nullable();
       $table->enum('status', ['Unpaid','Paid','Refunded','Cancelled'])->default('Unpaid');

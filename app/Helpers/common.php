@@ -117,7 +117,7 @@ if (!function_exists('get_roles')) {
 		$roles = array_filter($roles, function($role) {
 			return $role !== 'Master';
 		});
-		
+
 		return $roles = array_values($roles); // Reindex the array if necessary
   }
 }
@@ -169,14 +169,14 @@ if (!function_exists('datetime_difference')) {
   {
     $date1 = new DateTime($start_date);
     $date2 = new DateTime($end_date);
-    
+
     $diff = $date2->diff($date1);
-    
+
     $days = $diff->days; // Total difference in days
     $hours = $diff->h + ($days * 24);
     $mins = $diff->i;
     $secs = $diff->s;
-    
+
     return [
       'days' => $days,
       'hours' => $hours,
@@ -211,9 +211,9 @@ if (!function_exists('add_to_datetime')) {
 if (!function_exists('default_value')) {
   function default_value($value, $mode = "blank")
   {
-    if( (isset($value)) && $value != "") 
+    if( (isset($value)) && $value != "")
       return $value;
-    else if ($mode == "str")  
+    else if ($mode == "str")
       return "N/A";
     else if ($mode == "num")
       return 0;
@@ -236,15 +236,15 @@ if (!function_exists('generate_random_key')) {
     // Characters to be used in the key
     $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
-    
+
     // Set a blank variable to store the key
     $key = '';
-    
+
     for ($x = 0; $x < $keyLength; $x++) {
       // Append a random character from the character set
       $key .= $characters[random_int(0, $charactersLength - 1)];
     }
-    
+
     return $key;
   }
 }

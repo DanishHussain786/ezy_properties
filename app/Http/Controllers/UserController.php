@@ -15,8 +15,8 @@ class UserController extends Controller
 	public function test_function(Request $request)
 	{
 		// $data = $this->BookingLogObj::where(['booking_id' => 1])->pluck('booking_id', 'id')->all();
-		
-		$ids_arr = $this->BookingLogObj::where(['booking_id' => 1])->pluck('booking_id', 'id')->all();	
+
+		$ids_arr = $this->BookingLogObj::where(['booking_id' => 1])->pluck('booking_id', 'id')->all();
 		$ids_str = get_comma_seperated_strings($ids_arr, true);
 		// $this->BookingLogObj->deleteBookingLog(0, [], ['id' => $ids_str], true);
 
@@ -53,7 +53,7 @@ class UserController extends Controller
 	 * Show the form for creating a new resource.
 	 */
 	public function create(Request $request)
-	{		
+	{
 		$data['roles'] = get_roles();
 		$data['route_name'] = $this->route_name;
 		if ($request->ajax()) {
@@ -144,7 +144,7 @@ class UserController extends Controller
 	 */
 	public function show(Request $request, $id = 0)
 	{
-		// $id = \Crypt::decrypt($id); 
+		// $id = \Crypt::decrypt($id);
 		$request_data = $request->all();
 		if ($id != 0)
 			$request_data['id'] = $id;
@@ -250,7 +250,7 @@ class UserController extends Controller
 		$data = $this->UserObj->saveUpdateUser($request_data);
 		if ($data->id)
 			$flash_data = ['message', $this->controller_name_single.' is updated successfully.'];
-		else 
+		else
 			$flash_data = ['error_message', 'Something went wrong during update '.$this->controller_name_single];
 
 		\Session::flash($flash_data[0], $flash_data[1]);

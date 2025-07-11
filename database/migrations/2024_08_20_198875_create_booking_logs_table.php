@@ -27,7 +27,7 @@ return new class extends Migration
       $table->double('disc_rent')->nullable();
       $table->double('markup_rent')->nullable();
       $table->double('charge_rent')->nullable();
-      $table->enum('purpose', ['Rent-Charges','Admin-Fee', 'Security-Deposit', 'Maintenance-Charges', 'Panelty-Charges', 'Final-Adjustments', 'Others'])->default('Rent-Charges');
+      $table->enum('purpose', ['Rent-Charges', 'Service-Charges', 'Admin-Fee', 'Security-Deposit', 'Maintenance-Charges', 'Panelty-Charges', 'Final-Adjustments', 'Others'])->default('Rent-Charges');
       $table->enum('status', ['Unpaid','Paid','Refunded','Cancelled'])->default('Unpaid');
       $table->softDeletes('deleted_at');
       $table->timestamps();

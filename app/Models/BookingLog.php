@@ -13,35 +13,14 @@ class BookingLog extends Model
   use HasFactory, SoftDeletes;
   protected $table = 'booking_logs';
 
-  // public function booked_by_user() {
-  //   return $this->belongsTo(User::class, 'booked_by');
-  // }
+  public function properties() {
+    return $this->belongsTo(Property::class, 'property_id')
+      ->select(config('def_columns.properties'));
+  }
 
-  // public function booked_for_user() {
-  //   return $this->belongsTo(User::class, 'booked_for');
-  // }
-
-  // public function property_data() {
-  //   return $this->belongsTo(Property::class, 'property_id');
-  // }
-
-  // public function service_data() {
-  //   return $this->belongsTo(Service::class, 'service_id');
-  // }
-
-  // public function transaction_data() {
-  //   return $this->hasOne(Transaction::class, 'booking_id');
-  //     // ->where([
-  //     //   ['status', '=', 'Reservation']
-  //     // ]);
-  // }
-
-  // public function skills() {
-  //   return $this->hasMany(BookingLogInformation::class, 'user_id', 'id')->with('skill_data')
-  //     ->where([
-  //         ['info_status', '=' ,'Skill'],
-  //     ])->select(['id', 'user_id', 'info_status', 'skill_id', 'created_at', 'updated_at']);
-  // }
+  public function services() {
+    return $this->belongsTo(Service::class, 'service_id');
+  }
 
   public function getBookingLog($posted_data = array())
   {
@@ -138,8 +117,35 @@ class BookingLog extends Model
     if (isset($posted_data['booking_id'])) {
       $data->booking_id = $posted_data['booking_id'];
     }
-    if (isset($posted_data['amount'])) {
-      $data->amount = $posted_data['amount'];
+    if (isset($posted_data['property_id'])) {
+      $data->property_id = $posted_data['property_id'];
+    }
+    if (isset($posted_data['service_id'])) {
+      $data->service_id = $posted_data['service_id'];
+    }
+    if (isset($posted_data['checkin_date'])) {
+      $data->checkin_date = $posted_data['checkin_date'];
+    }
+    if (isset($posted_data['checkout_date'])) {
+      $data->checkout_date = $posted_data['checkout_date'];
+    }
+    if (isset($posted_data['for_days'])) {
+      $data->for_days = $posted_data['for_days'];
+    }
+    if (isset($posted_data['for_months'])) {
+      $data->for_months = $posted_data['for_months'];
+    }
+    if (isset($posted_data['rent'])) {
+      $data->rent = $posted_data['rent'];
+    }
+    if (isset($posted_data['disc_rent'])) {
+      $data->disc_rent = $posted_data['disc_rent'];
+    }
+    if (isset($posted_data['markup_rent'])) {
+      $data->markup_rent = $posted_data['markup_rent'];
+    }
+    if (isset($posted_data['charge_rent'])) {
+      $data->charge_rent = $posted_data['charge_rent'];
     }
     if (isset($posted_data['purpose'])) {
       $data->purpose = $posted_data['purpose'];
