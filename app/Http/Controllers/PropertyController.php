@@ -8,9 +8,9 @@ use App\Models\Property;
 class PropertyController extends Controller
 {
 	private $controller_name_single = "Property";
-	private $controller_name_plural = "Properties";
+	private $controller_name_plural = "Property";
 	private $route_name = "property";
-	private $model_name = "properties";
+	private $model_name = "property";
 
 	/**
 	 * Display a listing of the resource.
@@ -50,10 +50,25 @@ class PropertyController extends Controller
 	{
 		$request_data = $request->all();
 		$rules = array(
-			'prop_type'     => ['required', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
+			'prop_title'        => ['required'],
+			'prop_description'  => ['required'],
+			'prop_type'         => ['required', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
 			'prop_rent'     => ['required'],
 			'other_charges' => ['required', 'in:Yes,No'],
 		);
+
+    $validator = \Validator::make($request_data, $rules, $messages = []);
+
+		if ($validator->fails()) {
+      return $this->sendError($request, $validator, $code = 422);
+			// return redirect()->back()->withErrors($validator)->withInput();
+		}
+
+    // echo "<pre>";
+    // echo " deee request_data"."<br>";
+    // print_r($request_data);
+    // echo "</pre>";
+    // exit("@@@@");
 
 		if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
 			$rules['prop_number'] = ['required'];
@@ -75,16 +90,26 @@ class PropertyController extends Controller
 			return redirect()->back()->withErrors($validator)->withInput();
 		}
 
-		$prop_data['prop_type'] = isset($request_data['prop_type']) ? $request_data['prop_type'] : '';
-		$prop_data['prop_number'] = isset($request_data['prop_number']) ? $request_data['prop_number'] : '';
-		$prop_data['prop_floor'] = isset($request_data['prop_floor']) ? $request_data['prop_floor'] : '';
-		$prop_data['other_charges'] = isset($request_data['other_charges']) ? $request_data['other_charges'] : '';
-		$prop_data['dewa_charges'] = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : '';
-		$prop_data['wifi_charges'] = isset($request_data['wifi_ch']) ? $request_data['wifi_ch'] : '';
-		$prop_data['misc_charges'] = isset($request_data['misc_ch']) ? $request_data['misc_ch'] : '';
-		$prop_data['prop_address'] = isset($request_data['prop_address']) ? $request_data['prop_address'] : '';
-		$prop_data['prop_rent'] = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
-		$prop_data['prop_net_rent'] = 0;
+    return $this->handleStoreUpdate($request, [
+      'class' => Property::class,
+      'rules' => $rules,
+      'messages' => [],
+      'controller_single' => $this->controller_name_single,
+      'route' => $this->route_name,
+    ]);
+
+
+
+		// $prop_data['prop_type'] = isset($request_data['prop_type']) ? $request_data['prop_type'] : '';
+		// $prop_data['prop_number'] = isset($request_data['prop_number']) ? $request_data['prop_number'] : '';
+		// $prop_data['prop_floor'] = isset($request_data['prop_floor']) ? $request_data['prop_floor'] : '';
+		// $prop_data['other_charges'] = isset($request_data['other_charges']) ? $request_data['other_charges'] : '';
+		// $prop_data['dewa_charges'] = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : '';
+		// $prop_data['wifi_charges'] = isset($request_data['wifi_ch']) ? $request_data['wifi_ch'] : '';
+		// $prop_data['misc_charges'] = isset($request_data['misc_ch']) ? $request_data['misc_ch'] : '';
+		// $prop_data['prop_address'] = isset($request_data['prop_address']) ? $request_data['prop_address'] : '';
+		// $prop_data['prop_rent'] = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
+		// $prop_data['prop_net_rent'] = 0;
 
 		$prop_data['prop_net_rent'] += $prop_data['prop_rent'];
 		if ( $prop_data['dewa_charges'] > 0 )

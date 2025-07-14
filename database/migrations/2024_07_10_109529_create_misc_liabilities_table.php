@@ -11,11 +11,11 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('services', function (Blueprint $table) {
+    Schema::create('misc_liabilities', function (Blueprint $table) {
       $table->id();
-      $table->string('title', 150)->nullable();
-      $table->double('charges')->nullable();
-      $table->enum('type', ['One-Time','Monthly'])->default('Monthly');
+      $table->string('title', 100)->nullable();
+      $table->string('description', 150)->nullable();
+      $table->enum('type', ['Charges','Servies'])->nullable();
       $table->softDeletes('deleted_at');
       $table->timestamps();
     });
@@ -26,6 +26,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('services');
+    Schema::dropIfExists('misc_liabilities');
   }
 };

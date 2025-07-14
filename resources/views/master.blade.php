@@ -2,6 +2,7 @@
   <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CRM Admin Panel</title>
@@ -518,6 +519,10 @@
       <script src="{{ asset('app-assets/js/main.js') }}"></script>
       <!-- Toastr JS-->
       <script src="{{ asset('app-assets/plugins/toaster/toastr.js') }}?v={{ time() }}" type="text/javascript"></script>
+
+      <script src="{{ asset('app-assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+      <script src="{{ asset('app-assets/plugins/sweetalert/sweetalerts.min.js') }}"></script>
+
       <!-- End Theme label Script
          =====================================================================-->
 

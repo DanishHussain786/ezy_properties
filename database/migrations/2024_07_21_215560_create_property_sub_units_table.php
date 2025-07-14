@@ -11,11 +11,11 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('prop_bedspaces', function (Blueprint $table) {
+    Schema::create('property_sub_units', function (Blueprint $table) {
       $table->id();
-      $table->unsignedBigInteger('room_id')->nullable();
-      $table->foreign('room_id')->references('id')->constrained()->on('properties')->onUpdate('cascade')->onDelete('cascade');
-      $table->string('title', 30)->nullable();
+      $table->unsignedBigInteger('property_unit_id')->nullable();
+      $table->foreign('property_unit_id')->references('id')->constrained()->on('property_units')->onUpdate('cascade')->onDelete('cascade');
+      $table->string('title', 50)->nullable();
       $table->double('rent');
       $table->softDeletes('deleted_at');
       $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('prop_bedspaces');
+    Schema::dropIfExists('property_sub_units');
   }
 };

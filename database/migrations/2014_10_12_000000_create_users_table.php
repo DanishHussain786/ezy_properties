@@ -13,20 +13,20 @@ return new class extends Migration
   {
     Schema::create('users', function (Blueprint $table) {
       $table->id();
-      $table->string('first_name', 100);
-      $table->string('last_name', 100);
+      $table->string('first_name', 120);
+      $table->string('last_name', 120);
       $table->enum('gender', ['Male','Female']);
       $table->enum('status', ['Active','Block']);
       $table->enum('role', ['Master','Manager','Agent','Staff','Guest']);
       $table->string('dob', 100)->nullable();
-      $table->string('contact_no', 100)->nullable();
-      $table->string('whatsapp_no', 100)->nullable();
+      $table->string('contact_no', 120)->nullable();
+      $table->string('whatsapp_no', 120)->nullable();
       $table->string('profile_photo')->nullable();
       $table->string('home_address')->nullable();
-      $table->string('email', 150)->unique();
-      $table->string('emirates_id', 100)->nullable();
+      $table->string('email', 175)->unique();
+      $table->string('emirates_id', 120)->nullable();
       $table->string('emirates_photo')->nullable();
-      $table->string('passport_id', 100)->nullable();
+      $table->string('passport_id', 120)->nullable();
       $table->string('passport_photo')->nullable();
       $table->string('password');
       $table->rememberToken();

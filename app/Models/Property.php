@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 class Property extends Model
 {
   use HasFactory, SoftDeletes;
-  protected $table = 'properties';
+  protected $table = 'property';
 
   public function reservations_data()
   {
@@ -23,7 +23,7 @@ class Property extends Model
 
   public function getProperty($posted_data = array())
   {
-    $columns = ['properties.*'];
+    $columns = ['property.*'];
     $select_columns = array_merge($columns, []);
     $query = Property::latest();
 
@@ -32,34 +32,34 @@ class Property extends Model
     }
 
     if (isset($posted_data['id'])) {
-      $query = $query->where('properties.id', $posted_data['id']);
+      $query = $query->where('property.id', $posted_data['id']);
       $posted_data['detail'] = true;
     }
     if (isset($posted_data['first_name'])) {
-      $query = $query->where('properties.first_name', 'like', '%' . $posted_data['first_name'] . '%');
+      $query = $query->where('property.first_name', 'like', '%' . $posted_data['first_name'] . '%');
     }
     if (isset($posted_data['last_name'])) {
-      $query = $query->where('properties.last_name', 'like', '%' . $posted_data['last_name'] . '%');
+      $query = $query->where('property.last_name', 'like', '%' . $posted_data['last_name'] . '%');
     }
     if (isset($posted_data['search_query'])) {
       $str = $posted_data['search_query'];
       $query = $query->where(
         function ($query) use ($str) {
           return $query
-            ->where('properties.prop_type', 'like', '%' . $str . '%')
-            ->orwhere('properties.prop_number', 'like', '%' . $str . '%');
+            ->where('property.prop_type', 'like', '%' . $str . '%')
+            ->orwhere('property.prop_number', 'like', '%' . $str . '%');
         }
       );
     }
     if (isset($posted_data['prop_status'])) {
-      $query = $query->where('properties.prop_status', $posted_data['prop_status']);
+      $query = $query->where('property.prop_status', $posted_data['prop_status']);
     }
 
     $query->getQuery()->orders = null;
     if (isset($posted_data['orderBy_name']) && isset($posted_data['orderBy_value'])) {
       $query->orderBy($posted_data['orderBy_name'], $posted_data['orderBy_value']);
     } else {
-      $query->orderBy('properties.id', 'DESC');
+      $query->orderBy('property.id', 'DESC');
     }
 
 
@@ -87,7 +87,7 @@ class Property extends Model
     return $result;
   }
 
-  public function saveUpdateProperty($posted_data = array(), $where_posted_data = array())
+  public function saveUpdate($posted_data = array(), $where_posted_data = array())
   {
     if (isset($posted_data['update_id'])) {
       $data = Property::find($posted_data['update_id']);

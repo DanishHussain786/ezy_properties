@@ -1,4 +1,4 @@
-$(window).on("load", function() {
+$(window).on("load", function () {
   // if (feather) {
   //   feather.replace({
   //     width: 14,
@@ -7,49 +7,48 @@ $(window).on("load", function() {
   // }
 });
 
-jQuery(document).ready(function() {
-  $('.skin-minimal .i-check input').iCheck({
-    checkboxClass: 'icheckbox_minimal',
-    radioClass: 'iradio_minimal',
-    increaseArea: '20%'
+jQuery(document).ready(function () {
+  $(".skin-minimal .i-check input").iCheck({
+    checkboxClass: "icheckbox_minimal",
+    radioClass: "iradio_minimal",
+    increaseArea: "20%",
   });
 
-  $('.skin-square .i-check input').iCheck({
-    checkboxClass: 'icheckbox_square-green',
-    radioClass: 'iradio_square-green'
+  $(".skin-square .i-check input").iCheck({
+    checkboxClass: "icheckbox_square-green",
+    radioClass: "iradio_square-green",
   });
 
-
-  $('.skin-flat .i-check input').iCheck({
-    checkboxClass: 'icheckbox_flat-red',
-    radioClass: 'iradio_flat-red'
+  $(".skin-flat .i-check input").iCheck({
+    checkboxClass: "icheckbox_flat-red",
+    radioClass: "iradio_flat-red",
   });
 
-  $('.skin-line .i-check input').each(function () {
+  $(".skin-line .i-check input").each(function () {
     var self = $(this),
       label = self.next(),
       label_text = label.text();
 
     label.remove();
     self.iCheck({
-      checkboxClass: 'icheckbox_line-blue',
-      radioClass: 'iradio_line-blue',
-      insert: '<div class="icheck_line-icon"></div>' + label_text
-    })
-  })
+      checkboxClass: "icheckbox_line-blue",
+      radioClass: "iradio_line-blue",
+      insert: '<div class="icheck_line-icon"></div>' + label_text,
+    });
+  });
 
   var currentStep = 0;
   var steps = $(".step-form");
   var indicators = $(".step-indicators .step");
 
-  $(".next-btn").on("click", function() {
+  $(".next-btn").on("click", function () {
     if (currentStep < steps.length - 1) {
       currentStep++;
       showStep(currentStep);
     }
   });
 
-  $(".prev-btn").on("click", function() {
+  $(".prev-btn").on("click", function () {
     if (currentStep > 0) {
       currentStep--;
       showStep(currentStep);
@@ -63,7 +62,7 @@ jQuery(document).ready(function() {
     indicators.eq(step).addClass("active");
   }
 
-  $("#multiStepForm").on("submit", function(event) {
+  $("#multiStepForm").on("submit", function (event) {
     event.preventDefault();
     alert("Form submitted!");
     // Handle form submission here
@@ -71,75 +70,81 @@ jQuery(document).ready(function() {
 });
 
 function showModal(src) {
-  const modal = document.getElementById('imageModal');
-  const back_content = document.getElementById('header_div');
-  const modalImg = document.getElementById('imageModalContent');
-  modal.style.display = 'block';
-  back_content.style.display = 'none';
+  const modal = document.getElementById("imageModal");
+  const back_content = document.getElementById("header_div");
+  const modalImg = document.getElementById("imageModalContent");
+  modal.style.display = "block";
+  back_content.style.display = "none";
   modalImg.src = src;
 
-  const closeModal = document.getElementById('closeModal');
-  closeModal.onclick = function() {
-    modal.style.display = 'none';
-    back_content.style.display = 'block';
-  }
+  const closeModal = document.getElementById("closeModal");
+  closeModal.onclick = function () {
+    modal.style.display = "none";
+    back_content.style.display = "block";
+  };
 
-  window.onclick = function(event) {
+  window.onclick = function (event) {
     if (event.target == modal) {
-      modal.style.display = 'none';
-      back_content.style.display = 'block';
+      modal.style.display = "none";
+      back_content.style.display = "block";
     }
-  }
+  };
 }
 
-$(document).on("click", ".pagination_links .pagination a",
-  function(event) {
-    event.preventDefault();
-    var page = $(this).attr("href").split("page=")[1];
-    $("#filterPage").val(page);
-    getAjaxData();
-  }
-);
+$(document).on("click", ".pagination_links .pagination a", function (event) {
+  event.preventDefault();
+  var page = $(this).attr("href").split("page=")[1];
+  $("#filterPage").val(page);
+  getAjaxData();
+});
 
-$(document).on("change", ".formFilter", throttle(function(event) {
+$(document).on(
+  "change",
+  ".formFilter",
+  throttle(function (event) {
     event.preventDefault();
     $("#filterPage").val(1);
     getAjaxData();
   }, 200)
 );
 
-$(document).on("keyup", ".formFilter", throttle(function(event) {
+$(document).on(
+  "keyup",
+  ".formFilter",
+  throttle(function (event) {
     event.preventDefault();
     $("#filterPage").val(1);
     getAjaxData();
   }, 800)
 );
 
-$(document).on("click", ".formReset", function(event) {
+$(document).on("click", ".formReset", function (event) {
   event.preventDefault();
   clearFormFields();
   $("#filterPage").val(1);
   getAjaxData();
 });
 
-$(document).on("click", ".delete_btn", function(event) {
+$(document).on("click", ".delete_btn", function (event) {
   var url = $(this).data("delete_url");
-  $('.delete_popup').attr("action", url);
+  $(".delete_popup").attr("action", url);
 });
 
 var prevKey, prevControl;
-$(document).on('keydown', '.only_numbers', function(event) {
+$(document).on("keydown", ".only_numbers", function (event) {
   // Allow special keys: backspace, tab, delete, home, end, arrow keys, ctrl+a
   if (
-    event.keyCode == 8 ||   // backspace
-    event.keyCode == 9 ||   // tab
-    event.keyCode == 46 ||  // delete
-    (event.keyCode >= 35 && event.keyCode <= 40) ||  // arrow keys/home/end
-    (event.keyCode >= 48 && event.keyCode <= 57) ||  // numbers on keyboard
+    event.keyCode == 8 || // backspace
+    event.keyCode == 9 || // tab
+    event.keyCode == 46 || // delete
+    (event.keyCode >= 35 && event.keyCode <= 40) || // arrow keys/home/end
+    (event.keyCode >= 48 && event.keyCode <= 57) || // numbers on keyboard
     (event.keyCode >= 96 && event.keyCode <= 105) || // numbers on keypad
-    (event.keyCode == 65 && prevKey == 17 && prevControl == event.currentTarget.id) || // ctrl + a, on same control
-    (event.keyCode == 110 && !$(this).val().includes('.')) || // decimal point on keypad (only if not already present)
-    (event.keyCode == 190 && !$(this).val().includes('.'))    // decimal point on keyboard (only if not already present)
+    (event.keyCode == 65 &&
+      prevKey == 17 &&
+      prevControl == event.currentTarget.id) || // ctrl + a, on same control
+    (event.keyCode == 110 && !$(this).val().includes(".")) || // decimal point on keypad (only if not already present)
+    (event.keyCode == 190 && !$(this).val().includes(".")) // decimal point on keyboard (only if not already present)
   ) {
     // If valid key, update prevKey and prevControl
     prevKey = event.keyCode;
@@ -195,17 +200,17 @@ $(document).on('keydown', '.only_numbers', function(event) {
 //   calculateTotal();
 // });
 
-$(document).on("input", "input[name='markup_rent']", function(event) {
+$(document).on("input", "input[name='markup_rent']", function (event) {
   $("input[name='markup_rent']").val($(this).val());
   calculateTotal();
 });
 
-$(document).on("input", "input[name='checkin_date']", function(event) {
+$(document).on("input", "input[name='checkin_date']", function (event) {
   $("input[name='checkin_date']").val($(this).val());
   calculateTotal();
 });
 
-$(document).on("input", "input[name='checkout_date']", function(event) {
+$(document).on("input", "input[name='checkout_date']", function (event) {
   $("input[name='checkout_date']").val($(this).val());
   calculateTotal();
 });
@@ -220,12 +225,11 @@ function calculateExpectedRent() {
     diff_days = calc_datetime_difference(in_date, out_date).days;
 
     if (diff_days <= 0) {
-      $('input[name="checkout_date"]').val('');
+      $('input[name="checkout_date"]').val("");
       $('input[name="expected_rent"]').val(0);
-    }
-    else {
-      exp_rent = parseFloat((rent / 30) * (diff_days));
-      exp_rent = Math.round((exp_rent + markup_rent), 2);
+    } else {
+      exp_rent = parseFloat((rent / 30) * diff_days);
+      exp_rent = Math.round(exp_rent + markup_rent, 2);
       $('input[name="expected_rent"]').val(exp_rent);
     }
   }
@@ -245,11 +249,11 @@ function calculateTotal() {
 // delay ajax request call on keypress, keyup, keydown, change event etc.
 function throttle(f, delay) {
   var timer = null;
-  return function() {
+  return function () {
     var context = this,
       args = arguments;
     clearTimeout(timer);
-    timer = window.setTimeout(function() {
+    timer = window.setTimeout(function () {
       f.apply(context, args);
     }, delay || 800);
   };
@@ -259,10 +263,10 @@ function extract_key_and_values(metadata = "") {
   // Check if metadata is retrieved successfully
   if (metadata) {
     // Remove any unwanted characters (e.g., '@')
-    metadata = metadata.replace('@', '');
+    metadata = metadata.replace("@", "");
 
     // Split the string by commas to get key-value pairs
-    var pairs = metadata.split(',');
+    var pairs = metadata.split(",");
 
     // Initialize an object to hold the extracted key-value pairs
     var result = {};
@@ -270,7 +274,7 @@ function extract_key_and_values(metadata = "") {
     // Loop through each pair
     $.each(pairs, function (index, pair) {
       // Split each pair by '=' to separate keys and values
-      var parts = pair.split('=');
+      var parts = pair.split("=");
       if (parts.length === 2) {
         var key = parts[0].trim();
         var value = parts[1].trim();
@@ -289,16 +293,16 @@ function extract_key_and_values(metadata = "") {
 function clearFormFields() {
   // var route = $(".route_name").val();
   // if (route === "user") {
-    $("#search_query").val("");
-    $("#user_status").val("").trigger("change");
+  $("#search_query").val("");
+  $("#user_status").val("").trigger("change");
 
-    // $("#select2-category").select2("val", "");
-    // $("#select2-category").val("").trigger("change");
-    // $("#title").val("");
-    // $("#select2-orderBy_name").select2("val", "");
-    // $("#select2-orderBy_name").val("").trigger("change");
-    // $("#select2-orderBy_value").select2("val", "");
-    // $("#select2-orderBy_value").val("").trigger("change");
+  // $("#select2-category").select2("val", "");
+  // $("#select2-category").val("").trigger("change");
+  // $("#title").val("");
+  // $("#select2-orderBy_name").select2("val", "");
+  // $("#select2-orderBy_name").val("").trigger("change");
+  // $("#select2-orderBy_value").select2("val", "");
+  // $("#select2-orderBy_value").val("").trigger("change");
   // }
   // else if (route === 'other') {
   // other routes here
@@ -312,10 +316,10 @@ function getAjaxData(data) {
     data: $("#filterForm").serializeArray(),
     method: $("#filterForm").attr("method"),
     dataType: "html",
-    success: function(response) {
+    success: function (response) {
       $(".loaderOverlay").fadeOut();
       $("#table_data").html(response);
-    }
+    },
   });
 }
 
@@ -326,22 +330,28 @@ function getAjaxData(data) {
  * @param {function} successCallback - A function to be called if the request succeeds
  * @param {function} errorCallback - A function to be called if the request fails
  */
-function dynamicAjaxGetRequest(url, data, successCallback, errorCallback, extraParam) {
+function dynamicAjaxGetRequest(
+  url,
+  data,
+  successCallback,
+  errorCallback,
+  extraParam
+) {
   $.ajax({
     url: url,
-    type: 'GET',
+    type: "GET",
     data: data,
     // dataType: 'json',
-    success: function(response) {
-      if (typeof successCallback === 'function') {
+    success: function (response) {
+      if (typeof successCallback === "function") {
         successCallback(response, extraParam);
       }
     },
-    error: function(xhr, status, error) {
-      if (typeof errorCallback === 'function') {
+    error: function (xhr, status, error) {
+      if (typeof errorCallback === "function") {
         errorCallback(xhr, status, error);
       }
-    }
+    },
   });
 }
 
@@ -352,6 +362,7 @@ function dynamicAjaxGetRequest(url, data, successCallback, errorCallback, extraP
  * @param {function} successCallback - A function to be called if the request succeeds
  * @param {function} errorCallback - A function to be called if the request fails
  */
+/*
 function dynamicAjaxRequest(url, method, data, successCallback, errorCallback) {
   $.ajax({
     url: url,
@@ -370,6 +381,93 @@ function dynamicAjaxRequest(url, method, data, successCallback, errorCallback) {
     }
   });
 }
+*/
+
+/**
+ * Function to make a dynamic AJAX POST request
+ * @param {string} url - The URL to which the request is sent
+ * @param {object} data - Data to be sent to the server
+ * @param {function} successCallback - A function to be called if the request succeeds
+ * @param {function} errorCallback - A function to be called if the request fails
+ */
+function dynamicAjaxRequest(
+  url,
+  method,
+  data,
+  successCallback,
+  errorCallback,
+  extraParam
+) {
+  $.ajax({
+    url: url,
+    type: method,
+    data: data,
+    dataType: "json",
+    beforeSend: function (xhr) {
+      // If the method is POST, add CSRF token to the headers
+      if (method === "POST" || method === "PUT" || method === "DELETE") {
+        // Get CSRF token from the meta tag or a JavaScript variable
+        var csrfToken = $('meta[name="csrf-token"]').attr("content");
+        xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken); // Set the CSRF token in the header
+      }
+    },
+    success: function (response) {
+      if (typeof successCallback === "function") {
+        successCallback(response, extraParam);
+      }
+    },
+    error: function (xhr, status, error) {
+      if (typeof errorCallback === "function") {
+        errorCallback(xhr, status, error);
+      }
+    },
+  });
+}
+
+// Function to display validation errors in the form
+function ajaxResposneValidationErrors(parent_form, errors) {
+  // Loop through the validation errors
+  $.each(errors, function (field, messages) {
+    // Find the form input for the field
+
+    if (
+      parent_form === null ||
+      parent_form == "" ||
+      parent_form === undefined
+    ) {
+      var inputElement = $("#" + field);
+      var errorSpan = inputElement
+        .closest(".form-group")
+        .find(".invalid-feedback");
+    } else {
+      var inputElement = $(parent_form).find("#" + field);
+      var errorSpan = $(parent_form)
+        .find("#" + field)
+        .closest(".form-group")
+        .find(".invalid-feedback");
+    }
+
+    // If error span exists, display the error messages
+    if (errorSpan.length) {
+      // Join multiple error messages, if any
+      errorSpan.text(messages.join(" "));
+
+      // Remove the 'd-none' class to make the error message visible
+      errorSpan.removeClass("d-none");
+    }
+
+    // Optionally, add a class to the form input for highlighting invalid fields (for styling purposes)
+    inputElement.addClass("is-invalid");
+  });
+}
+
+// Reset validation errors on input change
+$('input, select').on('input change', function() {
+  var input = $(this);
+  var errorSpan = input.closest('.form-group').find('.invalid-feedback');
+  errorSpan.addClass('d-none'); // Hide error message
+  input.removeClass('is-invalid'); // Remove the invalid class
+});
 
 function calc_datetime_difference(start, end) {
   // Parse the date strings into Date objects
@@ -378,7 +476,7 @@ function calc_datetime_difference(start, end) {
 
   // Ensure the dates are valid
   if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      throw new Error("Invalid date format");
+    throw new Error("Invalid date format");
   }
 
   // Calculate the difference in milliseconds
@@ -393,13 +491,15 @@ function calc_datetime_difference(start, end) {
   const dd = Math.floor(differenceInMillis / millisPerDay);
   const hh = Math.floor((differenceInMillis % millisPerDay) / millisPerHour);
   const mm = Math.floor((differenceInMillis % millisPerHour) / millisPerMinute);
-  const ss = Math.floor((differenceInMillis % millisPerMinute) / millisPerSecond);
+  const ss = Math.floor(
+    (differenceInMillis % millisPerMinute) / millisPerSecond
+  );
 
   return {
-      days: dd,
-      hours: hh,
-      minutes: mm,
-      seconds: ss,
-      difference: hh + ":" + mm + ":" + ss,
+    days: dd,
+    hours: hh,
+    minutes: mm,
+    seconds: ss,
+    difference: hh + ":" + mm + ":" + ss,
   };
 }

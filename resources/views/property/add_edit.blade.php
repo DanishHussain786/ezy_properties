@@ -16,16 +16,16 @@
       <small>{{ $title }}</small>
     </div>
   </section>
-  
+
   <!-- Main content -->
   <section class="content">
     <div class="row">
       <div class="col-sm-12">
         <div class="panel panel-bd lobidrag">
           <div class="panel-heading">
-            <div class="btn-group"> 
+            <div class="btn-group">
               <a class="btn btn-add" href="{{url($data['route_name'])}}">
-                <i class="fa fa-list"></i> Properties List 
+                <i class="fa fa-list"></i> Properties List
               </a>
             </div>
           </div>
@@ -38,13 +38,33 @@
             @endif
 
             @if (isset($data->id))
-            <form class="form col-sm-12 form-np" action="{{ route($data['route_name'].'.update', $data->id) }}" method="post" enctype="multipart/form-data">
+            <form class="form col-sm-12" id="form-update-product" action="{{ route($data['route_name'].'.update', $data->id) }}" method="post" enctype="multipart/form-data">
             @method('PUT')
             <input type="hidden" name="update_id" value="{{$data->id}}">
             @else
-            <form class="form col-sm-12 form-np" action="{{ route($data['route_name'].'.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="form col-sm-12" id="form-add-product" action="{{ route($data['route_name'].'.store') }}" method="POST" enctype="multipart/form-data">
             @endif
             @csrf
+
+              <div class="form-group col-md-4 col-sm-6 is-required">
+                <label>Property Name</label>
+                <input type="text" name="prop_title" id="prop_title" value="{{old('prop_title', isset($data->prop_title)? $data->prop_title: '')}}" class="form-control full_width @error('prop_title') is-invalid @enderror" placeholder="Enter property address" required>
+                @error('prop_title')
+                  <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+                @else
+                  <span class="invalid-feedback" role="alert"></span>
+                @enderror
+              </div>
+
+              <div class="form-group col-md-4 col-sm-6 is-required">
+                <label>Property Desc.</label>
+                <input type="text" name="prop_description" id="prop_description" value="{{old('prop_description', isset($data->prop_description)? $data->prop_description: '')}}" class="form-control full_width @error('prop_description') is-invalid @enderror" placeholder="Enter property address" required>
+                @error('prop_description')
+                  <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+                @else
+                  <span class="invalid-feedback" role="alert"></span>
+                @enderror
+              </div>
 
               <div class="row" style="margin-left: 0px;">
                 <div class="form-group col-md-4 col-sm-6 is-required">
@@ -57,7 +77,7 @@
                       @endforeach
                     @endif
                   </select>
-                  @error('role')
+                  @error('prop_type')
                     <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                   @else
                     <span class="invalid-feedback" role="alert"></span>
@@ -68,11 +88,11 @@
               <div class="form-group dy_prop_number col-md-4 col-sm-6 is-required">
                 <label id="property_type">Property No.</label>
                 <input type="number" name="prop_number" id="prop_number" value="{{old('prop_number', isset($data->prop_number)? $data->prop_number: '')}}" class="form-control full_width @error('prop_number') is-invalid @enderror" placeholder="Enter property number or reference" required>
-                {{--@error('prop_number')
+                @error('prop_number')
                   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                 @else
                   <span class="invalid-feedback" role="alert"></span>
-                @enderror--}}
+                @enderror
               </div>
 
               <div class="form-group dy_room_no col-md-4 col-sm-6 is-required" style="display: none;">
@@ -166,7 +186,7 @@
                 <div class="form-group dy_bs_level col-md-4 col-sm-6 is-required">
                   <label>Level</label>
                   <select class="form-control full_width @error('bs_level') is-invalid @enderror" id="bs_level" name="bs_level" required>
-                    <option value=""> ---- Choose any option ---- </option> 
+                    <option value=""> ---- Choose any option ---- </option>
                     <option {{ old('bs_level') == "1" || (isset($data->bs_level) && $data->bs_level == "1") ? 'selected': '' }} value="1"> Down </option>
                     <option {{ old('bs_level') == "2" || (isset($data->bs_level) && $data->bs_level == "2") ? 'selected': '' }} value="2"> 1st Up </option>
                     <option {{ old('bs_level') == "3" || (isset($data->bs_level) && $data->bs_level == "3") ? 'selected': '' }} value="3"> 2nd Up </option>
@@ -181,7 +201,7 @@
 
               <div class="col-sm-12 reset-button">
                 <a href="" class="btn btn-warning">Reset</a>
-                <button type="submit" id="property_btn" class="btn btn-success">{{ isset($data->id) ? 'Update':'Add' }}</button>
+                <button type="button" id="property_btn" class="btn btn-success">{{ isset($data->id) ? 'Update':'Add' }}</button>
               </div>
             </form>
           </div>

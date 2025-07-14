@@ -16,9 +16,9 @@ return new class extends Migration
       $table->unsignedBigInteger('booking_id')->nullable();
       $table->foreign('booking_id')->references('id')->constrained()->on('bookings')->onUpdate('cascade')->onDelete('cascade');
       $table->unsignedBigInteger('property_id')->nullable();
-      $table->foreign('property_id')->references('id')->constrained()->on('properties')->onUpdate('cascade')->onDelete('cascade');
-      $table->unsignedBigInteger('service_id')->nullable();
-      $table->foreign('service_id')->references('id')->constrained()->on('services')->onUpdate('cascade')->onDelete('cascade');
+      $table->foreign('property_id')->references('id')->constrained()->on('property')->onUpdate('cascade')->onDelete('cascade');
+      $table->unsignedBigInteger('misc_liability_id')->nullable();
+      $table->foreign('misc_liability_id')->references('id')->constrained()->on('misc_liabilities')->onUpdate('cascade')->onDelete('cascade');
       $table->date('checkin_date');
       $table->date('checkout_date');
       $table->integer('for_days')->nullable();
