@@ -362,34 +362,6 @@ function dynamicAjaxGetRequest(
  * @param {function} successCallback - A function to be called if the request succeeds
  * @param {function} errorCallback - A function to be called if the request fails
  */
-/*
-function dynamicAjaxRequest(url, method, data, successCallback, errorCallback) {
-  $.ajax({
-    url: url,
-    type: method,
-    data: data,
-    dataType: 'json',
-    success: function(response) {
-      if (typeof successCallback === 'function') {
-        successCallback(response);
-      }
-    },
-    error: function(xhr, status, error) {
-      if (typeof errorCallback === 'function') {
-        errorCallback(xhr, status, error);
-      }
-    }
-  });
-}
-*/
-
-/**
- * Function to make a dynamic AJAX POST request
- * @param {string} url - The URL to which the request is sent
- * @param {object} data - Data to be sent to the server
- * @param {function} successCallback - A function to be called if the request succeeds
- * @param {function} errorCallback - A function to be called if the request fails
- */
 function dynamicAjaxRequest(
   url,
   method,

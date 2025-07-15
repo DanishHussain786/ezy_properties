@@ -2,22 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+// use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+// use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\User;
 use App\Models\Property;
+use App\Models\PropertyUnit;
 use App\Models\Booking;
 use App\Models\Service;
 use App\Models\Transaction;
 use App\Models\Information;
 use App\Models\BookingLog;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class Controller extends BaseController {
-  use AuthorizesRequests, ValidatesRequests;
+  // use AuthorizesRequests, ValidatesRequests;
 
   public $UserObj;
   public $PropertyObj;
+  public $PropertyUnitObj;
   public $BookingObj;
   public $ServiceObj;
   public $TransactionObj;
@@ -27,6 +32,7 @@ class Controller extends BaseController {
   public function __construct() {
     $this->UserObj = new User();
     $this->PropertyObj = new Property();
+    $this->PropertyUnitObj = new PropertyUnit();
     $this->BookingObj = new Booking();
     $this->ServiceObj = new Service();
     $this->TransactionObj = new Transaction();
@@ -39,36 +45,18 @@ class Controller extends BaseController {
    *
    * @return \Illuminate\Http\Response
    */
-  public function sendResponse($result = array(), $message, $count = 0) {
-    $response = [
-      'success' => true,
-      'records' => $result,
-      'message' => $message,
-      'count' => $count,
-    ];
-    return response()->json($response, 200);
-  }
-
-  /**
-   * return error response.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  /*
-  public function sendError($error, $errorMessages = array(), $code = 400)
-  {
-    $response = [
-      'success' => false,
-      'message' => $error,
-    ];
-
-    if (!empty($errorMessages)) {
-      $response['records'] = $errorMessages;
+  public function sendResponse($request, $data = [], $code = 200, $success_arr = []) {
+    if ($request->ajax()) {
+      $response = [
+        'status' => $code ?? '200',
+        'message' => $success_arr['message'][1] ?? 'Api successfully hit.',
+        'data' => $data,
+        'redirect_url' => $success_arr['redirect_url'] ?? '',
+        'extra_data' => $success_arr['extra_data'] ?? '',
+      ];
+      return response()->json($response, $code);
     }
-
-    return response()->json($response, $code);
   }
-  */
 
   /**
    * return error response.

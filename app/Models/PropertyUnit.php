@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class Property extends Model {
+class PropertyUnit extends Model {
   use HasFactory, SoftDeletes;
-  protected $table = 'property';
+  protected $table = 'property_units';
 
   /**
    * The attributes that are mass assignable.
@@ -18,55 +18,57 @@ class Property extends Model {
    * @var array<int, string>
    */
   protected $fillable = [
-    'prop_title',
-    'prop_description',
-    'prop_type',
-    'prop_address',
-    'prop_status',
+    'property_id',
+    'prop_number',
+    'prop_floor',
+    'prop_rent',
   ];
 
-  public function property_units() {
-    return $this->hasMany(PropertyUnit::class, 'property_id', 'id');
-  }
+  // public function reservations_data() {
+    // return $this->hasOne(Booking::class, 'property_id');
+    // ->where([
+    //   ['status', '=', 'Reservation']
+    // ]);
+  // }
 
-  public function getProperty($posted_data = array()) {
-    $columns = ['property.*'];
+  public function getPropertyUnit($posted_data = array()) {
+    $columns = ['property_units.*'];
     $select_columns = array_merge($columns, []);
-    $query = Property::latest();
+    $query = PropertyUnit::latest();
 
     if (isset($posted_data['relations']) && $posted_data['relations']) {
       // $query = $query->with('reservations_data');
     }
 
     if (isset($posted_data['id'])) {
-      $query = $query->where('property.id', $posted_data['id']);
+      $query = $query->where('property_units.id', $posted_data['id']);
       $posted_data['detail'] = true;
     }
-    if (isset($posted_data['first_prop_title'])) {
-      $query = $query->where('property.first_name', 'like', '%' . $posted_data['first_name'] . '%');
+    if (isset($posted_data['property_id'])) {
+      $query = $query->where('property_units.property_id', $posted_data['property_id']);
     }
-    if (isset($posted_data['last_name'])) {
-      $query = $query->where('property.last_name', 'like', '%' . $posted_data['last_name'] . '%');
-    }
+    // if (isset($posted_data['first_prop_title'])) {
+    //   $query = $query->where('property_units.first_name', 'like', '%' . $posted_data['first_name'] . '%');
+    // }
     if (isset($posted_data['search_query'])) {
       $str = $posted_data['search_query'];
       $query = $query->where(
         function ($query) use ($str) {
           return $query
-            ->where('property.prop_type', 'like', '%' . $str . '%')
-            ->orwhere('property.prop_number', 'like', '%' . $str . '%');
+            ->where('property_units.prop_type', 'like', '%' . $str . '%')
+            ->orwhere('property_units.prop_number', 'like', '%' . $str . '%');
         }
       );
     }
     if (isset($posted_data['prop_status'])) {
-      $query = $query->where('property.prop_status', $posted_data['prop_status']);
+      $query = $query->where('property_units.prop_status', $posted_data['prop_status']);
     }
 
     $query->getQuery()->orders = null;
     if (isset($posted_data['orderBy_name']) && isset($posted_data['orderBy_value'])) {
       $query->orderBy($posted_data['orderBy_name'], $posted_data['orderBy_value']);
     } else {
-      $query->orderBy('property.id', 'DESC');
+      $query->orderBy('property_units.id', 'DESC');
     }
 
 
@@ -96,9 +98,9 @@ class Property extends Model {
 
   public function saveUpdate($posted_data = array(), $where_posted_data = array()) {
     if (isset($posted_data['update_id'])) {
-      $data = Property::find($posted_data['update_id']);
+      $data = PropertyUnit::find($posted_data['update_id']);
     } else {
-      $data = new Property;
+      $data = new PropertyUnit;
       $posted_data = array_filter($posted_data);
     }
 
@@ -116,44 +118,37 @@ class Property extends Model {
       }
     }
 
-    if (isset($posted_data['prop_title'])) {
-      $data->prop_title = $posted_data['prop_title'];
+    if (isset($posted_data['property_id'])) {
+      $data->property_id = $posted_data['property_id'];
     }
-    if (isset($posted_data['prop_description'])) {
-      $data->prop_description = $posted_data['prop_description'];
+    if (isset($posted_data['prop_number'])) {
+      $data->prop_number = $posted_data['prop_number'];
     }
-    if (isset($posted_data['prop_type'])) {
-      $data->prop_type = $posted_data['prop_type'];
+    if (isset($posted_data['prop_floor'])) {
+      $data->prop_floor = $posted_data['prop_floor'];
     }
-    // if (isset($posted_data['wifi_charges'])) {
-    //   if ($posted_data['wifi_charges'] == 'set_null') $data->wifi_charges = NULL;
-    //   else $data->wifi_charges = $posted_data['wifi_charges'];
-    // }
-    if (isset($posted_data['prop_address'])) {
-      $data->prop_address = $posted_data['prop_address'];
-    }
-    if (isset($posted_data['prop_status'])) {
-      $data->prop_status = $posted_data['prop_status'];
+    if (isset($posted_data['prop_rent'])) {
+      $data->prop_rent = $posted_data['prop_rent'];
     }
     if (isset($posted_data['deleted_at'])) {
       $data->deleted_at = $posted_data['deleted_at'];
     }
     $data->save();
 
-    $data = Property::getProperty([
+    $data = PropertyUnit::getPropertyUnit([
       'detail' => true,
       'id' => $data->id
     ]);
     return $data;
   }
 
-  public function deleteProperty($id = 0, $where_posted_data = array()) {
+  public function deletePropertyUnit($id = 0, $where_posted_data = array()) {
     $is_deleted = false;
     if ($id > 0) {
       $is_deleted = true;
-      $data = Property::find($id);
+      $data = PropertyUnit::find($id);
     } else {
-      $data = Property::latest();
+      $data = PropertyUnit::latest();
     }
 
     if (isset($where_posted_data) && count($where_posted_data) > 0) {

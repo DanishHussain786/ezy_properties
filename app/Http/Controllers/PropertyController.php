@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Config;
 use App\Models\Property;
+use Illuminate\Support\Facades\Validator;
+
 class PropertyController extends Controller
 {
 	private $controller_name_single = "Property";
@@ -48,57 +50,112 @@ class PropertyController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$request_data = $request->all();
+		$request_data = $request->all(); $req_type = "store";
+    if (!empty($request_data['update_id'])) {
+      $req_type = "update";
+    }
+
 		$rules = array(
-			'prop_title'        => ['required'],
-			'prop_description'  => ['required'],
-			'prop_type'         => ['required', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
-			'prop_rent'     => ['required'],
-			'other_charges' => ['required', 'in:Yes,No'],
+			'update_id'         => ['nullable', 'exists:property,id'],
+			'prop_title'        => [$req_type == "store" ? 'required' : 'nullable', 'string'],
+			'prop_description'  => [$req_type == "store" ? 'required' : 'nullable', 'string'],
+			'prop_type'         => [$req_type == "store" ? 'required' : 'nullable', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
+			'prop_address'      => [$req_type == "store" ? 'required' : 'nullable', 'string'],
+
+      // 'prop_number'
+      'prop_number'       => ['nullable','string'],
+      'prop_floor'        => ['nullable','string'],
+      'prop_rent'         => ['nullable','numeric','gt:0'],
 		);
 
-    $validator = \Validator::make($request_data, $rules, $messages = []);
+    // $validator->after(function ($validator) use ($request, $user) {
+    //   if (!Hash::check($request->old_password, $user->password)) {
+    //     $validator->errors()->add('old_password', 'The provided old password does not match our records.');
+    //   }
+    // });
+
+    $validator = Validator::make($request_data, $rules, $messages = []);
 
 		if ($validator->fails()) {
-      return $this->sendError($request, $validator, $code = 422);
-			// return redirect()->back()->withErrors($validator)->withInput();
+      if ($request->ajax())
+        return $this->sendError($request, $validator, $code = 422);
+      else
+        return redirect()->back()->withErrors($validator)->withInput();
 		}
 
-    // echo "<pre>";
-    // echo " deee request_data"."<br>";
-    // print_r($request_data);
-    // echo "</pre>";
-    // exit("@@@@");
+    if (!empty($request_data['update_id'])) {
+      $prop_obj = $this->PropertyObj->getProperty([
+        'id' => $request_data['update_id']
+      ]);
 
-		if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
-			$rules['prop_number'] = ['required'];
-			$rules['prop_floor'] = ['required'];
-			$rules['prop_address'] = ['required', 'max:400'];
-		}
-		else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
-			$rules['room_no'] = ['required'];
-			$rules['bs_level'] = ['required', 'in:1,2,3'];
-		}
+      $prop_obj->load('property_units');
 
-		$messages = array(
-			'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
-		);
+      if ( in_array($request_data['prop_type'], ['Villa','Studio','Room'])) {
+        $fillables = $this->PropertyUnitObj->getFillable();
+        $prop_units_params = $request->only($fillables);
+        $prop_units_params['property_id'] = $request_data['update_id'];
 
-		$validator = \Validator::make($request_data, $rules, $messages);
+        if ($prop_obj->property_units->count() > 0) {
+          foreach ($prop_obj['property_units'] as $key => $value) {
+            if ( $value['property_id'] == $request_data['update_id']) {
+              $prop_units_params['update_id'] = $value['id'];
+            }
+          }
+        }
+      }
 
-		if ($validator->fails()) {
-			return redirect()->back()->withErrors($validator)->withInput();
-		}
+      $this->PropertyUnitObj->saveUpdate($prop_units_params);
+    }
 
-    return $this->handleStoreUpdate($request, [
-      'class' => Property::class,
-      'rules' => $rules,
-      'messages' => [],
-      'controller_single' => $this->controller_name_single,
-      'route' => $this->route_name,
-    ]);
+		// if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
+		// 	$rules['prop_number'] = ['required'];
+		// 	$rules['prop_floor'] = ['required'];
+		// 	$rules['prop_address'] = ['required', 'max:400'];
+		// }
+		// else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
+		// 	$rules['room_no'] = ['required'];
+		// 	$rules['bs_level'] = ['required', 'in:1,2,3'];
+		// }
 
+		// $messages = array(
+		// 	'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
+		// );
 
+		// $validator = \Validator::make($request_data, $rules, $messages);
+
+		// if ($validator->fails()) {
+		// 	return redirect()->back()->withErrors($validator)->withInput();
+		// }
+
+    $data = $this->PropertyObj->saveUpdate($request_data);
+    $data->load(['property_units' => function($query) use ($data) {
+      $query->where('property_id', $data->id);
+    }]);
+
+    $render_html = "";
+    $flash_data = ['message', $this->controller_name_single . ' is ' . ($req_type == "update" ? 'updated ' : 'created ') . 'successfully.'];
+
+    $render_html = view("property.partials.prop_types", compact('data'))->render();
+
+    if (isset($data->id)) {
+      if ($request->ajax()) {
+        return $this->sendResponse($request, $data, 200, [
+          'message' => $flash_data,
+          'redirect_url' => isset($params['route']) ? url($params['route']) : null,
+          'extra_data' => [
+            'render_html' => isset($render_html) ? $render_html : null,
+          ]
+        ]);
+      }
+    }
+
+    // return $this->handleStoreUpdate($request, [
+    //   'class' => Property::class,
+    //   'rules' => $rules,
+    //   'messages' => [],
+    //   'controller_single' => $this->controller_name_single,
+    //   'route' => $this->route_name,
+    // ]);
 
 		// $prop_data['prop_type'] = isset($request_data['prop_type']) ? $request_data['prop_type'] : '';
 		// $prop_data['prop_number'] = isset($request_data['prop_number']) ? $request_data['prop_number'] : '';
@@ -111,18 +168,18 @@ class PropertyController extends Controller
 		// $prop_data['prop_rent'] = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
 		// $prop_data['prop_net_rent'] = 0;
 
-		$prop_data['prop_net_rent'] += $prop_data['prop_rent'];
-		if ( $prop_data['dewa_charges'] > 0 )
-			$prop_data['prop_net_rent'] += $prop_data['dewa_charges'];
-		if ( $prop_data['wifi_charges'] > 0 )
-			$prop_data['prop_net_rent'] += $prop_data['wifi_charges'];
-		if ( $prop_data['misc_charges'] > 0 )
-			$prop_data['prop_net_rent'] += $prop_data['misc_charges'];
+		// $prop_data['prop_net_rent'] += $prop_data['prop_rent'];
+		// if ( $prop_data['dewa_charges'] > 0 )
+		// 	$prop_data['prop_net_rent'] += $prop_data['dewa_charges'];
+		// if ( $prop_data['wifi_charges'] > 0 )
+		// 	$prop_data['prop_net_rent'] += $prop_data['wifi_charges'];
+		// if ( $prop_data['misc_charges'] > 0 )
+		// 	$prop_data['prop_net_rent'] += $prop_data['misc_charges'];
 
-		$this->PropertyObj->saveUpdateProperty($prop_data);
-		$flash_data = ['message', $this->controller_name_single . ' is created successfully.'];
-		\Session::flash($flash_data[0], $flash_data[1]);
-		return redirect("/{$this->route_name}");
+		// $this->PropertyObj->saveUpdateProperty($prop_data);
+		// $flash_data = ['message', $this->controller_name_single . ' is created successfully.'];
+		// \Session::flash($flash_data[0], $flash_data[1]);
+		// return redirect("/{$this->route_name}");
 	}
 
 	/**

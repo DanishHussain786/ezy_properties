@@ -134,7 +134,7 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
-   
+
   <!-- Modal -->
   <div class="modal fade" id="reservation_popup" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -165,6 +165,5 @@
     </div>
   </div>
   <!-- /.Modal -->
-
 </section>
 @endsection

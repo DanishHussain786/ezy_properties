@@ -25,7 +25,7 @@ return new class extends Migration
       // $table->double('misc_charges')->nullable();
       // $table->double('prop_net_rent')->nullable();
       $table->longText('prop_address')->nullable();
-      $table->enum('prop_status', ['Available','Pre-Reserve','Reserved','Checked-In','Checked-Out','Maintenance','Over-Stay'])->default('Available');
+      $table->enum('prop_listing', ['Draft','Offline','Online'])->default('Draft');
       $table->softDeletes('deleted_at');
       $table->timestamps();
     });
