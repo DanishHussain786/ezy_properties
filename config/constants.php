@@ -81,14 +81,14 @@ return [
   ],
   'propertyTypes' => [
     'data' => [
-      'Building' => 'Building',
       'Villa' => 'Villa',
       'Studio' => 'Studio',
       'Room' => 'Room',
+      'Building' => 'Building',
     ],
-    'all_keys_str' => 'Building,Villa,Studio,Room',
-    'all_keys_arr' => ['Building','Villa','Studio','Room'],
-    'error' => 'Please post a valid value (Building,Villa,Studio or Room)',
+    'all_keys_str' => 'Villa,Studio,Room,Building',
+    'all_keys_arr' => ['Villa','Studio','Room','Building'],
+    'error' => 'Please post a valid value (Villa,Studio,Room or Building)',
   ],
   'paymentModes' => [
     'data' => [

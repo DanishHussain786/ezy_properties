@@ -7,66 +7,62 @@ use Config;
 use App\Models\Property;
 use Illuminate\Support\Facades\Validator;
 
-class PropertyController extends Controller
-{
-	private $controller_name_single = "Property";
-	private $controller_name_plural = "Property";
-	private $route_name = "property";
-	private $model_name = "property";
+class PropertyController extends Controller {
+  private $controller_name_single = "Property";
+  private $controller_name_plural = "Property";
+  private $route_name = "property";
+  private $model_name = "property";
 
-	/**
-	 * Display a listing of the resource.
-	 */
-	public function index(Request $request)
-	{
-		$request_data = $request->all();
-		$request_data['paginate'] = 10;
-		$request_data['relations'] = true;
-		$data['records'] = $this->PropertyObj->getProperty($request_data);
-		$data['route_name'] = $this->route_name;
-		$data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
+  /**
+   * Display a listing of the resource.
+   */
+  public function index(Request $request) {
+    $request_data = $request->all();
+    $request_data['paginate'] = 10;
+    $request_data['relations'] = true;
+    $data['records'] = $this->PropertyObj->getProperty($request_data);
+    $data['route_name'] = $this->route_name;
+    $data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
 
-		if ($request->ajax()) {
-			return $data['html'];
-		}
-		return view("{$this->route_name}.list", compact('data'));
-	}
+    if ($request->ajax()) {
+      return $data['html'];
+    }
+    return view("{$this->route_name}.list", compact('data'));
+  }
 
-	/**
-	 * Show the form for creating a new resource.
-	 */
-	public function create(Request $request)
-	{
-		$data['prop_types'] = Config::get('constants.propertyTypes.all_keys_arr');
-		$data['route_name'] = $this->route_name;
-		if ($request->ajax()) {
-			return $data['html'];
-		}
-		return view("{$this->route_name}.add_edit", compact('data'));
-	}
+  /**
+   * Show the form for creating a new resource.
+   */
+  public function create(Request $request) {
+    $data['prop_types'] = Config::get('constants.propertyTypes.all_keys_arr');
+    $data['route_name'] = $this->route_name;
+    if ($request->ajax()) {
+      return $data['html'];
+    }
+    return view("{$this->route_name}.prop_add", compact('data'));
+  }
 
-	/**
-	 * Store a newly created resource in storage.
-	 */
-	public function store(Request $request)
-	{
-		$request_data = $request->all(); $req_type = "store";
+  /**
+   * Store a newly created resource in storage.
+   */
+  public function store(Request $request) {
+    $request_data = $request->all();
+    $req_type = "store";
     if (!empty($request_data['update_id'])) {
       $req_type = "update";
     }
 
-		$rules = array(
-			'update_id'         => ['nullable', 'exists:property,id'],
-			'prop_title'        => [$req_type == "store" ? 'required' : 'nullable', 'string'],
-			'prop_description'  => [$req_type == "store" ? 'required' : 'nullable', 'string'],
-			'prop_type'         => [$req_type == "store" ? 'required' : 'nullable', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
-			'prop_address'      => [$req_type == "store" ? 'required' : 'nullable', 'string'],
+    $rules = array(
+      'update_id'         => ['nullable', 'exists:property,id'],
+      'prop_title'        => [$req_type == "store" ? 'required' : 'nullable', 'string'],
+      'prop_description'  => [$req_type == "store" ? 'required' : 'nullable', 'string'],
+      'prop_type'         => [$req_type == "store" ? 'required' : 'nullable', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
+      'prop_address'      => [$req_type == "store" ? 'required' : 'nullable', 'string'],
 
-      // 'prop_number'
-      'prop_number'       => ['nullable','string'],
-      'prop_floor'        => ['nullable','string'],
-      'prop_rent'         => ['nullable','numeric','gt:0'],
-		);
+      'prop_number'       => [$req_type == "store" ? 'nullable' : 'required', 'string'],
+      'prop_floor'        => [$req_type == "store" ? 'nullable' : 'required', 'string'],
+      'prop_rent'         => [$req_type == "store" ? 'nullable' : 'required', 'numeric', 'gt:0'],
+    );
 
     // $validator->after(function ($validator) use ($request, $user) {
     //   if (!Hash::check($request->old_password, $user->password)) {
@@ -76,12 +72,12 @@ class PropertyController extends Controller
 
     $validator = Validator::make($request_data, $rules, $messages = []);
 
-		if ($validator->fails()) {
+    if ($validator->fails()) {
       if ($request->ajax())
         return $this->sendError($request, $validator, $code = 422);
       else
         return redirect()->back()->withErrors($validator)->withInput();
-		}
+    }
 
     if (!empty($request_data['update_id'])) {
       $prop_obj = $this->PropertyObj->getProperty([
@@ -90,14 +86,14 @@ class PropertyController extends Controller
 
       $prop_obj->load('property_units');
 
-      if ( in_array($request_data['prop_type'], ['Villa','Studio','Room'])) {
+      if (in_array($request_data['prop_type'], ['Villa', 'Studio', 'Room'])) {
         $fillables = $this->PropertyUnitObj->getFillable();
         $prop_units_params = $request->only($fillables);
         $prop_units_params['property_id'] = $request_data['update_id'];
 
         if ($prop_obj->property_units->count() > 0) {
           foreach ($prop_obj['property_units'] as $key => $value) {
-            if ( $value['property_id'] == $request_data['update_id']) {
+            if ($value['property_id'] == $request_data['update_id']) {
               $prop_units_params['update_id'] = $value['id'];
             }
           }
@@ -107,35 +103,38 @@ class PropertyController extends Controller
       $this->PropertyUnitObj->saveUpdate($prop_units_params);
     }
 
-		// if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
-		// 	$rules['prop_number'] = ['required'];
-		// 	$rules['prop_floor'] = ['required'];
-		// 	$rules['prop_address'] = ['required', 'max:400'];
-		// }
-		// else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
-		// 	$rules['room_no'] = ['required'];
-		// 	$rules['bs_level'] = ['required', 'in:1,2,3'];
-		// }
+    // if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
+    // 	$rules['prop_number'] = ['required'];
+    // 	$rules['prop_floor'] = ['required'];
+    // 	$rules['prop_address'] = ['required', 'max:400'];
+    // }
+    // else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
+    // 	$rules['room_no'] = ['required'];
+    // 	$rules['bs_level'] = ['required', 'in:1,2,3'];
+    // }
 
-		// $messages = array(
-		// 	'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
-		// );
+    // $messages = array(
+    // 	'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
+    // );
 
-		// $validator = \Validator::make($request_data, $rules, $messages);
+    // $validator = \Validator::make($request_data, $rules, $messages);
 
-		// if ($validator->fails()) {
-		// 	return redirect()->back()->withErrors($validator)->withInput();
-		// }
+    // if ($validator->fails()) {
+    // 	return redirect()->back()->withErrors($validator)->withInput();
+    // }
 
     $data = $this->PropertyObj->saveUpdate($request_data);
-    $data->load(['property_units' => function($query) use ($data) {
+    $data->load(['property_units' => function ($query) use ($data) {
       $query->where('property_id', $data->id);
     }]);
 
     $render_html = "";
     $flash_data = ['message', $this->controller_name_single . ' is ' . ($req_type == "update" ? 'updated ' : 'created ') . 'successfully.'];
 
-    $render_html = view("property.partials.prop_types", compact('data'))->render();
+    if (!empty($request_data['prop_type']) && $request_data['prop_type'] == 'Building')
+      $render_html = view("property.partials.prop_buildings", compact('data'))->render();
+    else
+      $render_html = view("property.partials.prop_types", compact('data'))->render();
 
     if (isset($data->id)) {
       if ($request->ajax()) {
@@ -157,167 +156,162 @@ class PropertyController extends Controller
     //   'route' => $this->route_name,
     // ]);
 
-		// $prop_data['prop_type'] = isset($request_data['prop_type']) ? $request_data['prop_type'] : '';
-		// $prop_data['prop_number'] = isset($request_data['prop_number']) ? $request_data['prop_number'] : '';
-		// $prop_data['prop_floor'] = isset($request_data['prop_floor']) ? $request_data['prop_floor'] : '';
-		// $prop_data['other_charges'] = isset($request_data['other_charges']) ? $request_data['other_charges'] : '';
-		// $prop_data['dewa_charges'] = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : '';
-		// $prop_data['wifi_charges'] = isset($request_data['wifi_ch']) ? $request_data['wifi_ch'] : '';
-		// $prop_data['misc_charges'] = isset($request_data['misc_ch']) ? $request_data['misc_ch'] : '';
-		// $prop_data['prop_address'] = isset($request_data['prop_address']) ? $request_data['prop_address'] : '';
-		// $prop_data['prop_rent'] = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
-		// $prop_data['prop_net_rent'] = 0;
+    // $prop_data['prop_type'] = isset($request_data['prop_type']) ? $request_data['prop_type'] : '';
+    // $prop_data['prop_number'] = isset($request_data['prop_number']) ? $request_data['prop_number'] : '';
+    // $prop_data['prop_floor'] = isset($request_data['prop_floor']) ? $request_data['prop_floor'] : '';
+    // $prop_data['other_charges'] = isset($request_data['other_charges']) ? $request_data['other_charges'] : '';
+    // $prop_data['dewa_charges'] = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : '';
+    // $prop_data['wifi_charges'] = isset($request_data['wifi_ch']) ? $request_data['wifi_ch'] : '';
+    // $prop_data['misc_charges'] = isset($request_data['misc_ch']) ? $request_data['misc_ch'] : '';
+    // $prop_data['prop_address'] = isset($request_data['prop_address']) ? $request_data['prop_address'] : '';
+    // $prop_data['prop_rent'] = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
+    // $prop_data['prop_net_rent'] = 0;
 
-		// $prop_data['prop_net_rent'] += $prop_data['prop_rent'];
-		// if ( $prop_data['dewa_charges'] > 0 )
-		// 	$prop_data['prop_net_rent'] += $prop_data['dewa_charges'];
-		// if ( $prop_data['wifi_charges'] > 0 )
-		// 	$prop_data['prop_net_rent'] += $prop_data['wifi_charges'];
-		// if ( $prop_data['misc_charges'] > 0 )
-		// 	$prop_data['prop_net_rent'] += $prop_data['misc_charges'];
+    // $prop_data['prop_net_rent'] += $prop_data['prop_rent'];
+    // if ( $prop_data['dewa_charges'] > 0 )
+    // 	$prop_data['prop_net_rent'] += $prop_data['dewa_charges'];
+    // if ( $prop_data['wifi_charges'] > 0 )
+    // 	$prop_data['prop_net_rent'] += $prop_data['wifi_charges'];
+    // if ( $prop_data['misc_charges'] > 0 )
+    // 	$prop_data['prop_net_rent'] += $prop_data['misc_charges'];
 
-		// $this->PropertyObj->saveUpdateProperty($prop_data);
-		// $flash_data = ['message', $this->controller_name_single . ' is created successfully.'];
-		// \Session::flash($flash_data[0], $flash_data[1]);
-		// return redirect("/{$this->route_name}");
-	}
+    // $this->PropertyObj->saveUpdateProperty($prop_data);
+    // $flash_data = ['message', $this->controller_name_single . ' is created successfully.'];
+    // \Session::flash($flash_data[0], $flash_data[1]);
+    // return redirect("/{$this->route_name}");
+  }
 
-	/**
-	 * Display the specified resource.
-	 */
-	public function show(Request $request, $id = 0)
-	{
-		// $id = \Crypt::decrypt($id);
-		$request_data = $request->all();
-		$posted_data = array();
+  /**
+   * Display the specified resource.
+   */
+  public function show(Request $request, $id = 0) {
+    // $id = \Crypt::decrypt($id);
+    $request_data = $request->all();
+    $posted_data = array();
 
-		if ($id != 0)
-			$posted_data['id'] = $id;
+    if ($id != 0)
+      $posted_data['id'] = $id;
 
-		$posted_data['detail'] = true;
-		$request_data = array_merge($request_data,$posted_data);
-		$data = $this->PropertyObj->getProperty($request_data);
-		$data['users'] = $this->UserObj->getUser(['role' => 'Guest']);
-		$data['route_name'] = $this->route_name;
-		$data['pay_methods'] = Config::get('constants.paymentModes.all_keys_arr');
+    $posted_data['detail'] = true;
+    $request_data = array_merge($request_data, $posted_data);
+    $data = $this->PropertyObj->getProperty($request_data);
+    $data['users'] = $this->UserObj->getUser(['role' => 'Guest']);
+    $data['route_name'] = $this->route_name;
+    $data['pay_methods'] = Config::get('constants.paymentModes.all_keys_arr');
 
-		if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_reservation') {
-			$data['html'] = view("{$this->route_name}.partials.model_reservation", compact('data'));
-		}
+    if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_reservation') {
+      $data['html'] = view("{$this->route_name}.partials.model_reservation", compact('data'));
+    }
 
-		if ($request->ajax()) {
-			return $data['html'];
-		}
+    if ($request->ajax()) {
+      return $data['html'];
+    }
 
-		print_r($data);
-		exit();
-	}
+    print_r($data);
+    exit();
+  }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 */
-	public function edit(Request $request, $id = 0)
-	{
-		$request_data = $request->all();
-		$posted_data = array();
-		$posted_data['id'] = $id;
-		$posted_data['detail'] = true;
-		$request_data = array_merge($request_data,$posted_data);
+  /**
+   * Show the form for editing the specified resource.
+   */
+  public function edit(Request $request, $id = 0) {
+    $request_data = $request->all();
+    $posted_data = array();
+    $posted_data['id'] = $id;
+    $posted_data['detail'] = true;
+    $request_data = array_merge($request_data, $posted_data);
 
-		$data = $this->PropertyObj->getProperty($request_data);
-		$data['route_name'] = $this->route_name;
+    $data = $this->PropertyObj->getProperty($request_data);
+    $data['route_name'] = $this->route_name;
 
-		if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_update_prop')
-			$data['html'] = view("{$this->route_name}.partials.model_update_prop", compact('data'));
-		else
-			$data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
+    if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_update_prop')
+      $data['html'] = view("{$this->route_name}.partials.model_update_prop", compact('data'));
+    else
+      $data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
 
-		if ($request->ajax()) {
-			return $data['html'];
-		}
+    if ($request->ajax()) {
+      return $data['html'];
+    }
 
-		return view("{$this->route_name}.add_edit", compact('data'));
-	}
+    return view("{$this->route_name}.prop_edit", compact('data'));
+  }
 
-	/**
-	 * Update the specified resource in storage.
-	 */
-	public function update(Request $request, $id = 0)
-	{
-		$request_data = $request->all();
-		$request_data['update_id'] = $id;
-		$rules = array(
-			'update_id'			=> ['required', 'exists:' . $this->model_name . ',id'],
-			'prop_type'     => ['nullable', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
-			'prop_rent'     => ['nullable'],
-			'other_charges' => ['nullable', 'in:Yes,No'],
-		);
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(Request $request, $id = 0) {
+    $request_data = $request->all();
+    $request_data['update_id'] = $id;
+    $rules = array(
+      'update_id'      => ['required', 'exists:' . $this->model_name . ',id'],
+      'prop_type'     => ['nullable', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
+      'prop_rent'     => ['nullable'],
+      'other_charges' => ['nullable', 'in:Yes,No'],
+    );
 
-		if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
-			$rules['prop_number'] = ['nullable'];
-			$rules['prop_floor'] = ['nullable'];
-			$rules['prop_address'] = ['nullable', 'max:400'];
-		}
-		else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
-			$rules['room_no'] = ['nullable'];
-			$rules['bs_level'] = ['nullable', 'in:1,2,3'];
-		}
+    if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
+      $rules['prop_number'] = ['nullable'];
+      $rules['prop_floor'] = ['nullable'];
+      $rules['prop_address'] = ['nullable', 'max:400'];
+    } else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
+      $rules['room_no'] = ['nullable'];
+      $rules['bs_level'] = ['nullable', 'in:1,2,3'];
+    }
 
-		$messages = array(
-			'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
-		);
+    $messages = array(
+      'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
+    );
 
-		$validator = \Validator::make($request_data, $rules, $messages);
+    $validator = \Validator::make($request_data, $rules, $messages);
 
-		if ($validator->fails()) {
-			return redirect()->back()->withErrors($validator)->withInput();
-		}
+    if ($validator->fails()) {
+      return redirect()->back()->withErrors($validator)->withInput();
+    }
 
-		$prop_data['update_id'] = $request_data['update_id'];
-		$prop_data['prop_type'] = isset($request_data['prop_type']) ? $request_data['prop_type'] : '';
-		$prop_data['prop_number'] = isset($request_data['prop_number']) ? $request_data['prop_number'] : '';
-		$prop_data['prop_floor'] = isset($request_data['prop_floor']) ? $request_data['prop_floor'] : '';
-		$prop_data['other_charges'] = isset($request_data['other_charges']) ? $request_data['other_charges'] : '';
-		$prop_data['dewa_charges'] = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : '';
-		$prop_data['wifi_charges'] = isset($request_data['wifi_ch']) ? $request_data['wifi_ch'] : '';
-		$prop_data['misc_charges'] = isset($request_data['misc_ch']) ? $request_data['misc_ch'] : '';
-		$prop_data['prop_address'] = isset($request_data['prop_address']) ? $request_data['prop_address'] : '';
-		$prop_data['prop_rent'] = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
-		$prop_data['prop_net_rent'] = 0;
+    $prop_data['update_id'] = $request_data['update_id'];
+    $prop_data['prop_type'] = isset($request_data['prop_type']) ? $request_data['prop_type'] : '';
+    $prop_data['prop_number'] = isset($request_data['prop_number']) ? $request_data['prop_number'] : '';
+    $prop_data['prop_floor'] = isset($request_data['prop_floor']) ? $request_data['prop_floor'] : '';
+    $prop_data['other_charges'] = isset($request_data['other_charges']) ? $request_data['other_charges'] : '';
+    $prop_data['dewa_charges'] = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : '';
+    $prop_data['wifi_charges'] = isset($request_data['wifi_ch']) ? $request_data['wifi_ch'] : '';
+    $prop_data['misc_charges'] = isset($request_data['misc_ch']) ? $request_data['misc_ch'] : '';
+    $prop_data['prop_address'] = isset($request_data['prop_address']) ? $request_data['prop_address'] : '';
+    $prop_data['prop_rent'] = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
+    $prop_data['prop_net_rent'] = 0;
 
-		$prop_data['prop_net_rent'] += $prop_data['prop_rent'];
-		if ( $prop_data['dewa_charges'] > 0 )
-			$prop_data['prop_net_rent'] += $prop_data['dewa_charges'];
-		else
-			$prop_data['dewa_charges'] = 'set_null';
-		if ( $prop_data['wifi_charges'] > 0 )
-			$prop_data['prop_net_rent'] += $prop_data['wifi_charges'];
-		else
-			$prop_data['wifi_charges'] = 'set_null';
-		if ( $prop_data['misc_charges'] > 0 )
-			$prop_data['prop_net_rent'] += $prop_data['misc_charges'];
-		else
-			$prop_data['misc_charges'] = 'set_null';
+    $prop_data['prop_net_rent'] += $prop_data['prop_rent'];
+    if ($prop_data['dewa_charges'] > 0)
+      $prop_data['prop_net_rent'] += $prop_data['dewa_charges'];
+    else
+      $prop_data['dewa_charges'] = 'set_null';
+    if ($prop_data['wifi_charges'] > 0)
+      $prop_data['prop_net_rent'] += $prop_data['wifi_charges'];
+    else
+      $prop_data['wifi_charges'] = 'set_null';
+    if ($prop_data['misc_charges'] > 0)
+      $prop_data['prop_net_rent'] += $prop_data['misc_charges'];
+    else
+      $prop_data['misc_charges'] = 'set_null';
 
-		$data = $this->PropertyObj->saveUpdateProperty($prop_data);
-		if ($data->id)
-			$flash_data = ['message', $this->controller_name_single.' is updated successfully.'];
-		else
-			$flash_data = ['error_message', 'Something went wrong during update '.$this->controller_name_single];
+    $data = $this->PropertyObj->saveUpdateProperty($prop_data);
+    if ($data->id)
+      $flash_data = ['message', $this->controller_name_single . ' is updated successfully.'];
+    else
+      $flash_data = ['error_message', 'Something went wrong during update ' . $this->controller_name_single];
 
-		\Session::flash($flash_data[0], $flash_data[1]);
-		return redirect("/{$this->route_name}");
-	}
+    \Session::flash($flash_data[0], $flash_data[1]);
+    return redirect("/{$this->route_name}");
+  }
 
-	/**
-	 * Remove the specified resource from storage.
-	 */
-	public function destroy($id = 0)
-	{
-		$this->PropertyObj->deleteProperty($id);
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroy($id = 0) {
+    $this->PropertyObj->deleteProperty($id);
 
-		$flash_data = ['message', $this->controller_name_single.' is deleted successfully.'];
-		\Session::flash($flash_data[0], $flash_data[1]);
-		return redirect("/{$this->route_name}");
-	}
+    $flash_data = ['message', $this->controller_name_single . ' is deleted successfully.'];
+    \Session::flash($flash_data[0], $flash_data[1]);
+    return redirect("/{$this->route_name}");
+  }
 }

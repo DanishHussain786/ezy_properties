@@ -517,6 +517,7 @@
       <script src="{{ asset('app-assets/dist/js/dashboard.js') }}" type="text/javascript"></script>
       <!-- END: Page JS-->
       <script src="{{ asset('app-assets/js/main.js') }}"></script>
+      <script src="{{ asset('app-assets/js/data_hooks.js') }}" type="text/javascript"></script>
       <!-- Toastr JS-->
       <script src="{{ asset('app-assets/plugins/toaster/toastr.js') }}?v={{ time() }}" type="text/javascript"></script>
 

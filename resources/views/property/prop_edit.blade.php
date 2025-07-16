@@ -46,7 +46,7 @@
             @endif
             @csrf
 
-              <div class="form-group col-md-3 col-sm-6 is-required">
+              <div class="form-group col-md-3 col-sm-6 pad-x-5">
                 <label>Property Name</label>
                 <input type="text" name="prop_title" id="prop_title" value="{{old('prop_title', isset($data->prop_title)? $data->prop_title: '')}}" class="form-control full_width @error('prop_title') is-invalid @enderror" placeholder="Enter property address" required>
                 @error('prop_title')
@@ -56,7 +56,7 @@
                 @enderror
               </div>
 
-              <div class="form-group col-md-3 col-sm-6 is-required">
+              <div class="form-group col-md-3 col-sm-6 pad-x-5">
                 <label>Property Desc.</label>
                 <input type="text" name="prop_description" id="prop_description" value="{{old('prop_description', isset($data->prop_description)? $data->prop_description: '')}}" class="form-control full_width @error('prop_description') is-invalid @enderror" placeholder="Enter property address" required>
                 @error('prop_description')
@@ -66,9 +66,9 @@
                 @enderror
               </div>
 
-              <div class="form-group col-md-3 col-sm-6 is-required">
+              <div class="form-group col-md-3 col-sm-6 pad-x-5">
                 <label>Property Type</label>
-                <select class="select2_field form-control full_width @error('prop_type') is-invalid @enderror" id="prop_type" name="prop_type" required>
+                <select class="form-control full_width @error('prop_type') is-invalid @enderror" id="prop_type" name="prop_type" required>
                   <option value=""> ---- Choose any option ---- </option>
                   @if (isset($data['prop_types']) && count($data['prop_types']) > 0 )
                     @foreach ($data['prop_types'] as $key => $type)
@@ -83,7 +83,7 @@
                 @enderror
               </div>
 
-              <div class="form-group col-md-3 col-sm-6 is-required">
+              <div class="form-group col-md-3 col-sm-6 pad-x-5">
                 <label>Property Address</label>
                 <input type="text" name="prop_address" id="prop_address"
                   value="{{old('prop_address', isset($data->prop_address)? $data->prop_address: '')}}"
@@ -114,19 +114,20 @@
         <div class="modal-content">
           <div class="modal-header modal-header-primary">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3><i class="fa fa-user m-r-5"></i> Add Property Units</h3>
+            <h3><i class="fa fa-user m-r-5"></i> Edit Property Units</h3>
           </div>
           <div class="modal-body">
             <div class="row">
               <div class="col-md-12">
-                <form class="form-horizontal" id="create_reservation" action="" method="">
-                  @method('POST')
+                <form class="form-horizontal manage_prop_units" action="{{ url('property_unit') }}" method="POST">
+                  {{-- @method('POST') --}}
                   @csrf
-                  <fieldset class="model-ajax">
+                  <fieldset>
+
                     @php $all_floors = get_floors(); @endphp
-                    <div class="form-group col-md-4 col-sm-6 is-required">
-                      <label class="control-label">Floor No.</label>
-                      <select class="select2_field form-control full_width" id="prop_floor" name="prop_floor">
+                    <div class="form-group col-md-4 col-sm-6">
+                      <label>Floor No.</label>
+                      <select class="prop_floor form-control full_width" id="prop_floor" name="prop_floor">
                         <option value=""> ---- Choose any option ---- </option>
                         @if (isset($all_floors) && count($all_floors) > 0 )
                           @foreach ($all_floors as $key => $prop_floor)
@@ -136,60 +137,43 @@
                       </select>
                     </div>
 
-                    <div class="form-group col-md-4 col-sm-6 is-required">
-                      <label>Rent (AED)</label>
-                      <input type="text" name="prop_rent" id="prop_rent" value="" class="form-control full_width only_numbers @error('prop_rent') is-invalid @enderror" placeholder="Enter property rental cost" required>
-                      @error('prop_rent')
+                    <div class="form-group col-md-4 col-sm-6">
+                      <label>Unit Type</label>
+                      <select class="unit_type form-control full_width @error('unit_type') is-invalid @enderror" id="unit_type" name="unit_type" required>
+                        <option value=""> ---- Choose any option ---- </option>
+                        <option value="Villa"> Villa </option>
+                        <option value="Studio"> Studio </option>
+                        <option value="Room"> Room </option>
+                      </select>
+                      @error('unit_type')
+                        <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+                      @else
+                        <span class="invalid-feedback" role="alert"></span>
+                      @enderror
+                    </div>
+
+                    <div class="form-group col-md-4 col-sm-6">
+                      <label id="unit_no">Property No.</label>
+                      <input type="number" name="prop_number" id="prop_number"
+                        value="{{old('prop_number', isset($data->property_units->prop_number)? $data->property_units->prop_number: '')}}"
+                        class="prop_number form-control full_width @error('prop_number') is-invalid @enderror"
+                        placeholder="Enter property number or reference" required>
+                      @error('prop_number')
                       <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                       @else
                       <span class="invalid-feedback" role="alert"></span>
                       @enderror
                     </div>
 
-                    {{-- <div class="table-responsive">
-                      <table id="dataTableExample1" class="table table-bordered table-striped table-hover">
-                        <thead>
-                          <tr class="info">
-                            <th>Task Name</th>
-                            <th>Due date</th>
-                            <th>Description</th>
-                            <th>Assign to</th>
-                            <th>status</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>networking</td>
-                            <td>01/05/2017</td>
-                            <td>Lan,wifi config</td>
-                            <td>Smith</td>
-                            <td>
-                              <span class="label-custom label label-default">completed</span>
-                            </td>
-                            <td>
-                              <button type="button" class="btn btn-add btn-xs" data-toggle="modal" data-target="#update"><i
-                                  class="fa fa-pencil"></i></button>
-                              <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delt"><i
-                                  class="fa fa-trash-o"></i> </button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Accounts</td>
-                            <td>01/05/2017</td>
-                            <td>Financial supports</td>
-                            <td>lon jacob</td>
-                            <td>
-                              <span class="label-warning label label-default">waitnng</span>
-                            </td>
-                            <td>
-                              <button type="button" class="btn btn-add btn-xs" data-toggle="modal" data-target="#update"><i class="fa fa-pencil"></i></button>
-                              <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delt"><i class="fa fa-trash-o"></i> </button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div> --}}
+                    <div class="form-group col-md-4 col-sm-6">
+                      <label>Rent (AED)</label>
+                      <input type="text" name="prop_rent" id="prop_rent" value="" class="prop_rent form-control full_width only_numbers @error('prop_rent') is-invalid @enderror" placeholder="Enter property rental cost" required>
+                      @error('prop_rent')
+                      <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+                      @else
+                      <span class="invalid-feedback" role="alert"></span>
+                      @enderror
+                    </div>
                   </fieldset>
                 </form>
               </div>
@@ -197,7 +181,7 @@
           </div>
           <div class="modal-footer">
             <div class="pull-right">
-              <button type="submit" id="add_res_btn" class="btn btn-add">Save</button>
+              <button type="button" id="add_prop_units_btn" class="btn btn-add">Save</button>
               <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
             </div>
           </div>

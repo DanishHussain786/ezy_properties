@@ -754,7 +754,7 @@ a.sidebar-toggle .pe-7s-angle-left-circle {
 
 .content-header {
   position: relative;
-  padding: 12px 30px;
+  padding: 6px 20px;
   background-color: #fff;
   border-bottom: 1px solid #e1e6ef;
   margin-bottom: 0px;
@@ -781,16 +781,16 @@ a.sidebar-toggle .pe-7s-angle-left-circle {
 
 .content-header .header-title h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: 18px;
   color: #222;
   font-weight: 600;
 }
 
 .content-header .header-title small {
-  font-size: 13px;
+  font-size: 12px;
   display: inline-block;
-  padding-left: 4px;
-  font-weight: 600;
+  padding-left: 2px;
+  font-weight: 300;
   color: #222;
 }
 
@@ -5891,6 +5891,14 @@ table.text-center th {
 
 .d-none {
   display: none;
+}
+
+.padding-none {
+  padding: 0px !important;
+}
+
+.pad-x-5 {
+  padding: 0px 5px 0px 5px !important;
 }
 
 /*** Spinner CSS END ***/

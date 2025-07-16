@@ -433,6 +433,28 @@ function ajaxResposneValidationErrors(parent_form, errors) {
   });
 }
 
+function validateFields(field_id, error_message) {
+  let field_value = $(field_id).val();
+  let feedback_elem = $(field_id).closest('.form-group').find('.invalid-feedback');
+
+  if (field_value == "" || field_value == null) {
+    $(field_id).addClass('is-invalid');
+    feedback_elem.text(error_message);
+    feedback_elem.removeClass("d-none");
+    return false;  // Invalid data
+  } else {
+    $(field_id).removeClass('is-invalid');
+    feedback_elem.text("");
+    feedback_elem.addClass("d-none");
+    return true;  // Valid data
+  }
+}
+
+function resetForm(form_elem = {}) {
+  form_elem.reset();
+  $(".searchable").select2();
+}
+
 // Reset validation errors on input change
 $('input, select').on('input change', function() {
   var input = $(this);

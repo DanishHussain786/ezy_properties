@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\PropertyUnitController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\AccountController;
@@ -49,6 +50,7 @@ Route::get('booking/services', [BookingController::class, 'manage_services']);
 
 Route::resource('user', UserController::class);
 Route::resource('property', PropertyController::class);
+Route::resource('property_unit', PropertyUnitController::class);
 Route::resource('booking', BookingController::class);
 Route::resource('info', InformationController::class);
 Route::resource('account', AccountController::class);

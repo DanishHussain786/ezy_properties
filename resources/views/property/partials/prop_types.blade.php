@@ -1,4 +1,4 @@
-{{-- <div class="form-group col-md-3 col-sm-6 is-required">
+{{-- <div class="form-group col-md-3 col-sm-6 pad-x-5">
   <label id="property_type">Room No.</label>
   <input type="number" name="room_no" id="room_no" value="{{old('room_no', isset($data->room_no)? $data->room_no: '')}}"
     class="form-control full_width @error('room_no') is-invalid @enderror" placeholder="Enter property room number"
@@ -10,7 +10,7 @@
   @enderror
 </div> --}}
 
-{{-- <div class="form-group col-md-3 col-sm-6 is-required">
+<div class="form-group col-md-3 col-sm-6 pad-x-5">
   <label id="property_type">{{ $data->prop_type ? $data->prop_type : 'Property ' }} No.</label>
   <input type="number" name="prop_number" id="prop_number"
     value="{{old('prop_number', isset($data->property_units->prop_number)? $data->property_units->prop_number: '')}}"
@@ -21,10 +21,10 @@
   @else
   <span class="invalid-feedback" role="alert"></span>
   @enderror
-</div> --}}
+</div>
 
-{{-- @php $all_floors = get_floors(); @endphp
-<div class="form-group col-md-3 col-sm-6 is-required">
+@php $all_floors = get_floors(); @endphp
+<div class="form-group col-md-3 col-sm-6 pad-x-5">
   <label>Floor No.</label>
   <select class="select2_field form-control full_width @error('prop_floor') is-invalid @enderror" id="prop_floor"
     name="prop_floor" required>
@@ -36,14 +36,27 @@
     @endforeach
     @endif
   </select>
-  @error('role')
+  @error('prop_floor')
   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
   @else
   <span class="invalid-feedback" role="alert"></span>
   @enderror
-</div> --}}
+</div>
 
-{{-- <div class="form-group dy_other_charges col-md-3 col-sm-6 is-required">
+<div class="form-group col-md-3 col-sm-6 pad-x-5">
+  <label>Rent (AED)</label>
+  <input type="text" name="prop_rent" id="prop_rent"
+    value="{{old('prop_rent', isset($data->property_units->prop_rent)? $data->property_units->prop_rent: '')}}"
+    class="form-control full_width only_numbers @error('prop_rent') is-invalid @enderror"
+    placeholder="Enter property rental cost" required>
+  @error('prop_rent')
+  <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+  @else
+  <span class="invalid-feedback" role="alert"></span>
+  @enderror
+</div>
+
+{{-- <div class="form-group dy_other_charges col-md-3 col-sm-6 pad-x-5">
   <label>Other Charges</label>
   <select class="form-control full_width" id="other_charges" name="other_charges">
     <option value=""> ---- Choose any option ---- </option>
@@ -52,7 +65,7 @@
   </select>
 </div> --}}
 
-{{-- <div class="form-group dy_bs_level col-md-3 col-sm-6 is-required">
+{{-- <div class="form-group dy_bs_level col-md-3 col-sm-6 pad-x-5">
   <label>Level</label>
   <select class="form-control full_width @error('bs_level') is-invalid @enderror" id="bs_level" name="bs_level"
     required>
@@ -71,9 +84,7 @@
   @enderror
 </div> --}}
 
-
-<div class="form-group col-sm-12" style="text-align: left; ">
-  <button class="btn btn-success btn-sm" id="add_prop_units"><i class="fa fa-plus"></i> Add Property Units</button>
-  {{-- <button type="button" class="handle_property btn btn-success">{{ isset($data->property_units->id) ? 'Update':'Save' }}</button> --}}
+<div class="form-group col-sm-12 reset-button" style="text-align: center; padding: 10px;">
+  <button type="button" class="handle_property btn btn-success">{{ isset($data->id) ? 'Update':'Save' }}</button>
   {{-- <a href="" class="btn btn-warning">Reset</a> --}}
 </div>
