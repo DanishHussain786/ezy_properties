@@ -37,7 +37,7 @@
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">
   <label class="control-label">Monthly Rent (AED)</label>
-  <input type="number" value="{{$data['rent']}}" id="prop_rent" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width" readonly>
+  <input type="number" value="{{$data['rent']}}" id="unit_rent" name="unit_rent" placeholder="Enter property rental cost" class="form-control full_width" readonly>
 </div>
 
 <div class="form-group col-md-4 col-sm-6 col-xs-12">

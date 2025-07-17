@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Config;
-use App\Models\Service;
+use App\Models\MiscLiability;
 class ServiceController extends Controller
 {
 	private $controller_name_single = "Service";
 	private $controller_name_plural = "Services";
 	private $route_name = "service";
-	private $model_name = "services";
+	private $model_name = "misc_liabilities";
 
 	/**
 	 * Display a listing of the resource.
@@ -19,7 +19,7 @@ class ServiceController extends Controller
 	{
 		$request_data = $request->all();
 		$request_data['paginate'] = 10;
-		$data['records'] = $this->ServiceObj->getService($request_data);
+		$data['records'] = $this->MiscLiabilityObj->getMiscLiability($request_data);
 		$data['route_name'] = $this->route_name;
 		$data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
 
@@ -33,7 +33,7 @@ class ServiceController extends Controller
 	 * Show the form for creating a new resource.
 	 */
 	public function create(Request $request)
-	{		
+	{
 		$data['route_name'] = $this->route_name;
 		if ($request->ajax()) {
 			return $data['html'];
@@ -74,7 +74,7 @@ class ServiceController extends Controller
 	 */
 	public function show(Request $request, $id = 0)
 	{
-		// $id = \Crypt::decrypt($id); 
+		// $id = \Crypt::decrypt($id);
 		// $request_data = $request->all();
 		// if ($id != 0)
 		// 	$request_data['id'] = $id;
@@ -129,7 +129,7 @@ class ServiceController extends Controller
 		$data = $this->ServiceObj->saveUpdateService($request_data);
 		if ($data->id)
 			$flash_data = ['message', $this->controller_name_single.' is updated successfully.'];
-		else 
+		else
 			$flash_data = ['error_message', 'Something went wrong during update '.$this->controller_name_single];
 
 		\Session::flash($flash_data[0], $flash_data[1]);

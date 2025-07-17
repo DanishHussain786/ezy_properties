@@ -413,7 +413,6 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="{{url('service/create')}}">Add Service</a></li>
                   <li><a href="{{url('service')}}">List Services</a></li>
                 </ul>
               </li>
@@ -535,6 +534,8 @@
         <script src="{{ asset('app-assets/js/booking.js') }}"></script>
       @elseif (preg_match('/\baccount\b/', Request::path() ))
         <script src="{{ asset('app-assets/js/account.js') }}"></script>
+      @elseif (preg_match('/\bservice\b/', Request::path() ))
+        <script src="{{ asset('app-assets/js/service.js') }}"></script>
       @endif
    </body>
 </html>

@@ -138,7 +138,7 @@ class BookingController extends Controller
 			'user_id'				=> ['required', 'exists:users,id'],
 			'checkin_date' 	=> ['required', 'date_format:Y-m-d'],
 			'checkout_date' => ['required', 'date_format:Y-m-d'],
-			'prop_rent'     => ['required'],
+			'unit_rent'     => ['required'],
 			'expected_rent' => ['required'],
 		);
 
@@ -207,7 +207,7 @@ class BookingController extends Controller
       $book_log['checkout_date'] = isset($request_data['checkout_date']) ? $request_data['checkout_date'] : 0;
       $book_log['for_days'] = datetime_difference($book_log['checkin_date'], $book_log['checkout_date'])['days'];
       $book_log['for_months'] = floor($book_log['for_days']/30);
-      $book_log['rent'] = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
+      $book_log['rent'] = isset($request_data['unit_rent']) ? $request_data['unit_rent'] : 0;
       $book_log['disc_rent'] = isset($request_data['disc_rent']) ? $request_data['disc_rent'] : 0;
       $book_log['markup_rent'] = $markup;
       $book_log['charge_rent'] = $net_total;
@@ -320,7 +320,7 @@ class BookingController extends Controller
 			'booked_for'		=> ['required', 'exists:users,id'],
 			'checkin_date' 	=> ['required', 'date_format:Y-m-d'],
 			'stay_months' 	=> ['required', 'numeric', 'min:1', 'max:12'],
-			'prop_rent'     => ['required'],
+			'unit_rent'     => ['required'],
 			'other_charges' => ['required', 'in:Yes,No'],
 		);
 
@@ -363,9 +363,9 @@ class BookingController extends Controller
 		$markup_rent = isset($request_data['markup_rent']) ? $request_data['markup_rent'] : 0;
 
 		if ($disc_rent > 0)
-			$charge_rent = $request_data['prop_rent'] - $request_data['disc_rent'];
+			$charge_rent = $request_data['unit_rent'] - $request_data['disc_rent'];
 		if ($markup_rent > 0)
-			$charge_rent = $request_data['prop_rent'] + $request_data['markup_rent'];
+			$charge_rent = $request_data['unit_rent'] + $request_data['markup_rent'];
 
 		$bookings['update_id'] = $request_data['update_id'];
 		$bookings['booked_for'] = $request_data['booked_for'];
@@ -375,7 +375,7 @@ class BookingController extends Controller
 		$bookings['checkout_date'] = add_to_datetime($request_data['checkin_date'], ['months' => $request_data['stay_months']]);
 		$bookings['for_days'] = datetime_difference($bookings['checkin_date'], $bookings['checkout_date'])['days'];
 		$bookings['for_months'] = $request_data['stay_months'];
-		$bookings['rent'] = $request_data['prop_rent'];
+		$bookings['rent'] = $request_data['unit_rent'];
 		$bookings['disc_rent'] = $disc_rent;
 		$bookings['charge_rent'] = $charge_rent;
 		$bookings['markup_rent'] = $markup_rent;

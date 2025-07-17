@@ -4,14 +4,15 @@
       <tr class="info">
         <th>Sr #</th>
         <th>Title</th>
-        <th>Charges</th>
+        <th>Description</th>
         <th>Type</th>
-        <th>Status</th>
+        <th>Amount</th>
+        <th>Created at</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
-                    
+
     @if (isset($data['records']) && count($data['records'])>0)
       @foreach ($data['records'] as $key => $item)
         @php
@@ -24,8 +25,9 @@
         <tr>
           <td>{{ $sr_no }}</td>
           <td>{{ $item['title'] }}</td>
-          <td>{{ $item['charges'] }}</td>
-          <td>{{ $item['type'] }}</td>
+          <td>{{ $item['description'] }}</td>
+          <td>{{ $item['validity_type'] }}</td>
+          <td>{{ $item['amount'] }}</td>
           <td>{{ $item['created_at'] }}</td>
           <td>
             <a href="{{ url($data['route_name'].'/'.$item['id'].'/edit') }}"> <button type="button" class="btn btn-add btn-sm mb-3" title="User Profile" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button></a>
@@ -37,8 +39,8 @@
     @endif
     </tbody>
   </table>
-  
-  <div class="pagination_links">
+
+  <div class="pagination_links" style="text-align: center;>
     @if (isset($data['records']) && count($data['records'])>0)
       {{ $data['records']->links('vendor.pagination.bootstrap-4') }}
     @else

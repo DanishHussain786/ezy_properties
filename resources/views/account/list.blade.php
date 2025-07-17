@@ -79,9 +79,9 @@
                 <select class="form-control formFilter input-min full_width" id="" name="orderBy_name">
                   <option value=""> ---- Choose Sort Column ---- </option>
                   <option value="properties.prop_type">Type</option>
-                  <option value="properties.prop_number">Property No</option>
-                  <option value="properties.prop_floor">Floor</option>
-                  <option value="properties.prop_rent">Rent</option>
+                  <option value="properties.unit_number">Property No</option>
+                  <option value="properties.unit_floor">Floor</option>
+                  <option value="properties.unit_rent">Rent</option>
                 </select>
               </div>
               <div class="form-group">
@@ -116,7 +116,7 @@
       <div class="modal-content">
         <div class="modal-header modal-header-primary">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3><i class="fa fa-user m-r-5"></i> Update Reservation Details</h3>
+          <h3 class="font-20"><i class="fa fa-user m-r-5"></i> Update Reservation Details</h3>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -144,7 +144,7 @@
       <div class="modal-content">
         <div class="modal-header modal-header-primary">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3><i class="fa fa-money m-r-5"></i> Pending Dues Details</h3>
+          <h3 class="font-20"><i class="fa fa-money m-r-5"></i> Pending Dues Details</h3>
         </div>
         <div class="modal-body">
           <div class="row">

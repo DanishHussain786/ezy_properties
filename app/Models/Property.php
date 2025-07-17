@@ -54,7 +54,7 @@ class Property extends Model {
         function ($query) use ($str) {
           return $query
             ->where('property.prop_type', 'like', '%' . $str . '%')
-            ->orwhere('property.prop_number', 'like', '%' . $str . '%');
+            ->orwhere('property.unit_number', 'like', '%' . $str . '%');
         }
       );
     }

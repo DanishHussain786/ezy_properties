@@ -111,11 +111,11 @@
 
     <!-- Modal -->
     <div class="modal fade" id="prop_units_popup" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header modal-header-primary">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3><i class="fa fa-user m-r-5"></i> Add Property Units</h3>
+            <h3 class="font-20"><i class="fa fa-user m-r-5"></i> Add Property Units</h3>
           </div>
           <div class="modal-body">
             <div class="row">
@@ -124,15 +124,14 @@
                   {{-- @method('POST') --}}
                   @csrf
                   <fieldset>
-
                     @php $all_floors = get_floors(); @endphp
                     <div class="form-group col-md-4 col-sm-6">
                       <label>Floor No.</label>
-                      <select class="prop_floor form-control full_width" id="prop_floor" name="prop_floor">
+                      <select class="unit_floor form-control full_width" id="unit_floor" name="unit_floor">
                         <option value=""> ---- Choose any option ---- </option>
                         @if (isset($all_floors) && count($all_floors) > 0 )
-                          @foreach ($all_floors as $key => $prop_floor)
-                            <option {{ old('prop_floor') == $prop_floor || (isset($data->prop_floor) && $data->prop_floor == $prop_floor) ? 'selected': '' }} value="{{$prop_floor}}"> {{$prop_floor}} </option>
+                          @foreach ($all_floors as $key => $unit_floor)
+                            <option {{ old('unit_floor') == $unit_floor || (isset($data->unit_floor) && $data->unit_floor == $unit_floor) ? 'selected': '' }} value="{{$unit_floor}}"> {{$unit_floor}} </option>
                           @endforeach
                         @endif
                       </select>
@@ -155,11 +154,11 @@
 
                     <div class="form-group col-md-4 col-sm-6">
                       <label id="unit_no">Property No.</label>
-                      <input type="number" name="prop_number" id="prop_number"
-                        value="{{old('prop_number', isset($data->property_units->prop_number)? $data->property_units->prop_number: '')}}"
-                        class="prop_number form-control full_width @error('prop_number') is-invalid @enderror"
+                      <input type="number" name="unit_number" id="unit_number"
+                        value="{{old('unit_number', isset($data->property_units->unit_number)? $data->property_units->unit_number: '')}}"
+                        class="unit_number form-control full_width @error('unit_number') is-invalid @enderror"
                         placeholder="Enter property number or reference" required>
-                      @error('prop_number')
+                      @error('unit_number')
                       <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                       @else
                       <span class="invalid-feedback" role="alert"></span>
@@ -168,8 +167,8 @@
 
                     <div class="form-group col-md-4 col-sm-6">
                       <label>Rent (AED)</label>
-                      <input type="text" name="prop_rent" id="prop_rent" value="" class="prop_rent form-control full_width only_numbers @error('prop_rent') is-invalid @enderror" placeholder="Enter property rental cost" required>
-                      @error('prop_rent')
+                      <input type="text" name="unit_rent" id="unit_rent" value="" class="unit_rent form-control full_width only_numbers @error('unit_rent') is-invalid @enderror" placeholder="Enter property rental cost" required>
+                      @error('unit_rent')
                       <span class="invalid-feedback" role="alert"> {{ $message }} </span>
                       @else
                       <span class="invalid-feedback" role="alert"></span>

@@ -48,7 +48,7 @@
       $book_log['checkout_date'] = isset($request_data['checkout_date']) ? $request_data['checkout_date'] : 0;
       $book_log['for_days'] = datetime_difference($book_log['checkin_date'], $book_log['checkout_date'])['days'];
       $book_log['for_months'] = floor($book_log['for_days']/30);
-      $book_log['rent'] = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
+      $book_log['rent'] = isset($request_data['unit_rent']) ? $request_data['unit_rent'] : 0;
       $book_log['disc_rent'] = isset($request_data['disc_rent']) ? $request_data['disc_rent'] : 0;
       $book_log['markup_rent'] = $markup;
       $book_log['charge_rent'] = $net_total;

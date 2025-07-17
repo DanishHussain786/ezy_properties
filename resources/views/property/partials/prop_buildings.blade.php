@@ -5,9 +5,10 @@
   <table id="dataTableExample1" class="table table-bordered table-striped table-hover" style="margin: 0px 5px 0px 5px !important;">
     <thead>
       <tr class="info">
-        <th>Prop Id</th>
-        <th>Prop #</th>
-        <th>Prop Floor</th>
+        <th>Property Id</th>
+        <th>Type</th>
+        <th>Ref No. </th>
+        <th>Floor</th>
         <th>Rent</th>
         <th>Action</th>
       </tr>
@@ -18,9 +19,10 @@
         @foreach ($data['records'] as $key => $item)
         <tr>
           <td>{{ $item['property_id'] }}</td>
-          <td>{{ $item['prop_number'] }}</td>
-          <td>{{ $item['prop_floor'] }}</td>
-          <td>{{ $item['prop_rent'] }}</td>
+          <td>{{ $item['unit_type'] }}</td>
+          <td>{{ $item['unit_number'] }}</td>
+          <td>{{ $item['unit_floor'] }}</td>
+          <td>{{ $item['unit_rent'] }}</td>
           <td>
             <button type="button" class="btn btn-add btn-xs" data-toggle="modal" data-target="#update"><i
                 class="fa fa-pencil"></i></button>

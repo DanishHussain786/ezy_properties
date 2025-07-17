@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\Property;
 use App\Models\PropertyUnit;
 use App\Models\Booking;
-use App\Models\Service;
+use App\Models\MiscLiability;
 use App\Models\Transaction;
 use App\Models\Information;
 use App\Models\BookingLog;
@@ -24,7 +24,7 @@ class Controller extends BaseController {
   public $PropertyObj;
   public $PropertyUnitObj;
   public $BookingObj;
-  public $ServiceObj;
+  public $MiscLiabilityObj;
   public $TransactionObj;
   public $InformationObj;
   public $BookingLogObj;
@@ -34,7 +34,7 @@ class Controller extends BaseController {
     $this->PropertyObj = new Property();
     $this->PropertyUnitObj = new PropertyUnit();
     $this->BookingObj = new Booking();
-    $this->ServiceObj = new Service();
+    $this->MiscLiabilityObj = new MiscLiability();
     $this->TransactionObj = new Transaction();
     $this->InformationObj = new Information();
     $this->BookingLogObj = new BookingLog();

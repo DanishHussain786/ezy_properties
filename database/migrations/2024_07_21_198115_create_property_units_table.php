@@ -15,9 +15,10 @@ return new class extends Migration
       $table->id();
       $table->unsignedBigInteger('property_id')->nullable();
       $table->foreign('property_id')->references('id')->constrained()->on('property')->onUpdate('cascade')->onDelete('cascade');
-      $table->string('prop_number', 50)->nullable();
-      $table->string('prop_floor', 50)->nullable();
-      $table->double('prop_rent')->nullable();
+      $table->enum('unit_type', ['Villa','Studio','Room']);
+      $table->string('unit_number', 50)->nullable();
+      $table->string('unit_floor', 50)->nullable();
+      $table->double('unit_rent')->nullable();
       // $table->enum('other_charges', ['No','Yes'])->default('No');
       // $table->double('dewa_charges')->nullable();
       // $table->double('wifi_charges')->nullable();

@@ -8,7 +8,7 @@
 @if ($data['prop_status'] == 'Available')
   <div class="col-md-6 form-group">
     <label class="control-label">{{$data['prop_type']}} No.</label>
-    <input type="text" value="{{$data['prop_number']}}" name="prop_number" placeholder="Enter property number here" class="form-control full_width only_numbers">
+    <input type="text" value="{{$data['unit_number']}}" name="unit_number" placeholder="Enter property number here" class="form-control full_width only_numbers">
   </div>
 @endif
 
@@ -17,11 +17,11 @@
   @if ($data['prop_type'] != 'Bed Space')
   <div class="col-md-6 form-group">
     <label class="control-label">Floor No.</label>
-    <select class="select2_field form-control full_width" id="prop_floor" name="prop_floor">
+    <select class="select2_field form-control full_width" id="unit_floor" name="unit_floor">
       <option value=""> ---- Choose any option ---- </option>
       @if (isset($all_floors) && count($all_floors) > 0 )
-        @foreach ($all_floors as $key => $prop_floor)
-          <option {{ old('prop_floor') == $prop_floor || (isset($data->prop_floor) && $data->prop_floor == $prop_floor) ? 'selected': '' }} value="{{$prop_floor}}"> {{$prop_floor}} </option>
+        @foreach ($all_floors as $key => $unit_floor)
+          <option {{ old('unit_floor') == $unit_floor || (isset($data->unit_floor) && $data->unit_floor == $unit_floor) ? 'selected': '' }} value="{{$unit_floor}}"> {{$unit_floor}} </option>
         @endforeach
       @endif
     </select>
@@ -31,7 +31,7 @@
 
 <div class="col-md-6 form-group">
   <label class="control-label">Rent (AED)</label>
-  <input type="text" value="{{$data['prop_rent']}}" name="prop_rent" placeholder="Enter property rental cost" class="form-control full_width only_numbers">
+  <input type="text" value="{{$data['unit_rent']}}" name="unit_rent" placeholder="Enter property rental cost" class="form-control full_width only_numbers">
 </div>
 
 <div class="col-md-6 form-group">

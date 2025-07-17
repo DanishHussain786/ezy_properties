@@ -8,10 +8,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class Service extends Model
+class MiscLiability extends Model
 {
   use HasFactory, SoftDeletes;
-  protected $table = 'services';
+  protected $table = 'misc_liabilities';
+
+  /**
+   * The attributes that are mass assignable.
+   *
+   * @var array<int, string>
+   */
+  protected $fillable = [
+    'title',
+    'description',
+    'type',
+    'validity_type',
+    'amount',
+  ];
 
   // public function booked_by_user()
   // {
@@ -35,11 +48,11 @@ class Service extends Model
   //     ])->select(['id', 'user_id', 'info_status', 'skill_id', 'created_at', 'updated_at']);
   // }
 
-  public function getService($posted_data = array())
+  public function getMiscLiability($posted_data = array())
   {
-    $columns = ['services.*'];
+    $columns = ['misc_liabilities.*'];
     $select_columns = array_merge($columns, []);
-    $query = Service::latest();
+    $query = MiscLiability::latest();
 
     if (isset($posted_data['relations']) && $posted_data['relations']) {
       $query = $query->with('booked_by_user')
@@ -48,17 +61,17 @@ class Service extends Model
     }
 
     if (isset($posted_data['id'])) {
-      $query = $query->where('services.id', $posted_data['id']);
+      $query = $query->where('misc_liabilities.id', $posted_data['id']);
     }
     if (isset($posted_data['title'])) {
-      $query = $query->where('services.title', 'like', '%' . $posted_data['title'] . '%');
+      $query = $query->where('misc_liabilities.title', 'like', '%' . $posted_data['title'] . '%');
     }
 
     $query->getQuery()->orders = null;
     if (isset($posted_data['orderBy_name']) && isset($posted_data['orderBy_value'])) {
       $query->orderBy($posted_data['orderBy_name'], $posted_data['orderBy_value']);
     } else {
-      $query->orderBy('services.id', 'DESC');
+      $query->orderBy('misc_liabilities.id', 'DESC');
     }
 
 
@@ -86,13 +99,13 @@ class Service extends Model
     return $result;
   }
 
-  public function saveUpdateService($posted_data = array(), $where_posted_data = array())
+  public function saveUpdateMiscLiability($posted_data = array(), $where_posted_data = array())
   {
     $posted_data = array_filter($posted_data);
     if (isset($posted_data['update_id'])) {
-      $data = Service::find($posted_data['update_id']);
+      $data = MiscLiability::find($posted_data['update_id']);
     } else {
-      $data = new Service;
+      $data = new MiscLiability;
     }
 
     if (isset($where_posted_data) && count($where_posted_data) > 0) {
@@ -112,32 +125,38 @@ class Service extends Model
     if (isset($posted_data['title'])) {
       $data->title = $posted_data['title'];
     }
-    if (isset($posted_data['charges'])) {
-      $data->charges = $posted_data['charges'];
+    if (isset($posted_data['description'])) {
+      $data->description = $posted_data['description'];
     }
     if (isset($posted_data['type'])) {
       $data->type = $posted_data['type'];
+    }
+    if (isset($posted_data['validity_type'])) {
+      $data->validity_type = $posted_data['validity_type'];
+    }
+    if (isset($posted_data['amount'])) {
+      $data->amount = $posted_data['amount'];
     }
     if (isset($posted_data['deleted_at'])) {
       $data->deleted_at = $posted_data['deleted_at'];
     }
     $data->save();
 
-    $data = Service::getService([
+    $data = MiscLiability::getMiscLiability([
       'detail' => true,
       'id' => $data->id
     ]);
     return $data;
   }
 
-  public function deleteService($id = 0, $where_posted_data = array())
+  public function deleteMiscLiability($id = 0, $where_posted_data = array())
   {
     $is_deleted = false;
     if ($id > 0) {
       $is_deleted = true;
-      $data = Service::find($id);
+      $data = MiscLiability::find($id);
     } else {
-      $data = Service::latest();
+      $data = MiscLiability::latest();
     }
 
     if (isset($where_posted_data) && count($where_posted_data) > 0) {

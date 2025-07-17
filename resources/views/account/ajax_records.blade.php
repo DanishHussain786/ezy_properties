@@ -12,10 +12,10 @@
       </tr>
     </thead>
     <tbody>
-                    
+
     @if (isset($data['records']) && count($data['records'])>0)
       @foreach ($data['records'] as $key => $item)
-      
+
         @php
           $sr_no = $key + 1;
           //$init_dep = 0;
@@ -26,7 +26,7 @@
           //    $last_paid = $item->transaction_data->created_at;
           //  }
           //}
-          
+
           if ($data['records']->currentPage()>1) {
             $sr_no = ($data['records']->currentPage()-1)*$data['records']->perPage();
             $sr_no = $sr_no + $key + 1;
@@ -53,8 +53,8 @@
     @endif
     </tbody>
   </table>
-  
-  <div class="pagination_links">
+
+  <div class="pagination_links" style="text-align: center;>
     @if (isset($data['records']) && count($data['records'])>0)
       {{ $data['records']->links('vendor.pagination.bootstrap-4') }}
     @else

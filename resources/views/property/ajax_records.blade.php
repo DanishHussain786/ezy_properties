@@ -19,10 +19,10 @@
     @else
     @php $img_path = ""; @endphp
     @endif
-                    
+
     @if (isset($data['records']) && count($data['records'])>0)
       @foreach ($data['records'] as $key => $item)
-      
+
         @php
           $sr_no = $key + 1;
           $label_class = get_label_class($item['prop_status']);
@@ -34,10 +34,10 @@
         <tr>
           <td>{{ $sr_no }}</td>
           <td>{{ $item['prop_type'] }}</td>
-          <td>{{ isset($item['prop_number']) ? $item['prop_number'] : "N/A" }}</td>
-          <td>{{ $item['prop_floor'] }}</td>
+          <td>{{ isset($item['unit_number']) ? $item['unit_number'] : "N/A" }}</td>
+          <td>{{ $item['unit_floor'] }}</td>
           <td>
-            <strong class="font-sm">Basic Rent: </strong>{{ default_value($item['prop_rent'], "num") }}<br>
+            <strong class="font-sm">Basic Rent: </strong>{{ default_value($item['unit_rent'], "num") }}<br>
             <strong class="font-sm">Dewa Charges: </strong>{{ default_value($item['dewa_charges'], "num") }}<br>
             <strong class="font-sm">Wifi Charges: </strong>{{ default_value($item['wifi_charges'], "num") }}<br>
             <strong class="font-sm">Misc Charges: </strong>{{ default_value($item['misc_charges'], "num") }}<br>
@@ -56,8 +56,8 @@
     @endif
     </tbody>
   </table>
-  
-  <div class="pagination_links">
+
+  <div class="pagination_links" style="text-align: center;>
     @if (isset($data['records']) && count($data['records'])>0)
       {{ $data['records']->links('vendor.pagination.bootstrap-4') }}
     @else

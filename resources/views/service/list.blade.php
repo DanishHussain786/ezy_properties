@@ -1,4 +1,4 @@
-@php $title = 'List User' @endphp
+@php $title = 'List Service' @endphp
 
 @section('title', $title)
 @extends('master')
@@ -8,7 +8,7 @@
     <i class="fa fa-dashboard"></i>
   </div>
   <div class="header-title">
-    <h1>User Panel</h1>
+    <h1>Service Panel</h1>
     <small>{{ $title }}</small>
   </div>
 </section>
@@ -19,7 +19,7 @@
       <div class="panel panel-bd lobidrag">
         <div class="panel-heading">
           <div class="btn-group">
-            <a class="btn btn-add m-r-5" href="{{ url($data['route_name'] . '/create') }}"> <i class="fa fa-plus"></i> Add User </a>
+            <a class="btn btn-add m-r-5" id="add_service" href="{{ url($data['route_name'] . '/create') }}"> <i class="fa fa-plus"></i> Add Service </a>
             <a class="btn btn-add formReset" href="#"> <i class="fa fa-refresh"></i> Reset Filters </a>
           </div>
         </div>
@@ -27,7 +27,7 @@
           <form method="GET" id="filterForm" class="filter-form" action="{{ url($data['route_name']) }}">
             @csrf
             <input name="page" id="filterPage" value="1" type="hidden">
-            <input class="route_name" value="user" type="hidden">
+            <input class="route_name" value="service" type="hidden">
             <div class="left-align">
               <div class="form-group m-r-rem">
                 <input type="text" name="search_query" id="search_query" class="form-control formFilter input-min" placeholder="Search here..." style="width: 135%;">
@@ -58,70 +58,89 @@
     </div>
   </div>
 
-  <!-- customer Modal1 -->
-  <div class="modal fade" id="customer1" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header modal-header-primary">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3><i class="fa fa-user m-r-5"></i> Update Customer</h3>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-12">
-              <form class="form-horizontal">
-                <fieldset>
-                  <!-- Text input-->
-                  <div class="col-md-4 form-group">
-                    <label class="control-label">Customer Name:</label>
-                    <input type="text" placeholder="Customer Name" class="form-control">
-                  </div>
-                  <!-- Text input-->
-                  <div class="col-md-4 form-group">
-                    <label class="control-label">Email:</label>
-                    <input type="email" placeholder="Email" class="form-control">
-                  </div>
-                  <!-- Text input-->
-                  <div class="col-md-4 form-group">
-                    <label class="control-label">Mobile</label>
-                    <input type="number" placeholder="Mobile" class="form-control">
-                  </div>
-                  <div class="col-md-6 form-group">
-                    <label class="control-label">Address</label><br>
-                    <textarea name="address" rows="3"></textarea>
-                  </div>
-                  <div class="col-md-6 form-group">
-                    <label class="control-label">type</label>
-                    <input type="text" placeholder="type" class="form-control">
-                  </div>
-                  <div class="col-md-12 form-group user-form-group">
-                    <div class="pull-right m-t-20">
-                      <button type="button" class="btn btn-danger btn-sm">Cancel</button>
-                      <button type="submit" class="btn btn-add btn-sm">Save</button>
+  <!-- Modal -->
+    <div class="modal fade" id="service_popup" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header modal-header-primary">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 class="font-20"><i class="fa fa-user m-r-5"></i> Add Property Units</h3>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <form class="form-horizontal manage_prop_units" action="{{ url('property_unit') }}" method="POST">
+                  {{-- @method('POST') --}}
+                  @csrf
+                  <fieldset>
+                    <div class="form-group col-md-4 col-sm-6">
+                      <label>Service Type</label>
+                      <select class="type form-control full_width @error('type') is-invalid @enderror" id="type" name="type" required>
+                        <option value=""> ---- Choose any option ---- </option>
+                        <option value="One-Time"> One-Time </option>
+                        <option value="Monthly"> Monthly </option>
+                        <option value="Yearly"> Yearly </option>
+                        {{-- @if (isset($all_floors) && count($all_floors) > 0 )
+                          @foreach ($all_floors as $key => $type)
+                            <option {{ old('type') == $type || (isset($data->type) && $data->type == $type) ? 'selected': '' }} value="{{$type}}"> {{$type}} </option>
+                          @endforeach
+                        @endif --}}
+                      </select>
                     </div>
-                  </div>
-                </fieldset>
-              </form>
+
+                    <div class="form-group col-md-4 col-sm-6">
+                      <label>Title</label>
+                      <input type="text" name="title" value="{{old('title', isset($data->title)? $data->title: '')}}" class="title form-control @error('title') is-invalid @enderror full_width" placeholder="Service title or name">
+                      @error('title')
+                      <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+                      @else
+                      <span class="invalid-feedback" role="alert"></span>
+                      @enderror
+                    </div>
+
+                    <div class="form-group col-md-4 col-sm-6">
+                      <label>Description</label>
+                      <input type="text" name="description" value="{{old('description', isset($data->description)? $data->description: '')}}" class="description form-control @error('description') is-invalid @enderror full_width" placeholder="Service description or information">
+                      @error('description')
+                      <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+                      @else
+                      <span class="invalid-feedback" role="alert"></span>
+                      @enderror
+                    </div>
+
+                    <div class="form-group col-md-4 col-sm-6">
+                      <label>Cost (AED)</label>
+                      <input type="text" name="amount" id="amount" value="" class="amount form-control full_width only_numbers @error('amount') is-invalid @enderror" placeholder="Amount/cost of service" required>
+                      @error('amount')
+                      <span class="invalid-feedback" role="alert"> {{ $message }} </span>
+                      @else
+                      <span class="invalid-feedback" role="alert"></span>
+                      @enderror
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="pull-right">
+              <button type="button" id="add_prop_units_btn" class="btn btn-add">Save</button>
+              <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
-        </div>
       </div>
-      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
+    <!-- /.Modal -->
+
+
   <!-- Modal -->
-  <!-- User Modal2 -->
   <div class="modal fade" id="del_user_popup" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header modal-header-primary">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3><i class="fa fa-user m-r-5"></i> Delete User</h3>
+          <h3 class="font-20"><i class="fa fa-user m-r-5"></i> Delete User</h3>
         </div>
         <div class="modal-body">
           <div class="row">

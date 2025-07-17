@@ -51,7 +51,7 @@ class BookingLog extends Model
         function ($query) use ($str) {
           return $query
             ->where('booking_logs.prop_type', 'like', '%' . $str . '%')
-            ->orwhere('booking_logs.prop_number', 'like', '%' . $str . '%');
+            ->orwhere('booking_logs.unit_number', 'like', '%' . $str . '%');
         }
       );
     }

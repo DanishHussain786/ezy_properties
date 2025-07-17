@@ -218,7 +218,7 @@ $(document).on("input", "input[name='checkout_date']", function (event) {
 function calculateExpectedRent() {
   var in_date = $('input[name="checkin_date"]').val();
   var out_date = $('input[name="checkout_date"]').val();
-  var rent = parseFloat($('input[name="prop_rent"]').val()) || 0;
+  var rent = parseFloat($('input[name="unit_rent"]').val()) || 0;
   var markup_rent = parseFloat($('input[name="markup_rent"]').val()) || 0;
 
   if (in_date && out_date) {

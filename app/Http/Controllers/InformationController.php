@@ -73,29 +73,7 @@ class InformationController extends Controller
 	 */
 	public function show(Request $request, $id = 0)
 	{
-		// $id = \Crypt::decrypt($id); 
-		// $request_data = $request->all();		
-		// $posted_data = array();
-
-		// if ($id != 0)
-		// 	$posted_data['id'] = $id;
-
-		// $posted_data['detail'] = true;
-		// $request_data = array_merge($request_data,$posted_data);
-		// $data = $this->InformationObj->getInformation($request_data);
-		// $data['users'] = $this->UserObj->getUser(['role' => 'Guest']);
-		// $data['route_name'] = $this->route_name;
-
-		// if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_reservation') {
-		// 	$data['html'] = view("{$this->route_name}.partials.model_reservation", compact('data'));
-		// }
-
-		// if ($request->ajax()) {
-		// 	return $data['html'];
-		// }
-
-		// print_r($data);
-		// exit();
+    //
 	}
 
 	/**
@@ -103,7 +81,7 @@ class InformationController extends Controller
 	 */
 	public function edit(Request $request, $id = 0)
 	{
-		// $request_data = $request->all();		
+		// $request_data = $request->all();
 		// $posted_data = array();
 		// $posted_data['id'] = $id;
 		// $posted_data['detail'] = true;

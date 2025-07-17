@@ -13,7 +13,7 @@ jQuery(document).ready(function() {
   }, 4000);
 
   $('.select2_field').select2();
-  $('.dy_prop_number, .dy_room_no, .dy_floor, .dy_rent, .dy_other_charges, .dy_dewa_ch, .dy_wifi_ch, .dy_misc_ch, .dy_prop_add, .dy_bs_level').css('display', 'none');
+  $('.dy_unit_number, .dy_room_no, .dy_floor, .dy_rent, .dy_other_charges, .dy_dewa_ch, .dy_wifi_ch, .dy_misc_ch, .dy_prop_add, .dy_bs_level').css('display', 'none');
 });
 
 $(document).on("click", "#add_res_btn", function(event) {
@@ -48,7 +48,7 @@ $(document).on("change", "#prop_type", function(event) {
     $("#property_type").text(val ? val + " No." : "Property No.");
 
     /*
-    $('#prop_number, #prop_floor, #prop_rent').each(function() {
+    $('#unit_number, #unit_floor, #unit_rent').each(function() {
       if ($(this).is('select')) {
         $(this).val('').trigger("change"); // Reset select to first option
       } else {
@@ -61,10 +61,10 @@ $(document).on("change", "#prop_type", function(event) {
 
   /*
 
-  $('.dy_prop_number, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
+  $('.dy_unit_number, .dy_room_no, .dy_floor, .dy_rent, .dy_prop_add, .dy_bs_level').css('display', 'none');
 
   if (val === "Villa" || val === "Appartment" || val === "Studio" || val === "Room") {
-    $('.dy_prop_number, .dy_floor, .dy_rent, .dy_other_charges, .dy_prop_add').css('display', 'block');
+    $('.dy_unit_number, .dy_floor, .dy_rent, .dy_other_charges, .dy_prop_add').css('display', 'block');
   }
   else if (val === "Bed Space") {
     $('.dy_room_no, .dy_rent, .dy_other_charges, .dy_bs_level').css('display', 'block');
@@ -221,9 +221,9 @@ $(document).on("click", "#add_prop_units_btn", function(event) {
 
   // Validate fields dynamically
   valid_data = valid_data && validateFields($form.find('.unit_type'), "The unit type field is required.");
-  valid_data = valid_data && validateFields($form.find('.prop_number'), "The property no. field is required.");
-  valid_data = valid_data && validateFields($form.find('.prop_floor'), "The floor no. field is required.");
-  valid_data = valid_data && validateFields($form.find('.prop_rent'), "The rent field is required.");
+  valid_data = valid_data && validateFields($form.find('.unit_number'), "The property no. field is required.");
+  valid_data = valid_data && validateFields($form.find('.unit_floor'), "The floor no. field is required.");
+  valid_data = valid_data && validateFields($form.find('.unit_rent'), "The rent field is required.");
 
   if (valid_data) {
     var formData = $form.serializeArray();

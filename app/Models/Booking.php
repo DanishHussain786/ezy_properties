@@ -70,7 +70,7 @@ class Booking extends Model
         function ($query) use ($str) {
           return $query
             ->where('bookings.prop_type', 'like', '%' . $str . '%')
-            ->orwhere('bookings.prop_number', 'like', '%' . $str . '%');
+            ->orwhere('bookings.unit_number', 'like', '%' . $str . '%');
         }
       );
     }

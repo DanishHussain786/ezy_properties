@@ -12,11 +12,11 @@
 
 <div class="form-group col-md-3 col-sm-6 pad-x-5">
   <label id="property_type">{{ $data->prop_type ? $data->prop_type : 'Property ' }} No.</label>
-  <input type="number" name="prop_number" id="prop_number"
-    value="{{old('prop_number', isset($data->property_units->prop_number)? $data->property_units->prop_number: '')}}"
-    class="form-control full_width @error('prop_number') is-invalid @enderror"
+  <input type="number" name="unit_number" id="unit_number"
+    value="{{old('unit_number', isset($data->property_units->unit_number)? $data->property_units->unit_number: '')}}"
+    class="form-control full_width @error('unit_number') is-invalid @enderror"
     placeholder="Enter property number or reference" required>
-  @error('prop_number')
+  @error('unit_number')
   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
   @else
   <span class="invalid-feedback" role="alert"></span>
@@ -26,17 +26,17 @@
 @php $all_floors = get_floors(); @endphp
 <div class="form-group col-md-3 col-sm-6 pad-x-5">
   <label>Floor No.</label>
-  <select class="select2_field form-control full_width @error('prop_floor') is-invalid @enderror" id="prop_floor"
-    name="prop_floor" required>
+  <select class="select2_field form-control full_width @error('unit_floor') is-invalid @enderror" id="unit_floor"
+    name="unit_floor" required>
     <option value=""> ---- Choose any option ---- </option>
     @if (isset($all_floors) && count($all_floors) > 0 )
-    @foreach ($all_floors as $key => $prop_floor)
-    <option {{ old('prop_floor')==$prop_floor || (isset($data->property_units->prop_floor) && $data->property_units->prop_floor == $prop_floor) ?
-      'selected': '' }} value="{{$prop_floor}}"> {{$prop_floor}} </option>
+    @foreach ($all_floors as $key => $unit_floor)
+    <option {{ old('unit_floor')==$unit_floor || (isset($data->property_units->unit_floor) && $data->property_units->unit_floor == $unit_floor) ?
+      'selected': '' }} value="{{$unit_floor}}"> {{$unit_floor}} </option>
     @endforeach
     @endif
   </select>
-  @error('prop_floor')
+  @error('unit_floor')
   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
   @else
   <span class="invalid-feedback" role="alert"></span>
@@ -45,11 +45,11 @@
 
 <div class="form-group col-md-3 col-sm-6 pad-x-5">
   <label>Rent (AED)</label>
-  <input type="text" name="prop_rent" id="prop_rent"
-    value="{{old('prop_rent', isset($data->property_units->prop_rent)? $data->property_units->prop_rent: '')}}"
-    class="form-control full_width only_numbers @error('prop_rent') is-invalid @enderror"
+  <input type="text" name="unit_rent" id="unit_rent"
+    value="{{old('unit_rent', isset($data->property_units->unit_rent)? $data->property_units->unit_rent: '')}}"
+    class="form-control full_width only_numbers @error('unit_rent') is-invalid @enderror"
     placeholder="Enter property rental cost" required>
-  @error('prop_rent')
+  @error('unit_rent')
   <span class="invalid-feedback" role="alert"> {{ $message }} </span>
   @else
   <span class="invalid-feedback" role="alert"></span>

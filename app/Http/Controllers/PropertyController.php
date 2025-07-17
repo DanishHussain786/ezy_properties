@@ -59,9 +59,9 @@ class PropertyController extends Controller {
       'prop_type'         => [$req_type == "store" ? 'required' : 'nullable', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
       'prop_address'      => [$req_type == "store" ? 'required' : 'nullable', 'string'],
 
-      'prop_number'       => [$req_type == "store" ? 'nullable' : 'required', 'string'],
-      'prop_floor'        => [$req_type == "store" ? 'nullable' : 'required', 'string'],
-      'prop_rent'         => [$req_type == "store" ? 'nullable' : 'required', 'numeric', 'gt:0'],
+      'unit_number'       => [$req_type == "store" ? 'nullable' : 'required', 'string'],
+      'unit_floor'        => [$req_type == "store" ? 'nullable' : 'required', 'string'],
+      'unit_rent'         => [$req_type == "store" ? 'nullable' : 'required', 'numeric', 'gt:0'],
     );
 
     // $validator->after(function ($validator) use ($request, $user) {
@@ -104,8 +104,8 @@ class PropertyController extends Controller {
     }
 
     // if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
-    // 	$rules['prop_number'] = ['required'];
-    // 	$rules['prop_floor'] = ['required'];
+    // 	$rules['unit_number'] = ['required'];
+    // 	$rules['unit_floor'] = ['required'];
     // 	$rules['prop_address'] = ['required', 'max:400'];
     // }
     // else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
@@ -157,17 +157,17 @@ class PropertyController extends Controller {
     // ]);
 
     // $prop_data['prop_type'] = isset($request_data['prop_type']) ? $request_data['prop_type'] : '';
-    // $prop_data['prop_number'] = isset($request_data['prop_number']) ? $request_data['prop_number'] : '';
-    // $prop_data['prop_floor'] = isset($request_data['prop_floor']) ? $request_data['prop_floor'] : '';
+    // $prop_data['unit_number'] = isset($request_data['unit_number']) ? $request_data['unit_number'] : '';
+    // $prop_data['unit_floor'] = isset($request_data['unit_floor']) ? $request_data['unit_floor'] : '';
     // $prop_data['other_charges'] = isset($request_data['other_charges']) ? $request_data['other_charges'] : '';
     // $prop_data['dewa_charges'] = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : '';
     // $prop_data['wifi_charges'] = isset($request_data['wifi_ch']) ? $request_data['wifi_ch'] : '';
     // $prop_data['misc_charges'] = isset($request_data['misc_ch']) ? $request_data['misc_ch'] : '';
     // $prop_data['prop_address'] = isset($request_data['prop_address']) ? $request_data['prop_address'] : '';
-    // $prop_data['prop_rent'] = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
+    // $prop_data['unit_rent'] = isset($request_data['unit_rent']) ? $request_data['unit_rent'] : 0;
     // $prop_data['prop_net_rent'] = 0;
 
-    // $prop_data['prop_net_rent'] += $prop_data['prop_rent'];
+    // $prop_data['prop_net_rent'] += $prop_data['unit_rent'];
     // if ( $prop_data['dewa_charges'] > 0 )
     // 	$prop_data['prop_net_rent'] += $prop_data['dewa_charges'];
     // if ( $prop_data['wifi_charges'] > 0 )
@@ -245,13 +245,13 @@ class PropertyController extends Controller {
     $rules = array(
       'update_id'      => ['required', 'exists:' . $this->model_name . ',id'],
       'prop_type'     => ['nullable', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
-      'prop_rent'     => ['nullable'],
+      'unit_rent'     => ['nullable'],
       'other_charges' => ['nullable', 'in:Yes,No'],
     );
 
     if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
-      $rules['prop_number'] = ['nullable'];
-      $rules['prop_floor'] = ['nullable'];
+      $rules['unit_number'] = ['nullable'];
+      $rules['unit_floor'] = ['nullable'];
       $rules['prop_address'] = ['nullable', 'max:400'];
     } else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
       $rules['room_no'] = ['nullable'];
@@ -270,17 +270,17 @@ class PropertyController extends Controller {
 
     $prop_data['update_id'] = $request_data['update_id'];
     $prop_data['prop_type'] = isset($request_data['prop_type']) ? $request_data['prop_type'] : '';
-    $prop_data['prop_number'] = isset($request_data['prop_number']) ? $request_data['prop_number'] : '';
-    $prop_data['prop_floor'] = isset($request_data['prop_floor']) ? $request_data['prop_floor'] : '';
+    $prop_data['unit_number'] = isset($request_data['unit_number']) ? $request_data['unit_number'] : '';
+    $prop_data['unit_floor'] = isset($request_data['unit_floor']) ? $request_data['unit_floor'] : '';
     $prop_data['other_charges'] = isset($request_data['other_charges']) ? $request_data['other_charges'] : '';
     $prop_data['dewa_charges'] = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : '';
     $prop_data['wifi_charges'] = isset($request_data['wifi_ch']) ? $request_data['wifi_ch'] : '';
     $prop_data['misc_charges'] = isset($request_data['misc_ch']) ? $request_data['misc_ch'] : '';
     $prop_data['prop_address'] = isset($request_data['prop_address']) ? $request_data['prop_address'] : '';
-    $prop_data['prop_rent'] = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
+    $prop_data['unit_rent'] = isset($request_data['unit_rent']) ? $request_data['unit_rent'] : 0;
     $prop_data['prop_net_rent'] = 0;
 
-    $prop_data['prop_net_rent'] += $prop_data['prop_rent'];
+    $prop_data['prop_net_rent'] += $prop_data['unit_rent'];
     if ($prop_data['dewa_charges'] > 0)
       $prop_data['prop_net_rent'] += $prop_data['dewa_charges'];
     else

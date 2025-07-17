@@ -10,9 +10,9 @@ return [
   ],
   'properties' => [
     /* ALL COLUMNS
-      'id','prop_type','prop_number','prop_floor','prop_rent','other_charges','dewa_charges','wifi_charges','misc_charges','prop_net_rent','prop_address','prop_status','deleted_at','created_at','updated_at'
+      'id','prop_type','unit_number','unit_floor','unit_rent','other_charges','dewa_charges','wifi_charges','misc_charges','prop_net_rent','prop_address','prop_status','deleted_at','created_at','updated_at'
     */
-    'id','prop_type','prop_number','prop_floor','prop_rent','other_charges','dewa_charges','wifi_charges','misc_charges','prop_net_rent','prop_address','prop_status','created_at'
+    'id','prop_type','unit_number','unit_floor','unit_rent','other_charges','dewa_charges','wifi_charges','misc_charges','prop_net_rent','prop_address','prop_status','created_at'
   ],
   'users' => [
     /* ALL COLUMNS

@@ -11,7 +11,7 @@
       </tr>
     </thead>
     <tbody>
-                    
+
     @if (isset($data['records']) && count($data['records'])>0)
       @foreach ($data['records'] as $key => $item)
         @php
@@ -37,8 +37,8 @@
     @endif
     </tbody>
   </table>
-  
-  <div class="pagination_links">
+
+  <div class="pagination_links" style="text-align: center;>
     @if (isset($data['records']) && count($data['records'])>0)
       {{ $data['records']->links('vendor.pagination.bootstrap-4') }}
     @else

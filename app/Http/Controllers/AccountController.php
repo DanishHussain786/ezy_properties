@@ -35,7 +35,7 @@ class AccountController extends Controller
 	 * Show the form for creating a new resource.
 	 */
 	public function create(Request $request)
-	{		
+	{
 		// $request_data = $request->all();
 		// $rules = array(
 		// 	'_token'				=> ['required'],
@@ -49,7 +49,7 @@ class AccountController extends Controller
 		// 	'amt_pay'    		=> ['required', 'min:1'],
 		// 	'comments'    	=> ['nullable', 'max:250'],
 		// );
-	
+
 		// $messages = array(
 		// 	'user_id.required' => 'Please select guest from list.',
 		// 	'prop_type.in' => Config::get('constants.propertyTypes.error') . ' for :attribute.',
@@ -115,9 +115,9 @@ class AccountController extends Controller
 		// $bookings_object = $this->AccountObj->getAccount(['id' => $request_data['book_id'], 'detail' => true]);
 		// $bookings_object->status = 'Check-In';
 		// $bookings_object->save();
-		
+
 		// $data['redirect_url'] = url("{$this->route_name}");
-		
+
 		// return $this->sendResponse($data, 'User is checked-in successfully.');
 	}
 
@@ -131,7 +131,7 @@ class AccountController extends Controller
 		// 	'user_id'				=> ['required', 'exists:users,id'],
 		// 	'checkin_date' 	=> ['required', 'date_format:Y-m-d'],
 		// 	'stay_months' 	=> ['required', 'numeric', 'min:1', 'max:12'],
-		// 	'prop_rent'     => ['required'],
+		// 	'unit_rent'     => ['required'],
 		// 	'markup_rent'   => ['nullable'],
 		// 	'other_charges' => ['required', 'in:Yes,No'],
 		// );
@@ -142,7 +142,7 @@ class AccountController extends Controller
 		// 	$rules['dep_contact'] = ['required', 'max:50'];
 		// 	$rules['dep_method'] = ['required'];
 		// }
-		
+
 		// $messages = array(
 		// 	'user_id.required' => 'Please select guest from list.',
 			// 'dep_name.required' => 'Depositor name is required.',
@@ -163,7 +163,7 @@ class AccountController extends Controller
 		// 	}
 		// }
 
-		// $rent = isset($request_data['prop_rent']) ? $request_data['prop_rent'] : 0;
+		// $rent = isset($request_data['unit_rent']) ? $request_data['unit_rent'] : 0;
 		// $stay = isset($request_data['stay_months']) ? $request_data['stay_months'] : 0;
 		// $markup = isset($request_data['markup_rent']) ? $request_data['markup_rent'] : 0;
 		// $dewa = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : 0;
@@ -173,11 +173,11 @@ class AccountController extends Controller
 		// $deposit = isset($request_data['init_deposit']) ? $request_data['init_deposit'] : 0;
 
 		// $tot_rent = $stay * $rent;
-		
+
 		// $adv_rent = 0;
 		// if ($stay > 1)
 		// 	$adv_rent = (($rent * $stay) + ($markup * $stay)) - $rent;
-		// else 
+		// else
 		// 	$adv_rent = ($rent * $stay) + $markup - $rent;
 
 		// $tot_rent = $rent + $adv_rent + $dewa + $wifi + $admin + $sec;
@@ -186,7 +186,7 @@ class AccountController extends Controller
 		// $last_data = $this->AccountObj->latest('id')->first();
 		// if (isset($last_data->id))
 		// 	$last_id = $last_data->id + 1;
-		// else 
+		// else
 		// 	$last_id = 1;
 
 		// $booking_data['booked_id'] = generate_random_key().$last_id;
@@ -229,7 +229,7 @@ class AccountController extends Controller
 		// 	$deposit_data['type'] = 'Initial-Deposit';
 		// 	$this->TransactionObj->saveUpdateTransaction($deposit_data);
 		// }
-		
+
 		// return $this->sendResponse($data, $this->controller_name_single.' is created successfully.');
 	}
 
@@ -238,29 +238,7 @@ class AccountController extends Controller
 	 */
 	public function show(Request $request, $id = 0)
 	{
-		// $id = \Crypt::decrypt($id); 
-		// $request_data = $request->all();		
-		// $posted_data = array();
-
-		// if ($id != 0)
-		// 	$posted_data['id'] = $id;
-
-		// $posted_data['detail'] = true;
-		// $request_data = array_merge($request_data,$posted_data);
-		// $data = $this->AccountObj->getAccount($request_data);
-		// $data['users'] = $this->UserObj->getUser(['role' => 'Guest']);
-		// $data['route_name'] = $this->route_name;
-
-		// if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_reservation') {
-		// 	$data['html'] = view("{$this->route_name}.partials.model_reservation", compact('data'));
-		// }
-
-		// if ($request->ajax()) {
-		// 	return $data['html'];
-		// }
-
-		// print_r($data);
-		// exit();
+		//
 	}
 
 	/**
@@ -268,7 +246,7 @@ class AccountController extends Controller
 	 */
 	public function edit(Request $request, $id = 0)
 	{
-		// $request_data = $request->all();		
+		// $request_data = $request->all();
 		// $posted_data = array();
 		// $posted_data['id'] = $id;
 		// $posted_data['detail'] = true;
@@ -303,7 +281,7 @@ class AccountController extends Controller
 		// 	'booked_for'		=> ['required', 'exists:users,id'],
 		// 	'checkin_date' 	=> ['required', 'date_format:Y-m-d'],
 		// 	'stay_months' 	=> ['required', 'numeric', 'min:1', 'max:12'],
-		// 	'prop_rent'     => ['required'],
+		// 	'unit_rent'     => ['required'],
 		// 	'other_charges' => ['required', 'in:Yes,No'],
 		// );
 
@@ -353,7 +331,7 @@ class AccountController extends Controller
 		// $bookings['checkout_date'] = add_to_datetime($request_data['checkin_date'], ['months' => $request_data['stay_months']]);
 		// $bookings['for_days'] = datetime_difference($bookings['checkin_date'], $bookings['checkout_date'])['days'];
 		// $bookings['for_months'] = $request_data['stay_months'];
-		// $bookings['rent'] = $request_data['prop_rent'];
+		// $bookings['rent'] = $request_data['unit_rent'];
 		// $bookings['markup_rent'] = $request_data['markup_rent'];
 		// $bookings['other_charges'] = $request_data['other_charges'];
 		// $bookings['dewa_charges'] = $request_data['dewa_ch'];
@@ -364,7 +342,7 @@ class AccountController extends Controller
 
 		// $data = $this->AccountObj->saveUpdateAccount($bookings);
 		// $data['redirect_url'] = url("{$this->route_name}");
-		
+
 		// return $this->sendResponse($data, $this->controller_name_single.' is updated successfully.');
 	}
 

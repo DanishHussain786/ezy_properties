@@ -19,9 +19,10 @@ class PropertyUnit extends Model {
    */
   protected $fillable = [
     'property_id',
-    'prop_number',
-    'prop_floor',
-    'prop_rent',
+    'unit_type',
+    'unit_number',
+    'unit_floor',
+    'unit_rent',
   ];
 
   // public function reservations_data() {
@@ -56,7 +57,7 @@ class PropertyUnit extends Model {
         function ($query) use ($str) {
           return $query
             ->where('property_units.prop_type', 'like', '%' . $str . '%')
-            ->orwhere('property_units.prop_number', 'like', '%' . $str . '%');
+            ->orwhere('property_units.unit_number', 'like', '%' . $str . '%');
         }
       );
     }
@@ -121,14 +122,17 @@ class PropertyUnit extends Model {
     if (isset($posted_data['property_id'])) {
       $data->property_id = $posted_data['property_id'];
     }
-    if (isset($posted_data['prop_number'])) {
-      $data->prop_number = $posted_data['prop_number'];
+    if (isset($posted_data['unit_type'])) {
+      $data->unit_type = $posted_data['unit_type'];
     }
-    if (isset($posted_data['prop_floor'])) {
-      $data->prop_floor = $posted_data['prop_floor'];
+    if (isset($posted_data['unit_number'])) {
+      $data->unit_number = $posted_data['unit_number'];
     }
-    if (isset($posted_data['prop_rent'])) {
-      $data->prop_rent = $posted_data['prop_rent'];
+    if (isset($posted_data['unit_floor'])) {
+      $data->unit_floor = $posted_data['unit_floor'];
+    }
+    if (isset($posted_data['unit_rent'])) {
+      $data->unit_rent = $posted_data['unit_rent'];
     }
     if (isset($posted_data['deleted_at'])) {
       $data->deleted_at = $posted_data['deleted_at'];

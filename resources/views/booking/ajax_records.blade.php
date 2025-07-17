@@ -44,9 +44,9 @@
           </td>
           <td>
             <strong class="font-sm">Type: </strong>{{ default_value($item->booking_logs[0]->properties->prop_type, "str") }}<br>
-            <strong class="font-sm">No: </strong>{{ default_value($item->booking_logs[0]->properties->prop_number, "str") }}<br>
-            <strong class="font-sm">Floor: </strong>{{ default_value($item->booking_logs[0]->properties->prop_floor, "str") }}<br>
-            <strong class="font-sm">Rent: </strong>{{ default_value($item->booking_logs[0]->properties->prop_rent, "str") }}
+            <strong class="font-sm">No: </strong>{{ default_value($item->booking_logs[0]->properties->unit_number, "str") }}<br>
+            <strong class="font-sm">Floor: </strong>{{ default_value($item->booking_logs[0]->properties->unit_floor, "str") }}<br>
+            <strong class="font-sm">Rent: </strong>{{ default_value($item->booking_logs[0]->properties->unit_rent, "str") }}
           </td>
           <td>
             <strong class="font-sm">Markup Rent: </strong>{{ default_value($item->booking_logs[0]->markup_rent, "num") }}<br>
@@ -74,11 +74,11 @@
         </tr>
       @endforeach
     @endif
-    
+
     </tbody>
   </table>
 
-  <div class="pagination_links">
+  <div class="pagination_links" style="text-align: center;>
     @if (isset($data['records']) && count($data['records'])>0)
       {{ $data['records']->links('vendor.pagination.bootstrap-4') }}
     @else

@@ -16,9 +16,9 @@ return new class extends Migration
       $table->string('prop_title', 100)->nullable();
       $table->string('prop_description', 150)->nullable();
       $table->enum('prop_type', ['Building','Villa','Studio','Room']);
-      // $table->string('prop_number', 30)->nullable();
-      // $table->string('prop_floor', 30)->nullable();
-      // $table->double('prop_rent');
+      // $table->string('unit_number', 30)->nullable();
+      // $table->string('unit_floor', 30)->nullable();
+      // $table->double('unit_rent');
       // $table->enum('other_charges', ['No','Yes'])->default('No');
       // $table->double('dewa_charges')->nullable();
       // $table->double('wifi_charges')->nullable();
