@@ -78,7 +78,7 @@
     </tbody>
   </table>
 
-  <div class="pagination_links" style="text-align: center;>
+  <div class="pagination_links" style="text-align: center;">
     @if (isset($data['records']) && count($data['records'])>0)
       {{ $data['records']->links('vendor.pagination.bootstrap-4') }}
     @else

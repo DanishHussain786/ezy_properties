@@ -15,7 +15,7 @@ return new class extends Migration
       $table->id();
       $table->string('title', 100)->nullable();
       $table->string('description', 150)->nullable();
-      $table->enum('type', ['Charge','Service'])->nullable();
+      $table->enum('type', ['Facility','Service'])->nullable();
       $table->enum('validity_type', ['One-Time','Monthly','Yearly']);
       $table->double('amount');
       $table->softDeletes('deleted_at');

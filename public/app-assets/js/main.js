@@ -435,18 +435,20 @@ function ajaxResposneValidationErrors(parent_form, errors) {
 
 function validateFields(field_id, error_message) {
   let field_value = $(field_id).val();
-  let feedback_elem = $(field_id).closest('.form-group').find('.invalid-feedback');
+  let feedback_elem = $(field_id)
+    .closest(".form-group")
+    .find(".invalid-feedback");
 
   if (field_value == "" || field_value == null) {
-    $(field_id).addClass('is-invalid');
+    $(field_id).addClass("is-invalid");
     feedback_elem.text(error_message);
     feedback_elem.removeClass("d-none");
-    return false;  // Invalid data
+    return false; // Invalid data
   } else {
-    $(field_id).removeClass('is-invalid');
+    $(field_id).removeClass("is-invalid");
     feedback_elem.text("");
     feedback_elem.addClass("d-none");
-    return true;  // Valid data
+    return true; // Valid data
   }
 }
 
@@ -456,11 +458,11 @@ function resetForm(form_elem = {}) {
 }
 
 // Reset validation errors on input change
-$('input, select').on('input change', function() {
+$("input, select").on("input change", function () {
   var input = $(this);
-  var errorSpan = input.closest('.form-group').find('.invalid-feedback');
-  errorSpan.addClass('d-none'); // Hide error message
-  input.removeClass('is-invalid'); // Remove the invalid class
+  var errorSpan = input.closest(".form-group").find(".invalid-feedback");
+  errorSpan.addClass("d-none"); // Hide error message
+  input.removeClass("is-invalid"); // Remove the invalid class
 });
 
 function calc_datetime_difference(start, end) {

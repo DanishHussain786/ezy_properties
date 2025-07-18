@@ -30,9 +30,8 @@
           <td>{{ $item['amount'] }}</td>
           <td>{{ $item['created_at'] }}</td>
           <td>
-            <a href="{{ url($data['route_name'].'/'.$item['id'].'/edit') }}"> <button type="button" class="btn btn-add btn-sm mb-3" title="User Profile" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button></a>
-            <a href="{{ url($data['route_name'].'/'.$item['id']) }}"> <button type="button" class="btn btn-info btn-sm mb-3" title="User Profile" data-toggle="modal" data-target="#"><i class="fa fa-user-circle"></i> </button> </a>
-            <button type="button" class="btn btn-danger btn-sm mb-3 delete_btn" title="User Profile" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_user_popup"><i class="fa fa-trash-o"></i> </button>
+            <button type="button" class="btn btn-add btn-sm update_facility_btn mb-3" title="Update Facility" data-item_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
+            <button type="button" class="btn btn-danger btn-sm delete_btn mb-3" title="Delete Facility" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_facility_popup"><i class="fa fa-trash-o"></i> </button>
           </td>
         </tr>
       @endforeach
@@ -40,7 +39,7 @@
     </tbody>
   </table>
 
-  <div class="pagination_links" style="text-align: center;>
+  <div class="pagination_links" style="text-align: center;">
     @if (isset($data['records']) && count($data['records'])>0)
       {{ $data['records']->links('vendor.pagination.bootstrap-4') }}
     @else

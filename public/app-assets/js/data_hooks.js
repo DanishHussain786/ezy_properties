@@ -32,3 +32,40 @@ function fetchItems(params = {}, completed = null ) {
     }
   );
 }
+
+function getListing(params = {}, completed = null) {
+  dynamicAjaxRequest(
+    params.endpoint,
+    params.method,
+    params.data,
+    function (response) {
+      try {
+        var $elem = params.render_resp_in ?? "#my_div";
+        $($elem).html(response.data.html);
+
+        completed(true, response.data.html);
+      } catch (e) {
+        console.error("Error parsing response:", e);
+      }
+    },
+    function (xhr, status, error) {
+      Swal.fire("Error!", `There was an error while ajax request.`, "error");
+    }
+  );
+}
+
+function getFacilityListings() {
+  dynamicAjaxRequest("/facility", "GET", { paginate: 10, render_view: "facility.ajax_records" },
+    function (response) {
+      try {
+        $(".dynamic_data").html(response.data.html);
+        // completed(true, response.data.html);
+      } catch (e) {
+        console.error("Error parsing response:", e);
+      }
+    },
+    function (xhr, status, error) {
+      Swal.fire("Error!", `Error while getFacilityListings ajax request.`, "error");
+    }
+  );
+}

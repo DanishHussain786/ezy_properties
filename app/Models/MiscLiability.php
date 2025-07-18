@@ -99,7 +99,7 @@ class MiscLiability extends Model
     return $result;
   }
 
-  public function saveUpdateMiscLiability($posted_data = array(), $where_posted_data = array())
+  public function saveUpdate($posted_data = array(), $where_posted_data = array())
   {
     $posted_data = array_filter($posted_data);
     if (isset($posted_data['update_id'])) {

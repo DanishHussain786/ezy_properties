@@ -1,0 +1,104 @@
+jQuery(document).ready(function () {
+  $(".searchable").select2();
+  setTimeout(function () {
+    $(".alert-success").hide();
+    $(".alert-danger").hide();
+  }, 4000);
+});
+
+$(document).on("click", "#add_facility", function(event) {
+  event.preventDefault();
+
+  $("#facility_popup").modal("show");
+});
+
+$(document).on("click", "#add_facility_btn", function(event) {
+  var $form = $('#manage-facility'), formData, url, method, elements;
+  let valid_data = true;
+
+  // Validate fields dynamically
+  valid_data = valid_data && validateFields($form.find('.validity_type'), "The validity type field is required.");
+  valid_data = valid_data && validateFields($form.find('.title'), "The title field is required.");
+  valid_data = valid_data && validateFields($form.find('.description'), "The description field is required.");
+  valid_data = valid_data && validateFields($form.find('.amount'), "The amount field is required.");
+
+  if (valid_data) {
+    // Common form actions
+    formData = $form.serializeArray(); // Serialize form data
+    url = $form.attr('action');
+    method = $form.attr('method');
+    elements = $form[0];
+
+    dynamicAjaxRequest(
+      url,
+      method,
+      formData,
+      function (response) {
+        try {
+          if (response.status == 200 || response.status == "success") {
+            resetForm(elements);
+            Swal.fire("Success!", response.message ?? `Api call is successfull.`, "success");
+            $("#facility_popup").modal("hide");
+            getFacilityListings();
+          } else {
+            toastr.error(response.message ?? "Something went wrong during request.");
+          }
+        } catch (e) {
+          console.error("Error parsing response:", e);
+        }
+      },
+      function (xhr, status, error) {
+        var response = xhr.responseJSON; // Assuming the server returns JSON
+        if (response && response.validation_errors) {
+          let parent_div = null;
+          if ($form.is("#manage-facility"))
+            parent_div = '#manage-facility';
+
+          ajaxResposneValidationErrors(parent_div, response.validation_errors);
+          toastr.error(response.message ?? "Please fill valid data in form.");
+        } else {
+          Swal.fire("Error!", "There was an error while processing the request.", "error");
+        }
+      }
+    );
+  }
+});
+
+$(document).on("click", ".update_facility_btn", function(event) {
+  event.preventDefault();
+  var update_id = $(this).data("item_id");
+  var url = $(this).data("action_url");
+  $('.update_popup').attr("action", url);
+
+  dynamicAjaxGetRequest('/facility/'+update_id, { 'update_id': update_id, 'return_to': 'model_upd_facility' }, function(response) {
+    try {
+      $(".model-ajax").html(response);
+      $("#update_facility_popup").modal("show");
+      calculateTotal();
+    } catch (e) {
+      console.error('Error parsing response:', e);
+    }
+  }, function(xhr, status, error) {
+    console.error('Error:', status, error);
+  });
+});
+
+$(document).on("click", ".update_facility_submit", function(event) {
+  event.preventDefault();
+
+  let url = $('.update_popup').attr("action");
+  var data = $("#upd_facility").serializeArray();
+  dynamicAjaxRequest(url, 'PUT', data, function(response) {
+    try {
+      $('.update_facility_submit').prop('disabled', true);
+      Swal.fire("Success!", response.message ?? `Api call is successfull.`, "success");
+      $("#update_facility_popup").modal("hide");
+      getFacilityListings();
+    } catch (e) {
+      console.error('Error parsing response:', e);
+    }
+  }, function(xhr, status, error) {
+    toastr.error(xhr.responseJSON.message);
+    console.error('Error:', status, error);
+  });
+});

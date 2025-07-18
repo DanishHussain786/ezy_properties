@@ -15,7 +15,7 @@ use App\Http\Controllers\PropertyUnitController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\AccountController;
-use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\FacilityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ Route::resource('property_unit', PropertyUnitController::class);
 Route::resource('booking', BookingController::class);
 Route::resource('info', InformationController::class);
 Route::resource('account', AccountController::class);
-Route::resource('service', ServiceController::class);
+Route::resource('facility', FacilityController::class);
 // Route::get('/booking_listings', [BookingController::class, 'manage']);
 
 Route::get('/storage-link', function() {
