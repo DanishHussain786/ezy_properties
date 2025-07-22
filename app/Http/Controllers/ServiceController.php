@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use Config;
 use App\Models\MiscLiability;
 
-class FacilityController extends Controller {
-  private $controller_name_single = "Facility";
-  private $controller_name_plural = "Facilities";
-  private $route_name = "facility";
+class ServiceController extends Controller {
+  private $controller_name_single = "Service";
+  private $controller_name_plural = "Services";
+  private $route_name = "service";
   private $model_name = "misc_liabilities";
 
   /**
@@ -30,7 +30,7 @@ class FacilityController extends Controller {
     $data['records'] = $this->MiscLiabilityObj->getMiscLiability($request_data);
     $data['route_name'] = $this->route_name;
 
-    if (isset($request_data['render_view']) && $request_data['render_view'] == 'facility.ajax_records') {
+    if (isset($request_data['render_view']) && $request_data['render_view'] == 'service.ajax_records') {
       $data['html'] = view("{$request_data['render_view']}", compact('data'))->render();
     } else {
       $data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
@@ -52,11 +52,7 @@ class FacilityController extends Controller {
    * Show the form for creating a new resource.
    */
   public function create(Request $request) {
-    // $data['route_name'] = $this->route_name;
-    // if ($request->ajax()) {
-    // 	return $data['html'];
-    // }
-    // return view("{$this->route_name}.add_edit", compact('data'));
+    // some code here
   }
 
   /**
@@ -68,11 +64,12 @@ class FacilityController extends Controller {
       'title'              => ['required', 'max:250'],
       'description'        => ['nullable', 'max:250'],
       'validity_type'      => ['required', 'in:One-Time,Monthly,Yearly'],
-      'amount'            => ['required', 'numeric', 'gt:0'],
+      'type'               => ['required', 'in:Facility,Service'],
+      'amount'             => ['required', 'numeric', 'gt:0'],
     );
 
     $messages = array(
-      'title.required' => 'Facility name is required.',
+      'title.required' => 'Service name is required.',
     );
 
     return $this->handleStoreUpdate($request, [
@@ -88,19 +85,6 @@ class FacilityController extends Controller {
    * Display the specified resource.
    */
   public function show(Request $request, $id = 0) {
-    // $id = \Crypt::decrypt($id);
-    // $request_data = $request->all();
-    // if ($id != 0)
-    // 	$request_data['id'] = $id;
-
-    // $request_data = array();
-    // $request_data['id'] = $id;
-    // $request_data['detail'] = true;
-
-    // $data = $this->ServiceObj->getService($request_data);
-    // return view("{$this->route_name}.partials.profile", compact('data'));
-
-
     $request_data = $request->all();
     $posted_data = array();
     $posted_data['detail'] = true;
@@ -110,7 +94,7 @@ class FacilityController extends Controller {
     $request_data = array_merge($request_data, $posted_data);
 
     $rules = array(
-    'id' => ['required', 'exists:' . $this->model_name . ',id'],
+      'id' => ['required', 'exists:' . $this->model_name . ',id'],
     );
 
     $messages = array(
@@ -120,14 +104,14 @@ class FacilityController extends Controller {
     $validator = \Validator::make($request_data, $rules, $messages);
 
     if ($validator->fails()) {
-			return $this->sendError($validator->errors()->first(), ["error" => $validator->errors()->first()]);
+      return $this->sendError($validator->errors()->first(), ["error" => $validator->errors()->first()]);
     }
 
     $data = $this->MiscLiabilityObj->getMiscLiability($request_data);
     $data['route_name'] = $this->route_name;
 
-    if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_upd_facility') {
-      $data['html'] = view("{$this->route_name}.partials.model_upd_facility", compact('data'));
+    if (isset($request_data['return_to']) && $request_data['return_to'] == 'model_upd_service') {
+      $data['html'] = view("{$this->route_name}.partials.model_upd_service", compact('data'));
     }
 
     if ($request->ajax()) {
@@ -142,13 +126,7 @@ class FacilityController extends Controller {
    * Show the form for editing the specified resource.
    */
   public function edit($id = 0) {
-    $request_data = array();
-    $request_data['id'] = $id;
-    $request_data['detail'] = true;
-
-    $data = $this->ServiceObj->getService($request_data);
-    $data['route_name'] = $this->route_name;
-    return view("{$this->route_name}.add_edit", compact('data'));
+    // some code here
   }
 
   /**
@@ -163,6 +141,7 @@ class FacilityController extends Controller {
       'title'             => ['required', 'max:250'],
       'description'       => ['nullable', 'max:250'],
       'validity_type'     => ['required', 'in:One-Time,Monthly,Yearly'],
+      'type'              => ['required', 'in:Facility,Service'],
       'amount'            => ['required', 'numeric', 'gt:0'],
 
     );
@@ -183,11 +162,18 @@ class FacilityController extends Controller {
   /**
    * Remove the specified resource from storage.
    */
-  public function destroy(Service $user) {
-    // $user->delete();
+  public function destroy(Request $request, $id = 0) {
+    $data = MiscLiability::find($id);
+    if ($data)
+      $data->delete();
 
-    // $flash_data = ['message', $this->controller_name_single.' is deleted successfully.'];
-    // \Session::flash($flash_data[0], $flash_data[1]);
-    // return redirect("/{$this->route_name}");
+    $flash_data = "Something went wrong during deletion.";
+
+    if ($data->trashed()) {
+
+    }
+
+    $success_arr['message'] = ['message', $this->controller_name_single . ' is deleted successfully.'];
+    return $this->sendResponse($request, [], $code = 200, $success_arr);
   }
 }

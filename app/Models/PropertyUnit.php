@@ -26,19 +26,40 @@ class PropertyUnit extends Model {
   ];
 
   // public function reservations_data() {
-    // return $this->hasOne(Booking::class, 'property_id');
-    // ->where([
-    //   ['status', '=', 'Reservation']
-    // ]);
+  // return $this->hasOne(Booking::class, 'property_id');
+  // ->where([
+  //   ['status', '=', 'Reservation']
+  // ]);
   // }
 
+  public function property() {
+    return $this->belongsTo(Property::class, 'property_id', 'id');
+  }
+
   public function getPropertyUnit($posted_data = array()) {
-    $columns = ['property_units.*'];
-    $select_columns = array_merge($columns, []);
+    $select_columns = ['property_units.*'];
+
+    if (!empty($posted_data['select_columns']))
+      $select_columns = array_merge($posted_data['select_columns'], []); // Add the specific columns
+
     $query = PropertyUnit::latest();
 
-    if (isset($posted_data['relations']) && $posted_data['relations']) {
-      // $query = $query->with('reservations_data');
+    if (!empty($posted_data['few_relations']))
+      self::few_relations($posted_data);
+    if (!empty($posted_data['relations']))
+      self::relations($posted_data);
+
+    foreach ($posted_data as $key => $value) {
+      if (str_starts_with($key, 'with_') && !str_ends_with($key, '_columns') && $value) {
+        $relation = substr($key, 5); // remove "with_" from key
+        $columnsKey = "with_{$relation}_columns";
+
+        $query->with([$relation => function ($q) use ($posted_data, $columnsKey) {
+          if (!empty($posted_data[$columnsKey])) {
+            $q->select($posted_data[$columnsKey]);
+          }
+        }]);
+      }
     }
 
     if (isset($posted_data['id'])) {
@@ -167,5 +188,30 @@ class PropertyUnit extends Model {
     } else {
       return false;
     }
+  }
+
+  public static function few_relations(&$posted_data = array()) {
+    $relations_rr['with_property'] = true;
+    $relations_rr['with_property_columns'] = ['id','prop_title','prop_title','prop_type'];
+    // $relations_rr['with_company_business_type'] = true;
+    // $relations_rr['with_company_business_type_columns'] = ['id', 'title'];
+    // $relations_rr['with_company_strength'] = true;
+    // $relations_rr['with_company_strength_columns'] = ['id', 'title'];
+    $posted_data = array_merge($posted_data, $relations_rr);
+  }
+
+  public static function relations(&$posted_data = array()) {
+    self::few_relations($posted_data);
+    // $relations_rr['with_company_benefit'] = true;
+    // $relations_rr['with_company_benefit_columns'] = ['id', 'company_id', 'benefit', 'image', 'description'];
+    // $relations_rr['with_company_subscriber'] = true;
+    // $relations_rr['with_company_subscriber_columns'] = ['id', 'company_id', 'user_id'];
+    // $relations_rr['with_jobs'] = true;
+    // $relations_rr['with_jobs_columns'] = ['id', 'company_id', 'title', 'post_date', 'status'];
+    // $relations_rr['with_company_industries'] = true;
+    // $relations_rr['with_company_industries_columns'] = ['id', 'company_id', 'industry_id'];
+    // $relations_rr['with_company_skills'] = true;
+    // $relations_rr['with_company_skills_columns'] = ['id', 'skill', 'company_id'];
+    $posted_data = array_merge($posted_data, $relations_rr);
   }
 }

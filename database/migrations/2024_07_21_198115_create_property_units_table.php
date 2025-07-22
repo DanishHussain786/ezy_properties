@@ -16,6 +16,7 @@ return new class extends Migration
       $table->unsignedBigInteger('property_id')->nullable();
       $table->foreign('property_id')->references('id')->constrained()->on('property')->onUpdate('cascade')->onDelete('cascade');
       $table->enum('unit_type', ['Villa','Studio','Room']);
+      $table->enum('unit_scope', ['Single','Shared'])->default('Single');
       $table->string('unit_number', 50)->nullable();
       $table->string('unit_floor', 50)->nullable();
       $table->double('unit_rent')->nullable();

@@ -5,6 +5,7 @@
         <th>Sr #</th>
         <th>Title</th>
         <th>Description</th>
+        <th>Valid Upto</th>
         <th>Type</th>
         <th>Amount</th>
         <th>Created at</th>
@@ -22,16 +23,17 @@
             $sr_no = $sr_no + $key + 1;
           }
         @endphp
-        <tr>
+        <tr data-module_name="Service" data-row_id="{{ $item['id'] }}">
           <td>{{ $sr_no }}</td>
           <td>{{ $item['title'] }}</td>
           <td>{{ $item['description'] }}</td>
           <td>{{ $item['validity_type'] }}</td>
+          <td>{{ $item['type'] }}</td>
           <td>{{ $item['amount'] }}</td>
           <td>{{ $item['created_at'] }}</td>
           <td>
-            <button type="button" class="btn btn-add btn-sm update_facility_btn mb-3" title="Update Facility" data-item_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
-            <button type="button" class="btn btn-danger btn-sm delete_btn mb-3" title="Delete Facility" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_facility_popup"><i class="fa fa-trash-o"></i> </button>
+            <button type="button" class="btn btn-add btn-sm update_service_btn mb-3" title="Update Service" data-item_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-pencil"></i></button>
+            <button type="button" class="btn btn-danger btn-sm delete_sweetalert delete_btn mb-3" title="Delete Service" data-delete_url="{{ url($data['route_name'].'/'.$item['id']) }}"><i class="fa fa-trash-o"></i> </button>
           </td>
         </tr>
       @endforeach

@@ -3,8 +3,9 @@
     <thead>
       <tr class="info">
         <th>Sr #</th>
-        <th>Type</th>
-        <th>Property No.</th>
+        <th>Prop Title</th>
+        <th>Prop No.</th>
+        <th>Prop Type.</th>
         <th>Floor</th>
         <th>Other<br>Charges</th>
         <th>Gross Rent</th>
@@ -33,8 +34,9 @@
         @endphp
         <tr>
           <td>{{ $sr_no }}</td>
-          <td>{{ $item['prop_type'] }}</td>
+          <td>{{ $item['property']['prop_title'] ?? 'N/A' }}</td>
           <td>{{ isset($item['unit_number']) ? $item['unit_number'] : "N/A" }}</td>
+          <td>{{ $item['unit_type'] }}</td>
           <td>{{ $item['unit_floor'] }}</td>
           <td>
             <strong class="font-sm">Basic Rent: </strong>{{ default_value($item['unit_rent'], "num") }}<br>
@@ -49,6 +51,9 @@
             @if (in_array($item['prop_status'], ['Available']))
               <button type="button" class="btn btn-danger btn-sm delete_btn mb-3" title="Delete Property" data-delete_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#del_property_popup"><i class="fa fa-trash-o"></i> </button>
               <button type="button" class="btn btn-violet btn-sm reservation_btn mb-3" title="Reservation" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-calendar-check-o"></i> </button>
+              @if (in_array($item['unit_type'], ['Room']))
+                <button type="button" class="btn btn-pink btn-sm split_prop_btn mb-3" title="Split into Partitions" data-prop_id="{{$item['id']}}" data-action_url="{{ url($data['route_name'].'/'.$item['id'])}}" data-toggle="modal" data-target="#"><i class="fa fa-bars"></i> </button>
+              @endif
             @endif
           </td>
         </tr>

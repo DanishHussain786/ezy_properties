@@ -19,9 +19,9 @@ class PropertyController extends Controller {
   public function index(Request $request) {
     $request_data = $request->all();
     $request_data['paginate'] = 10;
-    $request_data['relations'] = true;
-    $data['records'] = $this->PropertyObj->getProperty($request_data);
-    $data['route_name'] = $this->route_name;
+    $request_data['few_relations'] = true;
+    $data['records'] = $this->PropertyUnitObj->getPropertyUnit($request_data);
+    $data['route_name'] = $this->route_name;  
     $data['html'] = view("{$this->route_name}.ajax_records", compact('data'));
 
     if ($request->ajax()) {
@@ -59,7 +59,7 @@ class PropertyController extends Controller {
       'prop_type'         => [$req_type == "store" ? 'required' : 'nullable', 'in:' . Config::get('constants.propertyTypes.all_keys_str')],
       'prop_address'      => [$req_type == "store" ? 'required' : 'nullable', 'string'],
 
-      'prop_number'       => [$req_type == "store" ? 'nullable' : 'required', 'string'],
+      'unit_number'       => [$req_type == "store" ? 'nullable' : 'required', 'string'],
       'unit_floor'        => [$req_type == "store" ? 'nullable' : 'required', 'string'],
       'unit_rent'         => [$req_type == "store" ? 'nullable' : 'required', 'numeric', 'gt:0'],
     );
@@ -104,7 +104,7 @@ class PropertyController extends Controller {
     }
 
     // if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
-    // 	$rules['prop_number'] = ['required'];
+    // 	$rules['unit_number'] = ['required'];
     // 	$rules['unit_floor'] = ['required'];
     // 	$rules['prop_address'] = ['required', 'max:400'];
     // }
@@ -157,7 +157,7 @@ class PropertyController extends Controller {
     // ]);
 
     // $prop_data['prop_type'] = isset($request_data['prop_type']) ? $request_data['prop_type'] : '';
-    // $prop_data['prop_number'] = isset($request_data['prop_number']) ? $request_data['prop_number'] : '';
+    // $prop_data['unit_number'] = isset($request_data['unit_number']) ? $request_data['unit_number'] : '';
     // $prop_data['unit_floor'] = isset($request_data['unit_floor']) ? $request_data['unit_floor'] : '';
     // $prop_data['other_charges'] = isset($request_data['other_charges']) ? $request_data['other_charges'] : '';
     // $prop_data['dewa_charges'] = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : '';
@@ -250,7 +250,7 @@ class PropertyController extends Controller {
     );
 
     if (isset($request->prop_type) && $request->prop_type != 'Bed Space') {
-      $rules['prop_number'] = ['nullable'];
+      $rules['unit_number'] = ['nullable'];
       $rules['unit_floor'] = ['nullable'];
       $rules['prop_address'] = ['nullable', 'max:400'];
     } else if (isset($request->prop_type) && $request->prop_type == 'Bed Space') {
@@ -270,7 +270,7 @@ class PropertyController extends Controller {
 
     $prop_data['update_id'] = $request_data['update_id'];
     $prop_data['prop_type'] = isset($request_data['prop_type']) ? $request_data['prop_type'] : '';
-    $prop_data['prop_number'] = isset($request_data['prop_number']) ? $request_data['prop_number'] : '';
+    $prop_data['unit_number'] = isset($request_data['unit_number']) ? $request_data['unit_number'] : '';
     $prop_data['unit_floor'] = isset($request_data['unit_floor']) ? $request_data['unit_floor'] : '';
     $prop_data['other_charges'] = isset($request_data['other_charges']) ? $request_data['other_charges'] : '';
     $prop_data['dewa_charges'] = isset($request_data['dewa_ch']) ? $request_data['dewa_ch'] : '';

@@ -404,16 +404,16 @@
                   <li><a href="{{url('property')}}">List Properties</a></li>
                 </ul>
               </li>
-              @php $class = (strpos($str_slug, "facility") !== false) ? 'active' : ''; @endphp
+              @php $class = (strpos($str_slug, "service") !== false) ? 'active' : ''; @endphp
               <li class="treeview menu-item {{$class}}">
                 <a href="#">
-                  <i class="fa fa-home"></i><span>Facility</span>
+                  <i class="fa fa-home"></i><span>Services</span>
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="{{url('facility')}}">List Facilities</a></li>
+                  <li><a href="{{url('service')}}">List Services</a></li>
                 </ul>
               </li>
               @php $class = (strpos($str_slug, "booking") !== false) ? 'active' : ''; @endphp
@@ -534,8 +534,8 @@
         <script src="{{ asset('app-assets/js/booking.js') }}"></script>
       @elseif (preg_match('/\baccount\b/', Request::path() ))
         <script src="{{ asset('app-assets/js/account.js') }}"></script>
-      @elseif (preg_match('/\bfacility\b/', Request::path() ))
-        <script src="{{ asset('app-assets/js/facility.js') }}"></script>
+      @elseif (preg_match('/\bservice\b/', Request::path() ))
+        <script src="{{ asset('app-assets/js/service.js') }}"></script>
       @endif
    </body>
 </html>

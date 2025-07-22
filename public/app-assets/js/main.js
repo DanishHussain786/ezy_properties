@@ -130,6 +130,51 @@ $(document).on("click", ".delete_btn", function (event) {
   $(".delete_popup").attr("action", url);
 });
 
+// this code will works for javascript sweetalert library
+$(document).on("click", ".delete_sweetalert", function (event) {
+  var url = $(this).data("delete_url");
+  var module = $(this).closest("tr").data("module_name");
+  var row = $(this).closest("tr");
+
+  // Show SweetAlert confirmation
+  Swal.fire({
+    title: `Delete ${module}?`,
+    text: `Do you really want to delete ${module}?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, Delete",
+    cancelButtonText: "No, Cancel",
+  }).then((result) => {
+    // If the user confirmed the action
+    if (result.isConfirmed) {
+      var data = null;
+
+      dynamicAjaxRequest(
+        url,
+        "DELETE",
+        data,
+        function (response) {
+          try {
+            // Show success confirmation
+            Swal.fire("Deleted!", `${module} has been deleted.`, "success");
+            row.fadeOut();
+            getAjaxData();
+          } catch (e) {
+            console.error("Error parsing response:", e);
+          }
+        },
+        function (xhr, status, error) {
+          Swal.fire("Error!", `There was an issue deleting the ${module}`, "error");
+          console.error("Error:", status, error);
+        }
+      );
+      console.log("Item deleted"); // Replace with your delete logic
+    } else {
+      console.log("Delete action was canceled");
+    }
+  });
+});
+
 var prevKey, prevControl;
 $(document).on("keydown", ".only_numbers", function (event) {
   // Allow special keys: backspace, tab, delete, home, end, arrow keys, ctrl+a

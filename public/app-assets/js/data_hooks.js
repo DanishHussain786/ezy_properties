@@ -54,8 +54,8 @@ function getListing(params = {}, completed = null) {
   );
 }
 
-function getFacilityListings() {
-  dynamicAjaxRequest("/facility", "GET", { paginate: 10, render_view: "facility.ajax_records" },
+function getServiceListings() {
+  dynamicAjaxRequest("/service", "GET", { paginate: 10, render_view: "service.ajax_records" },
     function (response) {
       try {
         $(".dynamic_data").html(response.data.html);
@@ -65,7 +65,7 @@ function getFacilityListings() {
       }
     },
     function (xhr, status, error) {
-      Swal.fire("Error!", `Error while getFacilityListings ajax request.`, "error");
+      Swal.fire("Error!", `Error while getServiceListings ajax request.`, "error");
     }
   );
 }
